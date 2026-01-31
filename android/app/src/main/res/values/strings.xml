@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SilentiumEditor</string>
+    <string name="title_activity_main">SilentiumEditor</string>
+    <string name="package_name">pw.silentium.editor</string>
+    <string name="custom_url_scheme">pw.silentium.editor</string>
+</resources>

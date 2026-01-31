@@ -1,0 +1,10 @@
+{
+  "appId": "pw.silentium.editor",
+  "appName": "SilentiumEditor",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}
