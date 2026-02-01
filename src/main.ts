@@ -1,20 +1,10 @@
 import { SplashScreen } from '@capacitor/splash-screen';
-import { DevTools } from 'silentium';
+import { DevTools, Void } from 'silentium';
 import { App } from './cases/App';
+import { DomLoaded } from './io/DomLoded';
 
 DevTools();
-window.customElements.define(
-  'main-app',
-  class extends HTMLElement {
-    constructor() {
-      super();
-      SplashScreen.hide();
-      const root = this.attachShadow({ mode: 'open' });
-      root.innerHTML = '<div class="app"></div>';
-      const app = root.querySelector('.app');
-      if (app) {
-        App(app);
-      }
-    }
-  },
-);
+SplashScreen.hide();
+DomLoaded().then(() => {
+  App().then(Void());
+}).then(Void());
