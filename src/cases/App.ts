@@ -1,10 +1,11 @@
-import { Late, Of } from "silentium";
-import { Template } from "silentium-components";
+import { Late, Lazy, Of } from "silentium";
+import { Switch, Template } from "silentium-components";
 import { Render } from "silentium-morphdom";
 import { Button, html, Textarea } from "silentium-ui";
 import { Element } from "silentium-web-api";
 import { CapacitorPlatform } from "../io/CapacitorPlatform";
-import { FileFromFS } from "../io/FileFromFS";
+import { FileFromWeb } from "../io/FileFromWeb";
+import { Platform } from "../features/Platform";
 
 /**
  * The main application entrypoint
@@ -14,9 +15,11 @@ export function App() {
   const platform$ = CapacitorPlatform();
   const content$ = Late('');
   openFile$.then(() => {
-    const file$ = FileFromFS();
+    const file$ = Switch<string, Platform>(platform$, [
+      ['android', Of('Android content')],
+      ['web', Lazy(() => FileFromWeb(content$))],
+    ]);
     content$.chain(file$);
-    file$.chain(content$);
   });
   return Render(
     Element("body .app"),
