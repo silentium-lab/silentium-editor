@@ -17,22 +17,25 @@
     "@capacitor/camera": "latest",
     "@capacitor/core": "latest",
     "@capacitor/splash-screen": "latest",
+    "lodash-es": "^4.17.23",
     "silentium": "^0.0.205",
     "silentium-components": "^0.0.111",
     "silentium-morphdom": "^0.0.24",
-    "silentium-ui": "^0.0.11",
-    "silentium-web-api": "^0.0.35"
+    "silentium-ui": "^0.0.12",
+    "silentium-web-api": "^0.0.36"
   },
   "devDependencies": {
     "@capacitor/cli": "latest",
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.1.0",
     "@types/webpack-env": "^1.18.8",
+    "@types/wicg-file-system-access": "^2023.10.7",
     "autoprefixer": "^10.4.24",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "vite": "^5.4.2"
+    "vite": "^7.3.1"
   },
   "author": "",
   "license": "ISC"

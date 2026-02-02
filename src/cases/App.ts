@@ -1,25 +1,35 @@
 import { Late, Of } from "silentium";
 import { Template } from "silentium-components";
 import { Render } from "silentium-morphdom";
-import { Button, html } from "silentium-ui";
+import { Button, html, Textarea } from "silentium-ui";
 import { Element } from "silentium-web-api";
 import { CapacitorPlatform } from "../io/CapacitorPlatform";
+import { FileFromFS } from "../io/FileFromFS";
 
 /**
- * Application main entrypoint
+ * The main application entrypoint
  */
 export function App() {
-  const $openFolder = Late();
-  const $platform = CapacitorPlatform();
-  $openFolder.then(console.log);
+  const openFile$ = Late();
+  const platform$ = CapacitorPlatform();
+  const content$ = Late('');
+  openFile$.then(() => {
+    const file$ = FileFromFS();
+    content$.chain(file$);
+    file$.chain(content$);
+  });
   return Render(
-    Element(Of("body .app")),
+    Element("body .app"),
     Template(
       (t) =>
-        html`<div class="container mx-auto px-3 h-full flex flex-col">
-            <div>${t.escaped($platform)}</div>
-            <p>Open folder</p>
-            ${t.raw(Button('Open folder', '', $openFolder))}
+        html`<div class="container mx-auto px-3 py-3 h-full flex flex-col">
+            <div class="mb-2">platform: ${t.escaped(platform$)}</div>
+            <div class="mb-2">
+              ${t.raw(Button('Open folder', 'btn', openFile$))}
+            </div>
+            <div>
+              ${t.raw(Textarea(content$, 'w-full border-1 h-[400px]'))}
+            </div>
         </div>`,
     ),
   );
