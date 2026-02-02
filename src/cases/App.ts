@@ -6,6 +6,7 @@ import { Element } from "silentium-web-api";
 import { CapacitorPlatform } from "../io/CapacitorPlatform";
 import { FileFromWeb } from "../io/FileFromWeb";
 import { Platform } from "../features/Platform";
+import { FileFromAndroid } from "../io/FileFromAndroid";
 
 /**
  * The main application entrypoint
@@ -16,7 +17,7 @@ export function App() {
   const content$ = Late('');
   openFile$.then(() => {
     const file$ = Switch<string, Platform>(platform$, [
-      ['android', Of('Android content')],
+      ['android', Lazy(() => FileFromAndroid(content$))],
       ['web', Lazy(() => FileFromWeb(content$))],
     ]);
     content$.chain(file$);
