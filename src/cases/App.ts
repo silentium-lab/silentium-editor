@@ -1,27 +1,20 @@
-import { Late, Lazy, Of } from "silentium";
-import { Switch, Template } from "silentium-components";
+import { partial } from "lodash-es";
+import { Late } from "silentium";
+import { Template } from "silentium-components";
 import { Render } from "silentium-morphdom";
 import { Button, html, Textarea } from "silentium-ui";
 import { Element } from "silentium-web-api";
 import { CapacitorPlatform } from "../io/CapacitorPlatform";
-import { FileFromWeb } from "../io/FileFromWeb";
-import { Platform } from "../features/Platform";
-import { FileFromAndroid } from "../io/FileFromAndroid";
+import { FilePickedFromFS } from "./components/FilePickedFromFS";
 
 /**
  * The main application entrypoint
  */
 export function App() {
-  const openFile$ = Late();
-  const platform$ = CapacitorPlatform();
   const content$ = Late('');
-  openFile$.then(() => {
-    const file$ = Switch<string, Platform>(platform$, [
-      ['android', Lazy(() => FileFromAndroid(content$))],
-      ['web', Lazy(() => FileFromWeb(content$))],
-    ]);
-    content$.chain(file$);
-  });
+  const platform$ = CapacitorPlatform();
+  const openFile$ = Late();
+  openFile$.then(partial(FilePickedFromFS, platform$, content$));
   return Render(
     Element("body .app"),
     Template(
