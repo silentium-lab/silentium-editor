@@ -1,6 +1,6 @@
 import { MessageSourceType } from "silentium";
 import { Template } from "silentium-components";
-import { Button, html, Textarea } from "silentium-ui";
+import { Button, html } from "silentium-ui";
 
 export function MainPage(openFile$: MessageSourceType) {
     return Template(

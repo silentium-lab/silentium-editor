@@ -1,6 +1,6 @@
 import { Capacitor } from "@capacitor/core";
 import { Of } from "silentium";
-import { Platform } from "../features/Platform";
+import { Platform } from "./Platform";
 
 /**
  * The name of the current platform
