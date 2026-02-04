@@ -1,7 +1,7 @@
 import { Lazy, MessageSourceType, MessageType } from "silentium";
 import { Switch } from "silentium-components";
 import { partial } from "lodash-es";
-import { FileFromCapacitor } from "../../io/FileFromCapacitor";
+import { FileFromAndroid } from "../../io/FileFromCapacitor";
 import { FileFromWeb } from "../../io/FileFromWeb";
 import { Platform } from "../../io/Platform";
 
@@ -11,7 +11,7 @@ import { Platform } from "../../io/Platform";
  */
 export function FilePickedFromFS(platform$: MessageType<Platform>, content$: MessageSourceType<string>) {
     const file$ = Switch<string, Platform>(platform$, [
-      ['android', Lazy(partial(FileFromCapacitor, content$))],
+      ['android', Lazy(partial(FileFromAndroid, content$))],
       ['web', Lazy(partial(FileFromWeb, content$))],
     ]);
     content$.chain(file$);
