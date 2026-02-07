@@ -28,7 +28,8 @@
     "silentium-components": "^0.0.113",
     "silentium-morphdom": "^0.0.24",
     "silentium-ui": "^0.0.12",
-    "silentium-web-api": "^0.0.36"
+    "silentium-web-api": "^0.0.37",
+    "zone.js": "^0.16.0"
   },
   "devDependencies": {
     "@capacitor/cli": "latest",
