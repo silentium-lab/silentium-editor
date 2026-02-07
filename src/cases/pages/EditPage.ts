@@ -12,7 +12,7 @@ export function EditPage(content$: MessageSourceType<string>) {
     const files$ = JSONSource<object>(content$);
     const mapName$ = Late('current');
     const map$ = Part<Map>(files$, mapName$);
-    const types$ = Part<NodeType[]>(map$, 'types')
+    const types$ = Part<NodeType[]>(map$, 'types');
     return Template((t) => `<div>
         <div>${t.raw(NavigationPanel())}</div>
         <div>${t.raw(TypesPanel(types$))}</div>

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
-    "types": ["zone.js"],
+    "types": ["zone.js", "jest"],
     "resolveJsonModule": true,
     "esModuleInterop": true
   }

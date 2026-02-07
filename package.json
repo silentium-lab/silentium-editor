@@ -11,6 +11,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "vitest",
     "android-clean": "cd android && ./gradlew clean && cd ..",
     "android-sync": "npx cap sync android",
     "android-open": "npx cap open android",
@@ -42,7 +43,8 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
   },
   "author": "",
   "license": "ISC"
