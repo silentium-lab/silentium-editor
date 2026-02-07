@@ -24,3 +24,8 @@ export interface Node {
   createTimestamp: number;
   changeTimestamp: number;
 }
+
+export interface NodeWithTemplate {
+  node: Node;
+  template: string;
+}

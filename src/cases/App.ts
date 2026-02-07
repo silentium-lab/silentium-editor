@@ -3,7 +3,7 @@ import { Late } from "silentium";
 import { Router } from "silentium-components";
 import { Render } from "silentium-morphdom";
 import { Element } from "silentium-web-api";
-import { CapacitorPlatform } from "../io/CapacitorPlatform";
+import { PlatformName } from "../io/CapacitorPlatform";
 import { FilePickedFromFS } from "./components/FilePickedFromFS";
 import { EditPage } from "./pages/EditPage";
 import { MainPage } from "./pages/MainPage";
@@ -13,7 +13,7 @@ import { MainPage } from "./pages/MainPage";
  */
 export function App() {
   const content$ = Late('');
-  const platform$ = CapacitorPlatform();
+  const platform$ = PlatformName();
   const openFile$ = Late();
   openFile$.then(partial(FilePickedFromFS, platform$, content$));
   const router$ = Router(
