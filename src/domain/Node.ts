@@ -1,9 +1,9 @@
-import { NodeRelation } from "./NodeRelation";
+import { TheNodeRelation } from "./NodeRelation";
 
 /**
  * The node in the map
  */
-export interface Node {
+export interface TheNode {
   id: string;
   type: string;
   position: [number, number];
@@ -13,7 +13,7 @@ export interface Node {
   linked: boolean;
   description: string;
   zindex: number;
-  arrows: NodeRelation[];
+  arrows: TheNodeRelation[];
   targetBlank: boolean;
   lastClick: number;
   inMenu: boolean;
@@ -26,6 +26,6 @@ export interface Node {
 }
 
 export interface TheNodeWithTemplate {
-  node: Node;
+  node: TheNode;
   template: string;
 }

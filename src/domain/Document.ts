@@ -1,17 +1,18 @@
 import { Settings } from "node:http2";
-import { NodeType } from "./NodeType";
-import { SearchQuery } from "./SearchQuery";
+import { TheNodeType } from "./NodeType";
+import { TheSearchQuery } from "./SearchQuery";
+import { TheNode } from "./Node";
 
-export interface Document {
+export interface TheDocument {
   document: string;
   url: string;
   parent: string;
   progress: number;
   parentNames?: Record<string, string>;
-  types: Record<string, NodeType>;
-  objects: Record<string, Node>;
+  types: Record<string, TheNodeType>;
+  objects: Record<string, TheNode>;
   position?: [number, number];
-  namedSearches?: SearchQuery[];
+  namedSearches?: TheSearchQuery[];
   settings: Settings;
-  structure?: Document;
+  structure?: TheDocument;
 }

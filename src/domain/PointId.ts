@@ -1,4 +1,4 @@
-export interface PointId {
+export interface ThePointId {
   id: string;
   x: number;
   y: number;

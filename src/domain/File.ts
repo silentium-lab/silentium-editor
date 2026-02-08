@@ -1,6 +1,6 @@
-import { Document } from "./Document";
+import { TheDocument } from "./Document";
 
 /**
  * Representation of the content in a map file
  */
-export type File = Record<string, Document>;
+export type TheFile = Record<string, TheDocument>;

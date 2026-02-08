@@ -1,7 +1,7 @@
 /**
  * Saved search query
  */
-export interface SearchQuery {
+export interface TheSearchQuery {
   name: string;
   query: string;
   type: string;

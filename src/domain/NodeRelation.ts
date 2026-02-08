@@ -1,11 +1,11 @@
-import { NodeType } from "./NodeType";
+import { TheNodeType } from "./NodeType";
 
 /**
  * The relation between two map nodes
  */
-export interface NodeRelation {
+export interface TheNodeRelation {
   id: string;
   label: string;
-  begin?: NodeType;
-  end?: NodeType;
+  begin?: TheNodeType;
+  end?: TheNodeType;
 }

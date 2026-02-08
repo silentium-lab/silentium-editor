@@ -1,7 +1,7 @@
 /**
  * The settings of the map
  */
-export interface Settings {
+export interface TheSettings {
   colored: boolean;
   title: string;
   favoriteGroup?: string;

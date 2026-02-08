@@ -1,7 +1,7 @@
-import { Node, TheNodeWithTemplate } from "./Node";
-import { NodeType } from "./NodeType";
+import { TheNode, TheNodeWithTemplate } from "./Node";
+import { TheNodeType } from "./NodeType";
 
-export function NodeWithTemplate(object: Node, types: NodeType[]): TheNodeWithTemplate {
+export function NodeWithTemplate(object: TheNode, types: TheNodeType[]): TheNodeWithTemplate {
     const type = types.find((ct) => String(ct.id) === String(object.type));
     if (!type) {
         return {

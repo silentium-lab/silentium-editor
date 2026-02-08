@@ -1,4 +1,4 @@
-export interface Size {
+export interface TheSize {
   width: number;
   height: number;
 }
