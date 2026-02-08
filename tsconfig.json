@@ -4,6 +4,7 @@
     "moduleResolution": "bundler",
     "types": ["zone.js", "jest"],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "lib": ["ES2021"]
   }
 }

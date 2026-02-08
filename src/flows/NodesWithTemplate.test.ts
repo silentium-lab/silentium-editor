@@ -7,10 +7,6 @@ describe('NodesWithTemplate', () => {
   test('should return nodes with templates when types match', async () => {
     const map: MessageType<Map> = Of(FakeMap());
     const result = NodesWithTemplate(map);
-    result.then(Void());
-    result.catch((e) => {
-      console.log('error');
-    });
     await expect(Promisify(result)).resolves.toEqual(
       expect.arrayContaining([
         expect.objectContaining({ template: "<div class='node'>The description</div>" })
