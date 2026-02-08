@@ -25,7 +25,7 @@
     "@capacitor/splash-screen": "latest",
     "@capawesome/capacitor-file-picker": "^8.0.1",
     "lodash-es": "^4.17.23",
-    "silentium": "^0.0.206",
+    "silentium": "^0.0.208",
     "silentium-components": "^0.0.113",
     "silentium-morphdom": "^0.0.24",
     "silentium-ui": "^0.0.12",
