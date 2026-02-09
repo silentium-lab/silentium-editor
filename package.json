@@ -11,7 +11,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
     "android-clean": "cd android && ./gradlew clean && cd ..",
     "android-sync": "npx cap sync android",
     "android-open": "npx cap open android",
