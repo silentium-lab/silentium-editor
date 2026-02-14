@@ -17,8 +17,7 @@ export function EditPage(content$: MessageSourceType<string>) {
     return Template((t) => `<div>
         <div>${t.raw(NavigationPanel())}</div>
         <div>${t.raw(TypesPanel(types$))}</div>
-        <div>map name: ${t.escaped(mapName$)}</div>
         <div>${t.raw(MiniMap())}</div>
-        <div>${t.raw(NodesView(map$, MapSize()))}</div>
+        <div class="overflow-hidden>${t.raw(NodesView(map$, MapSize()))}</div>
     </div>`);
 }
