@@ -1,0 +1,18 @@
+import { DestroyContainer, MessageType } from "silentium";
+import Draggabilly from 'draggabilly';
+
+/**
+ * The ability to drag elements
+ */
+export function Draggable(el$: MessageType<HTMLElement>) {
+    const dc = DestroyContainer();
+    return el$.then((el) => {
+        dc.destroy();
+        const dragging = new Draggabilly(el, {
+            containment: true
+        });
+        dc.add(() => {
+            dragging.destroy();
+        })
+    });
+}

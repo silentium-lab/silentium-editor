@@ -5,6 +5,6 @@
     "types": ["zone.js", "jest"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["ES2021"]
+    "lib": ["ES2021", "dom"]
   }
 }

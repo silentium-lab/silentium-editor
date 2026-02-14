@@ -24,6 +24,7 @@
     "@capacitor/filesystem": "^8.1.0",
     "@capacitor/splash-screen": "latest",
     "@capawesome/capacitor-file-picker": "^8.0.1",
+    "draggabilly": "^3.0.0",
     "lodash-es": "^4.17.23",
     "silentium": "^0.0.208",
     "silentium-components": "^0.0.113",
