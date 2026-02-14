@@ -26,6 +26,7 @@
     "@capawesome/capacitor-file-picker": "^8.0.1",
     "draggabilly": "^3.0.0",
     "lodash-es": "^4.17.23",
+    "scrollbooster": "^3.0.2",
     "silentium": "^0.0.208",
     "silentium-components": "^0.0.113",
     "silentium-morphdom": "^0.0.24",
