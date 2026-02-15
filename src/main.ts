@@ -5,6 +5,8 @@ import { DomLoaded } from './io/DomLoaded';
 
 DevTools();
 SplashScreen.hide();
-DomLoaded().then(() => {
-  App().then(Void());
-}).then(Void());
+DomLoaded()
+  .then(() => {
+    App().then(Void());
+  })
+  .then(Void());

@@ -1,10 +1,10 @@
-import { values } from "lodash-es";
-import { Applied, Computed, MessageType } from "silentium";
-import { Path } from "silentium-components";
-import { TheMap } from "../domain/Map";
-import { TheNode, TheNodeWithTemplate } from "../domain/Node";
-import { TheNodeType } from "../domain/NodeType";
-import { NodeWithTemplate } from "../domain/NodeWithTemplate";
+import { values } from 'lodash-es';
+import { Applied, Computed, MessageType } from 'silentium';
+import { Path } from 'silentium-components';
+import { TheMap } from '../domain/Map';
+import { TheNode, TheNodeWithTemplate } from '../domain/Node';
+import { TheNodeType } from '../domain/NodeType';
+import { NodeWithTemplate } from '../domain/NodeWithTemplate';
 
 /**
  * Map nodes with the compiled template
@@ -17,7 +17,7 @@ export function NodesWithTemplate(map$: MessageType<TheMap>): MessageType<TheNod
   return Computed(
     (objects, types) => {
       types = Object.values(types);
-      return objects.map((object) => NodeWithTemplate(object, types));
+      return objects.map(object => NodeWithTemplate(object, types));
     },
     objects$,
     types$

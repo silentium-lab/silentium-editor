@@ -1,4 +1,4 @@
-import { TheDocument } from "./Document";
+import { TheDocument } from './Document';
 
 /**
  * Representation of the content in a map file

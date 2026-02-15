@@ -1,4 +1,4 @@
-import { TheNodeRelation } from "./NodeRelation";
+import { TheNodeRelation } from './NodeRelation';
 
 /**
  * The node in the map

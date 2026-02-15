@@ -9,7 +9,7 @@ describe('NodesWithTemplate', () => {
     const result = NodesWithTemplate(map);
     await expect(Promisify(result)).resolves.toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ template: "<div class='node'>The description</div>" })
+        expect.objectContaining({ template: "<div class='node'>The description</div>" }),
       ])
     );
   });

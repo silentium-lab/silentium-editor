@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build output
+dist
+build
+android/app/build
+android/app/src/main/build
+
+# Generated files
+*.log
+*.tmp
+.DS_Store
+
+# Android
+android
+
+# IDE
+.vscode
+.idea
+
+# Cache
+.cache
+.temp
+
+# Test coverage
+coverage
+
+# Documentation
+README.md

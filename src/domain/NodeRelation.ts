@@ -1,4 +1,4 @@
-import { TheNodeType } from "./NodeType";
+import { TheNodeType } from './NodeType';
 
 /**
  * The relation between two map nodes

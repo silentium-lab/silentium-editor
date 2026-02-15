@@ -1,5 +1,5 @@
-import { Of } from "silentium";
+import { Of } from 'silentium';
 
 export function NavigationPanel() {
-    return Of('navigation');
+  return Of('navigation');
 }

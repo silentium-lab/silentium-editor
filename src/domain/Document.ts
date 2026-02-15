@@ -1,7 +1,7 @@
-import { Settings } from "node:http2";
-import { TheNodeType } from "./NodeType";
-import { TheSearchQuery } from "./SearchQuery";
-import { TheNode } from "./Node";
+import { Settings } from 'node:http2';
+import { TheNodeType } from './NodeType';
+import { TheSearchQuery } from './SearchQuery';
+import { TheNode } from './Node';
 
 export interface TheDocument {
   document: string;

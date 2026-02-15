@@ -1,5 +1,5 @@
-import { Of } from "silentium";
+import { Of } from 'silentium';
 
 export function MiniMap() {
-    return Of('mini-map');
+  return Of('mini-map');
 }
