@@ -1,16 +1,36 @@
-import { Computed, Map, MessageSourceType } from 'silentium';
-import { Template } from 'silentium-components';
+import { All, Computed, Late, Map, MessageSourceType } from 'silentium';
+import { Part, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
 import { NodeTypeCompatibility } from '../../domain/NodeTypeCompatibility';
 import { TypeView } from './TypeView';
+import { TheMap } from '../../domain/Map';
+import { ThePosition } from '../../domain/Position';
+import { NodeNew } from '../../domain/NodeNew';
+import { Record as ImRecord } from 'immutable';
 
-export function TypesPanel(types$: MessageSourceType<Record<string, TheNodeType>>) {
+export function TypesPanel(map$: MessageSourceType<TheMap>) {
+  const types$ = Part<Record<string, TheNodeType>>(map$, 'types');
   const typesList$ = Computed(
     t => t.map(NodeTypeCompatibility),
     Computed(Object.values<TheNodeType>, types$)
   );
+  const newNode$ = Late<[TheNodeType, ThePosition]>();
+  All(map$, newNode$).then(([map, [type, position]]) => {
+    const newNode = NodeNew(type, position);
+    map$.use({
+      ...map,
+      objects: {
+        ...map.objects,
+        [newNode.id]: newNode,
+      },
+    });
+  });
   return Template(
-    t => html` <div class="types-panel relative px-2">${t.raw(Map(typesList$, TypeView))}</div> `
+    t => html`
+      <div class="types-panel relative px-2">
+        ${t.raw(Map(typesList$, t => TypeView(newNode$, t)))}
+      </div>
+    `
   );
 }

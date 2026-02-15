@@ -1,5 +1,6 @@
 import { Connected, DestroyContainer, Late, MessageType, SourceType } from 'silentium';
 import Draggabilly from 'draggabilly';
+import { ThePosition } from '../domain/Position';
 
 /**
  * The ability to drag elements
@@ -13,12 +14,11 @@ export function Draggable(
   nextPosition?: MessageType<[number, number]>
 ) {
   const dc = DestroyContainer();
-  const dragEnd$ = Late([0, 0]);
+  const dragEnd$ = Late<ThePosition>();
   const sub = el$.then(el => {
     dc.destroy();
     const dragging = new Draggabilly(el, options);
-    const dragEndHandler = (_, pointer) => {
-      console.log(_, pointer);
+    const dragEndHandler = pointer => {
       dragEnd$.use([pointer.pageX, pointer.pageY]);
     };
     dragging.on('dragEnd', dragEndHandler);
@@ -33,5 +33,5 @@ export function Draggable(
       dragging.destroy();
     });
   });
-  return Connected(dragEnd$, sub);
+  return Connected<ThePosition>(dragEnd$, sub);
 }

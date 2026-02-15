@@ -1,11 +1,15 @@
-import { Connected, Late, MessageType, Of } from 'silentium';
+import { All, Connected, Late, MessageType, Of, SourceType } from 'silentium';
 import { TheNodeType } from '../../domain/NodeType';
 import { Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { Draggable } from '../../io/Draggable';
+import { ThePosition } from '../../domain/Position';
 
-export function TypeView(type: MessageType<TheNodeType>) {
+export function TypeView(
+  newType: SourceType<[TheNodeType, ThePosition]>,
+  type: MessageType<TheNodeType>
+) {
   const markup$ = Path(type, 'markup');
   const id$ = Id();
   const container$ = Element(ClassName(id$));
@@ -21,6 +25,7 @@ export function TypeView(type: MessageType<TheNodeType>) {
     console.log('v', v);
     draggablePosition$.use([0, 0]);
   });
+  newType.chain(All(type, draggable$));
   return Connected(
     Template(
       t =>
