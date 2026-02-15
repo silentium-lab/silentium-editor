@@ -14,9 +14,13 @@ export function TypeView(type: MessageType<TheNodeType>) {
         <h2 class="mb-2">
             ${t.escaped(Path(type, 'name'))}
         </h2>
-        <div class="${t.escaped(id$)} z-80">
-            ${t.raw(markup$)}
+        <div class="relative">
+            <div class="${t.escaped(id$)} z-80">
+                ${t.raw(markup$)}
+            </div>
+            <div class="absolute top-0 left-0 z-1 w-full">
+                ${t.raw(markup$)}
+            </div>
         </div>
-        ${t.raw(markup$)}
     </article>`), draggable$);
 }
