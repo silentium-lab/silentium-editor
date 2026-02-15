@@ -16,12 +16,12 @@ export function EditPage(content$: MessageSourceType<string>) {
     const files$ = JSONSource<object>(content$);
     const mapName$ = Late('current');
     const map$ = Part<TheMap>(files$, mapName$);
-    const types$ = Part<TheNodeType[]>(map$, 'types');
+    const types$ = Part<Record<string, TheNodeType>>(map$, 'types');
     const canvasId$ = Id();
     const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)));
-    return Connected(Template((t) => `<div class="bg-primary grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] h-screen">
+    return Connected(Template((t) => `<div class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] h-screen">
         <div class="col-span-2 bg-secondary">${t.raw(NavigationPanel())}</div>
-        <div class="w-40 overflow-hidden bg-secondary">${t.raw(TypesPanel(types$))}</div>
+        <div class="w-40 relative z-10 overflow-hidden bg-secondary">${t.raw(TypesPanel(types$))}</div>
         <div class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base">${t.raw(MiniMap())}</div>
         <div class="${t.escaped(canvasId$)} overflow-hidden mt-2 ml-2 bg-base relative min-w-0 min-h-0">${t.raw(NodesView(map$, MapSize()))}</div>
     </div>`), scrollable$);
