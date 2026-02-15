@@ -1,4 +1,4 @@
-import { Connected, MessageType, Of } from "silentium";
+import { Connected, Late, MessageType, Of } from "silentium";
 import { TheNodeType } from "../../domain/NodeType";
 import { Path, Template } from "silentium-components";
 import { ClassName, html, Id } from "silentium-ui";
@@ -9,7 +9,14 @@ export function TypeView(type: MessageType<TheNodeType>) {
     const markup$ = Path(type, 'markup');
     const id$ = Id();
     const container$ = Element(ClassName(id$));
-    const draggable$ = Draggable(container$, {});
+    const draggablePosition$ = Late<[number, number]>();
+    const draggable$ = Draggable(container$, {
+        containment: '.nodes-view'
+    }, draggablePosition$);
+    draggable$.then((v) => {
+        console.log('v', v);
+        draggablePosition$.use([0, 0])
+    });
     return Connected(Template((t) => html`<article class="select-none">
         <h2 class="mb-2">
             ${t.escaped(Path(type, 'name'))}
