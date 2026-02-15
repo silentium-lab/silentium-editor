@@ -9,7 +9,8 @@ export function Draggable(el$: MessageType<HTMLElement>) {
     return el$.then((el) => {
         dc.destroy();
         const dragging = new Draggabilly(el, {
-            containment: true
+            containment: true,
+            grid: [ 15, 15 ]
         });
         dc.add(() => {
             dragging.destroy();

@@ -10,7 +10,7 @@ export function NodesView(map$: MessageType<TheMap>, mapSize: MaybeMessage<TheSi
     const templates$ = NodesWithTemplate(map$);
     const mapSize$ = Actual(mapSize);
     return Template(
-        (t) => html`<div class="relative" style="width: ${t.escaped(Path(mapSize$, 'width'))}px; height: ${t.escaped(Path(mapSize$, 'height'))}px">
+        (t) => html`<div class="relative background-grid" style="width: ${t.escaped(Path(mapSize$, 'width'))}px; height: ${t.escaped(Path(mapSize$, 'height'))}px">
             ${t.raw(Map(templates$, NodeOnMap))}
         </div>`
     );
