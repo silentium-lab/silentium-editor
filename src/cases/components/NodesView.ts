@@ -1,14 +1,33 @@
-import { Actual, Applied, Map, MaybeMessage, MessageType } from 'silentium';
+import { Actual, Applied, Late, Map, MaybeMessage, MessageSourceType, Value } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
+import { TheNode } from '../../domain/Node';
+import { ThePosition } from '../../domain/Position';
 import { TheSize } from '../../domain/Size';
 import { NodesWithTemplate } from '../../flows/NodesWithTemplate';
 import { NodeOnMap } from './NodeOnMap';
+import { partial } from 'lodash-es';
 
-export function NodesView(map$: MessageType<TheMap>, mapSize: MaybeMessage<TheSize>) {
+export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage<TheSize>) {
   const templates$ = NodesWithTemplate(map$);
   const mapSize$ = Actual(mapSize);
+  const newNodePosition$ = Late<[TheNode, ThePosition]>();
+  const map = Value(map$);
+  // TODO think about immutable.js
+  newNodePosition$.then(([node, position]) => {
+    console.log('move to ', position);
+    map$.use({
+      ...map.value,
+      objects: {
+        ...map.value.objects,
+        [node.id]: {
+          ...node,
+          position,
+        },
+      },
+    });
+  });
   return Template(
     t =>
       html`<div
@@ -17,7 +36,9 @@ export function NodesView(map$: MessageType<TheMap>, mapSize: MaybeMessage<TheSi
           Path(mapSize$, 'height')
         )}px"
       >
-        ${t.raw(Applied(Map(templates$, NodeOnMap), arr => arr.join('')))}
+        ${t.raw(
+          Applied(Map(templates$, partial(NodeOnMap, newNodePosition$)), arr => arr.join(''))
+        )}
       </div>`
   );
 }

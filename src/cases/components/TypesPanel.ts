@@ -16,6 +16,7 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
   );
   const newNode$ = Late<[TheNodeType, ThePosition]>();
   const map = Value(map$);
+  // TODO think about immutable.js
   newNode$.then(([type, position]) => {
     const newNode = NodeNew(type, position);
     map$.use({
