@@ -3,12 +3,10 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        execArgv: ['--expose-gc'],
-      },
-    },
     globals: true,
   },
   resolve: {},
+  outputFile: {
+    json: './reports/vitest-results.json',
+  },
 });
