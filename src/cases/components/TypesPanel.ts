@@ -1,4 +1,4 @@
-import { All, Computed, Late, Map, MessageSourceType } from 'silentium';
+import { Computed, Late, Map, MessageSourceType, Value } from 'silentium';
 import { Part, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
@@ -7,7 +7,6 @@ import { TypeView } from './TypeView';
 import { TheMap } from '../../domain/Map';
 import { ThePosition } from '../../domain/Position';
 import { NodeNew } from '../../domain/NodeNew';
-import { Record as ImRecord } from 'immutable';
 
 export function TypesPanel(map$: MessageSourceType<TheMap>) {
   const types$ = Part<Record<string, TheNodeType>>(map$, 'types');
@@ -16,12 +15,13 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
     Computed(Object.values<TheNodeType>, types$)
   );
   const newNode$ = Late<[TheNodeType, ThePosition]>();
-  All(map$, newNode$).then(([map, [type, position]]) => {
+  const map = Value(map$);
+  newNode$.then(([type, position]) => {
     const newNode = NodeNew(type, position);
     map$.use({
-      ...map,
+      ...map.value,
       objects: {
-        ...map.objects,
+        ...map.value.objects,
         [newNode.id]: newNode,
       },
     });

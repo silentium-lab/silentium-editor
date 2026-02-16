@@ -1,4 +1,4 @@
-import { Actual, Map, MaybeMessage, MessageType } from 'silentium';
+import { Actual, Applied, Map, MaybeMessage, MessageType } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
@@ -17,7 +17,7 @@ export function NodesView(map$: MessageType<TheMap>, mapSize: MaybeMessage<TheSi
           Path(mapSize$, 'height')
         )}px"
       >
-        ${t.raw(Map(templates$, NodeOnMap))}
+        ${t.raw(Applied(Map(templates$, NodeOnMap), arr => arr.join('')))}
       </div>`
   );
 }

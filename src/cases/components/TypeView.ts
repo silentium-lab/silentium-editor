@@ -22,7 +22,6 @@ export function TypeView(
     draggablePosition$
   );
   draggable$.then(v => {
-    console.log('v', v);
     draggablePosition$.use([0, 0]);
   });
   newType.chain(All(type, draggable$));
