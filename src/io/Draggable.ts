@@ -15,12 +15,13 @@ export function Draggable(
 ) {
   const dc = DestroyContainer();
   const dragEnd$ = Late<ThePosition>();
+  const dragEndHandler = pointer => {
+    const target = pointer.target.closest('.select-none');
+    dragEnd$.use([target?.offsetLeft ?? 0, target?.offsetTop ?? 0]);
+  };
   const sub = el$.then(el => {
     dc.destroy();
     const dragging = new Draggabilly(el, options);
-    const dragEndHandler = pointer => {
-      dragEnd$.use([pointer.pageX, pointer.pageY]);
-    };
     dragging.on('dragEnd', dragEndHandler);
     if (nextPosition) {
       const nextPositionSub$ = nextPosition.then(p => {
@@ -32,6 +33,7 @@ export function Draggable(
       dragging.off('dragEnd', dragEndHandler);
       dragging.destroy();
     });
+    return dc.destructor;
   });
   return Connected<ThePosition>(dragEnd$, sub);
 }

@@ -7,7 +7,7 @@ import { MiniMap } from '../components/MiniMap';
 import { NodesView } from '../components/NodesView';
 import { TheMap } from '../../domain/Map';
 import { MapSize } from '../../domain/MapSize';
-import { ClassName, Id } from 'silentium-ui';
+import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { ScrollByDrag } from '../../io/ScrollByDrag';
 import { Element } from 'silentium-web-api';
 
@@ -19,12 +19,23 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)));
   return Connected(
     Template(
-      t => `<div class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] h-screen">
-        <div class="col-span-2 bg-secondary">${t.raw(NavigationPanel())}</div>
-        <div class="w-40 relative z-10 bg-secondary">${t.raw(TypesPanel(map$))}</div>
-        <div class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none">${t.raw(MiniMap())}</div>
-        <div class="${t.escaped(canvasId$)} nodes-view overflow-hidden mt-2 ml-2 bg-base relative min-w-0 min-h-0">${t.raw(NodesView(map$, MapSize()))}</div>
-      </div>`
+      t =>
+        html`<div class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] h-screen">
+          <div class="col-span-2 bg-secondary">${t.raw(NavigationPanel())}</div>
+          <div class="w-40 relative z-10 bg-secondary">${t.raw(Mount(TypesPanel(map$)))}</div>
+          <div
+            class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
+          >
+            ${t.raw(Mount(MiniMap()))}
+          </div>
+          <div
+            class="${t.escaped(
+              canvasId$
+            )} nodes-view overflow-hidden mt-2 ml-2 bg-base-inverse relative min-w-0 min-h-0"
+          >
+            ${t.raw(Mount(NodesView(map$, MapSize())))}
+          </div>
+        </div>`
     ),
     scrollable$
   );

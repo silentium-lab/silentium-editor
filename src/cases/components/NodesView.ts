@@ -1,6 +1,6 @@
 import { Actual, Applied, Late, Map, MaybeMessage, MessageSourceType, Value } from 'silentium';
 import { Path, Template } from 'silentium-components';
-import { html } from 'silentium-ui';
+import { html, Mount } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
 import { TheNode } from '../../domain/Node';
 import { ThePosition } from '../../domain/Position';
@@ -16,7 +16,6 @@ export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage
   const map = Value(map$);
   // TODO think about immutable.js
   newNodePosition$.then(([node, position]) => {
-    console.log('move to ', position);
     map$.use({
       ...map.value,
       objects: {
@@ -36,9 +35,7 @@ export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage
           Path(mapSize$, 'height')
         )}px"
       >
-        ${t.raw(
-          Applied(Map(templates$, partial(NodeOnMap, newNodePosition$)), arr => arr.join(''))
-        )}
+        ${t.raw(Applied(Map(templates$, partial(NodeOnMap, newNodePosition$)), v => v.join('')))}
       </div>`
   );
 }

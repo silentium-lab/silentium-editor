@@ -10,8 +10,8 @@ export function NodeOnMap(
   newNodePosition: SourceType<[TheNode, ThePosition]>,
   node$: MessageType<TheNodeWithTemplate>
 ) {
-  const top$ = Path(node$, 'node.position.0');
-  const left$ = Path(node$, 'node.position.1');
+  const left$ = Path(node$, 'node.position.0');
+  const top$ = Path(node$, 'node.position.1');
   const id$ = Id();
   const container$ = Element(ClassName(id$));
   const draggable$ = Draggable(container$);

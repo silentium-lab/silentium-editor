@@ -8,7 +8,6 @@ export function ScrollByDrag(el$: MessageType<HTMLElement>) {
     const dragging = new ScrollBooster({
       viewport: el,
       scrollMode: 'transform',
-      emulateScroll: true,
     });
     dc.add(() => {
       dragging.destroy();
