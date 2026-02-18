@@ -1,6 +1,9 @@
 import { Connected, DestroyContainer, Late, MessageType, SourceType } from 'silentium';
 import Draggabilly from 'draggabilly';
 import { ThePosition } from '../domain/Position';
+import { PositionMultiplied } from '../domain/PositionMultiplied';
+
+const defaultGridMultiplier = 15;
 
 /**
  * The ability to drag elements
@@ -9,7 +12,7 @@ export function Draggable(
   el$: MessageType<HTMLElement>,
   options: object = {
     containment: true,
-    grid: [15, 15],
+    grid: [defaultGridMultiplier, defaultGridMultiplier],
   },
   nextPosition?: MessageType<[number, number]>
 ) {
@@ -17,7 +20,9 @@ export function Draggable(
   const dragEnd$ = Late<ThePosition>();
   const dragEndHandler = pointer => {
     const target = pointer.target.closest('.select-none');
-    dragEnd$.use([target?.offsetLeft ?? 0, target?.offsetTop ?? 0]);
+    const position: ThePosition = [target?.offsetLeft ?? 0, target?.offsetTop ?? 0];
+    const positionMultiplied = PositionMultiplied(defaultGridMultiplier, position);
+    dragEnd$.use(positionMultiplied);
   };
   const sub = el$.then(el => {
     dc.destroy();
