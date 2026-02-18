@@ -28,6 +28,7 @@
     "@capawesome/capacitor-file-picker": "^8.0.1",
     "draggabilly": "^3.0.0",
     "immutable": "^5.1.4",
+    "linkerline": "^1.6.1",
     "lodash-es": "^4.17.23",
     "scrollbooster": "^3.0.2",
     "silentium": "^0.0.208",
