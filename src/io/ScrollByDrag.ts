@@ -1,7 +1,8 @@
-import { DestroyContainer, MessageType } from 'silentium';
 import ScrollBooster from 'scrollbooster';
+import { DestroyContainer, MessageType, SourceType } from 'silentium';
+import { ThePoint } from '../domain/Point';
 
-export function ScrollByDrag(el$: MessageType<HTMLElement>) {
+export function ScrollByDrag(el$: MessageType<HTMLElement>, position: SourceType<ThePoint>) {
   const dc = DestroyContainer();
   return el$.then(el => {
     dc.destroy();
@@ -9,6 +10,12 @@ export function ScrollByDrag(el$: MessageType<HTMLElement>) {
       viewport: el,
       scrollMode: 'transform',
       bounce: false,
+      emulateScroll: false,
+      onUpdate: e => {
+        position.use({
+          ...e.position,
+        });
+      },
     });
     dc.add(() => {
       dragging.destroy();

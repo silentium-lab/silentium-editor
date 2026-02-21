@@ -5,21 +5,21 @@ import { TheNode } from '../domain/Node';
 export function Line(node$: MessageType<TheNode>) {
   const dc = DestroyContainer();
   return Message((resolve, reject) => {
-    node$.catch(reject).then((node) => {
+    node$.catch(reject).then(node => {
       dc.destroy();
       const relations = node.arrows ?? [];
       const fromEl = document.querySelector('.node-id-' + node.id);
       if (fromEl && relations.length) {
         relations.forEach(relation => {
           const toEl = document.querySelector('.node-id-' + relation.id);
-          if (toEl) {
+          const parentEl = document.querySelector('.arrows-area') as HTMLElement;
+          if (toEl && parentEl) {
             const line = new LinkerLine({
-              parent: document.body,
+              parent: parentEl,
               start: fromEl,
               end: toEl,
             });
             dc.add(() => {
-              console.log('remove line');
               line.remove();
             });
             resolve(line);

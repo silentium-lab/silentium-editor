@@ -7,7 +7,6 @@ import { ThePosition } from '../../domain/Position';
 import { TheSize } from '../../domain/Size';
 import { NodesWithTemplate } from '../../flows/NodesWithTemplate';
 import { NodeOnMap } from './NodeOnMap';
-import { partial } from 'lodash-es';
 
 export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage<TheSize>) {
   const templates$ = NodesWithTemplate(map$);
@@ -35,7 +34,12 @@ export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage
           Path(mapSize$, 'height')
         )}px"
       >
-        ${t.raw(Applied(Map(templates$, partial(NodeOnMap, newNodePosition$)), v => v.join('')))}
+        ${t.raw(
+          Applied(
+            Map(templates$, item => NodeOnMap(newNodePosition$, item)),
+            v => v.join('')
+          )
+        )}
       </div>`
   );
 }

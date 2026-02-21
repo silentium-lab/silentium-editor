@@ -29,7 +29,7 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
   });
   return Template(
     t => html`
-      <div class="types-panel relative px-2">
+      <div class="types-panel relative px-2 z-10">
         ${t.raw(Map(typesList$, t => TypeView(newNode$, t)))}
       </div>
     `
