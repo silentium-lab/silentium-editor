@@ -10,7 +10,6 @@ export function Line(node$: MessageType<TheNode>) {
     All(node$, arrowsArea$)
       .catch(reject)
       .then(([node, arrowsArea]) => {
-        console.log('draw arrows');
         dc.destroy();
         const relations = node.arrows ?? [];
         const fromEl = document.querySelector('.node-id-' + node.id);
