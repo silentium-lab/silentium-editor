@@ -9,6 +9,8 @@ export function ScrollByDrag(el$: MessageType<HTMLElement>, position: SourceType
     const dragging = new ScrollBooster({
       viewport: el,
       scrollMode: 'transform',
+      friction: 0,
+      bounceForce: 0,
       bounce: false,
       emulateScroll: false,
       onUpdate: e => {
