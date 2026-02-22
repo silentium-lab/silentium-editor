@@ -1,5 +1,5 @@
 import { Connected, Late, MessageSourceType, MessageType } from 'silentium';
-import { Part, Template } from 'silentium-components';
+import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheMap } from '../../domain/Map';
@@ -18,7 +18,6 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   const map$ = Part<TheMap>(files$, mapName$);
   const canvasId$ = Id();
   const dragPosition$ = Late({ x: 0, y: 0 });
-  dragPosition$.then(console.log);
   const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)), dragPosition$);
   return Connected(
     Template(
@@ -38,7 +37,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           >
             ${t.raw(Mount(NodesView(map$, MapSize())))}
           </div>
-          ${t.raw(ArrowsArea(dragPosition$))}
+          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
         </div>`
     ),
     scrollable$
