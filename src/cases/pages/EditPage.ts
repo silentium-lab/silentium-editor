@@ -36,7 +36,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           <div
             class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
           >
-            ${t.raw(Mount(MiniMap()))}
+            ${t.raw(Mount(MiniMap(map$)))}
           </div>
           <div
             class="${t.escaped(
