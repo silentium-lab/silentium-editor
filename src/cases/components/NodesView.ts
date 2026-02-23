@@ -1,6 +1,6 @@
 import { Actual, Applied, Late, Map, MaybeMessage, MessageSourceType, Value } from 'silentium';
 import { Path, Template } from 'silentium-components';
-import { html, Mount } from 'silentium-ui';
+import { html } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
 import { TheNode } from '../../domain/Node';
 import { ThePosition } from '../../domain/Position';
