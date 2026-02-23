@@ -1,12 +1,13 @@
-import { Computed, Late, Map, MessageSourceType, Value } from 'silentium';
+import { Computed, Context, Late, Map, MessageSourceType, Value } from 'silentium';
 import { Part, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
+import { TheMap } from '../../domain/Map';
+import { NodeNew } from '../../domain/NodeNew';
 import { TheNodeType } from '../../domain/NodeType';
 import { NodeTypeCompatibility } from '../../domain/NodeTypeCompatibility';
-import { TypeView } from './TypeView';
-import { TheMap } from '../../domain/Map';
+import { ThePoint } from '../../domain/Point';
 import { ThePosition } from '../../domain/Position';
-import { NodeNew } from '../../domain/NodeNew';
+import { TypeView } from './TypeView';
 
 export function TypesPanel(map$: MessageSourceType<TheMap>) {
   const types$ = Part<Record<string, TheNodeType>>(map$, 'types');
@@ -16,9 +17,12 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
   );
   const newNode$ = Late<[TheNodeType, ThePosition]>();
   const map = Value(map$);
-  // TODO think about immutable.js
+  const canvasPosition$ = Value(Context<ThePoint>('canvas-position'));
   newNode$.then(([type, position]) => {
-    const newNode = NodeNew(type, position);
+    const newNode = NodeNew(type, [
+      position[0] + canvasPosition$.value.x - 200,
+      position[1] + canvasPosition$.value.y + 40,
+    ]);
     map$.use({
       ...map.value,
       objects: {

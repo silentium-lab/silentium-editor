@@ -1,4 +1,11 @@
-import { Connected, Late, MessageSourceType, MessageType } from 'silentium';
+import {
+  Connected,
+  ContextChain,
+  ContextOf,
+  Late,
+  MessageSourceType,
+  MessageType,
+} from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
@@ -18,6 +25,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   const map$ = Part<TheMap>(files$, mapName$);
   const canvasId$ = Id();
   const dragPosition$ = Late({ x: 0, y: 0 });
+  ContextOf('canvas-position').then(ContextChain(dragPosition$));
   const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)), dragPosition$);
   return Connected(
     Template(
