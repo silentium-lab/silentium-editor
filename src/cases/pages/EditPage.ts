@@ -18,6 +18,8 @@ import { MiniMap } from '../components/MiniMap';
 import { NavigationPanel } from '../components/NavigationPanel';
 import { NodesView } from '../components/NodesView';
 import { TypesPanel } from '../components/TypesPanel';
+import { RulerX } from '../components/RulerX';
+import { RulerY } from '../components/RulerY';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const files$ = JSONSource<object>(content$);
@@ -45,9 +47,13 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           <div
             class="${t.escaped(
               canvasId$
-            )} nodes-view overflow-hidden mt-2 ml-2 bg-base-inverse relative min-w-0 min-h-0"
+            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(map$, MapSize())))}
+            <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
+              <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
+              ${t.raw(RulerX())} ${t.raw(RulerY())}
+            </div>
           </div>
           ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
         </div>`
