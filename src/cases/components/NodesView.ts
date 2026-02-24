@@ -7,6 +7,8 @@ import { ThePosition } from '../../domain/Position';
 import { TheSize } from '../../domain/Size';
 import { NodesWithTemplate } from '../../flows/NodesWithTemplate';
 import { NodeOnMap } from './NodeOnMap';
+import { RulerX } from './RulerX';
+import { RulerY } from './RulerY';
 
 export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage<TheSize>) {
   const templates$ = NodesWithTemplate(map$);
@@ -34,6 +36,7 @@ export function NodesView(map$: MessageSourceType<TheMap>, mapSize: MaybeMessage
           Path(mapSize$, 'height')
         )}px"
       >
+        ${t.raw(RulerX())} ${t.raw(RulerY())}
         ${t.raw(
           Applied(
             Map(templates$, item => NodeOnMap(newNodePosition$, item)),
