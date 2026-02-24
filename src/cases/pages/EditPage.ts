@@ -36,9 +36,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           <div class="col-span-2 bg-secondary z-10 overflow-hidden">
             ${t.raw(NavigationPanel())}
           </div>
-          <div class="w-40 relative z-10 bg-secondary overflow-hidden">
-            ${t.raw(Mount(TypesPanel(map$)))}
-          </div>
+          <div class="w-40 relative z-10 bg-secondary">${t.raw(Mount(TypesPanel(map$)))}</div>
           <div
             class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
           >
