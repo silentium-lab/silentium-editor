@@ -1,6 +1,6 @@
-import { All, Connected, MessageType, SourceType, Void } from 'silentium';
+import { All, Connected, Context, MessageType, SourceType, Value, Void } from 'silentium';
 import { Path, Template } from 'silentium-components';
-import { ClassName, html, Id } from 'silentium-ui';
+import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { TheNode, TheNodeWithTemplate } from '../../domain/Node';
 import { Element } from 'silentium-web-api';
 import { Draggable } from '../../io/Draggable';
@@ -11,6 +11,7 @@ export function NodeOnMap(
   newNodePosition: SourceType<[TheNode, ThePosition]>,
   node$: MessageType<TheNodeWithTemplate>
 ) {
+  const activeNodeId$ = Context('active-node-id');
   const left$ = Path(node$, 'node.position.0');
   const top$ = Path(node$, 'node.position.1');
   const id$ = Id();
@@ -18,6 +19,11 @@ export function NodeOnMap(
   const draggable$ = Draggable(container$);
   newNodePosition.chain(All(Path<TheNode>(node$, 'node'), draggable$));
   const line$ = Line(Path(node$, 'node')).then(Void());
+  const nodeId$ = Value(Path(node$, 'id'));
+  const clicked$ = Clicked(ClassName(id$));
+  clicked$.then(() => {
+    activeNodeId$.use(nodeId$.value);
+  });
   return Connected(
     Template(
       t =>

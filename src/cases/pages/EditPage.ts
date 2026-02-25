@@ -20,8 +20,11 @@ import { NodesView } from '../components/NodesView';
 import { TypesPanel } from '../components/TypesPanel';
 import { RulerX } from '../components/RulerX';
 import { RulerY } from '../components/RulerY';
+import { Relation } from '../components/Relation';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
+  const activeNodeId$ = Late();
+  ContextOf('active-node-id').then(ContextChain(activeNodeId$));
   const files$ = JSONSource<object>(content$);
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
@@ -36,7 +39,9 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           <div class="col-span-2 bg-secondary z-10 overflow-hidden">
             ${t.raw(NavigationPanel())}
           </div>
-          <div class="w-40 relative z-10 bg-secondary">${t.raw(Mount(TypesPanel(map$)))}</div>
+          <div class="flex flex-col w-40 relative z-10 bg-secondary">
+            ${t.raw(Mount(TypesPanel(map$)))} ${t.raw(Relation())}
+          </div>
           <div
             class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
           >
