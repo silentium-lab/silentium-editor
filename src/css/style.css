@@ -24,6 +24,8 @@ body {
   --color-success: var(--color-green-50);
   --color-error: var(--color-red-300);
   --color-info: var(--color-blue-300);
+
+  --color-danger: var(--color-red-500);
 }
 
 @layer components {

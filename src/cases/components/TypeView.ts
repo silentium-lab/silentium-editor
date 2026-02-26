@@ -19,7 +19,8 @@ export function TypeView(
     {
       containment: '.nodes-view',
     },
-    draggablePosition$
+    draggablePosition$,
+    '.node-view'
   );
   Task(draggable$).then(() => {
     draggablePosition$.use([0, 0]);
@@ -31,7 +32,7 @@ export function TypeView(
         html`<article class="select-none">
           <h2 class="mb-2">${t.escaped(Path(type, 'name'))}</h2>
           <div class="relative">
-            <div class="${t.escaped(id$)} select-none z-90">${t.raw(markup$)}</div>
+            <div class="${t.escaped(id$)} node-view select-none z-90">${t.raw(markup$)}</div>
             <div class="absolute top-0 left-0 z-1 w-full select-none">${t.raw(markup$)}</div>
           </div>
         </article>`

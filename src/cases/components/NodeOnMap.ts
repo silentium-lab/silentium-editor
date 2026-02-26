@@ -16,7 +16,7 @@ export function NodeOnMap(
   const top$ = Path(node$, 'node.position.1');
   const id$ = Id();
   const container$ = Element(ClassName(id$));
-  const draggable$ = Draggable(container$);
+  const draggable$ = Draggable(container$, {}, undefined, '.node-view');
   newNodePosition.chain(All(Path<TheNode>(node$, 'node'), draggable$));
   const line$ = Line(Path(node$, 'node')).then(Void());
   const nodeId$ = Value(Path(node$, 'id'));
@@ -28,9 +28,7 @@ export function NodeOnMap(
     Template(
       t =>
         html`<div
-          class="absolute select-none ${t.escaped(id$)} node-id-${t.escaped(
-            Path(node$, 'node.id')
-          )}"
+          class="node-view absolute ${t.escaped(id$)} node-id-${t.escaped(Path(node$, 'node.id'))}"
           style="left: ${t.escaped(left$)}px;top: ${t.escaped(top$)}px"
         >
           ${t.raw(Path(node$, 'template'))}

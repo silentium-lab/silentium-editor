@@ -10,23 +10,28 @@ const defaultGridMultiplier = 15;
  */
 export function Draggable(
   el$: MessageType<HTMLElement>,
-  options: object = {
-    containment: true,
-    grid: [defaultGridMultiplier, defaultGridMultiplier],
-  },
-  nextPosition?: MessageType<[number, number]>
+  options: object = {},
+  nextPosition?: MessageType<[number, number]>,
+  parentSelector: string = ''
 ) {
   const dc = DestroyContainer();
   const dragEnd$ = Late<ThePosition>();
   const dragEndHandler = pointer => {
-    const target = pointer.target.closest('.select-none');
+    let target = pointer.target;
+    if (parentSelector) {
+      target = pointer.target.closest(parentSelector);
+    }
     const position: ThePosition = [target?.offsetLeft ?? 0, target?.offsetTop ?? 0];
     const positionMultiplied = PositionMultiplied(defaultGridMultiplier, position);
     dragEnd$.use(positionMultiplied);
   };
   const sub = el$.then(el => {
     dc.destroy();
-    const dragging = new Draggabilly(el, options);
+    const dragging = new Draggabilly(el, {
+      containment: true,
+      grid: [defaultGridMultiplier, defaultGridMultiplier],
+      ...options,
+    });
     dragging.on('dragEnd', dragEndHandler);
     if (nextPosition) {
       const nextPositionSub$ = nextPosition.then(p => {

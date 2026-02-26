@@ -7,7 +7,7 @@ import {
   MessageType,
 } from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
-import { ClassName, html, Id, Mount } from 'silentium-ui';
+import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheMap } from '../../domain/Map';
 import { MapSize } from '../../domain/MapSize';
@@ -40,7 +40,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
             ${t.raw(NavigationPanel())}
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
-            ${t.raw(Mount(TypesPanel(map$)))} ${t.raw(Relation())}
+            ${t.raw(Mount(TypesPanel(map$)))}
+            <div class="${t.raw(MountPoint(Relation()))} mt-auto"></div>
           </div>
           <div
             class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
