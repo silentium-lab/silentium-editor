@@ -1,19 +1,48 @@
-import { Switch, Template } from 'silentium-components';
+import { Context, Late, Lazy, MessageSourceType, ResetSilenceCache, Value } from 'silentium';
+import { StateRecord, Switch, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
 import { Tr } from '../../io/Translation';
-import { All, Context, Filtered, Late, Lazy } from 'silentium';
+import { TheMap } from '../../domain/Map';
 
-export function Relation() {
-  const mode$ = Late('waiting');
+type TheStates = 'waiting' | 'choosing' | 'next';
+
+export function Relation(map$: MessageSourceType<TheMap>) {
+  const mode$ = Late<TheStates>('waiting');
   const activeNodeId$ = Context('active-node-id');
-  activeNodeId$.then(v => {
-    console.log('Handle new relation', activeNodeId$);
+  const relation$ = StateRecord(mode$, activeNodeId$, ['choosing', 'next']);
+  const map = Value(map$);
+  relation$.then((relation: any) => {
+    const object = Object.values(map.value.objects).find(object => object.id === relation.choosing);
+    if (object) {
+      map$.use({
+        ...map.value,
+        objects: {
+          ...map.value.objects,
+          [object.id]: {
+            ...object,
+            arrows: [
+              ...object.arrows,
+              {
+                id: relation.next,
+                label: '',
+              },
+            ],
+          },
+        },
+      });
+    }
   });
-  All(
-    Filtered(mode$, mode => mode === 'choosing'),
-    activeNodeId$
-  ).then(() => {
-    console.log('handling');
+  const mode = Value(mode$);
+  mode$.then(() => {
+    activeNodeId$.use(ResetSilenceCache);
+  });
+  activeNodeId$.then(() => {
+    if (mode.value === 'next') {
+      mode$.use('waiting');
+    }
+    if (mode.value === 'choosing') {
+      mode$.use('next');
+    }
   });
   return Template(
     t =>
@@ -27,11 +56,23 @@ export function Relation() {
               ),
             ],
             [
-              ['choosing', 'next'],
+              'choosing',
               // TODO why Lazy required?
               Lazy(() =>
                 Button(
                   Tr('Cancel'),
+                  'btn w-full cursor-pointer bg-danger text-base',
+                  mode$,
+                  '',
+                  'waiting'
+                )
+              ),
+            ],
+            [
+              'next',
+              Lazy(() =>
+                Button(
+                  Tr('Next or cancel'),
                   'btn w-full cursor-pointer bg-danger text-base',
                   mode$,
                   '',
