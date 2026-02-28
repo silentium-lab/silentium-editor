@@ -1,5 +1,5 @@
 import { Context, Late, Lazy, MessageSourceType, ResetSilenceCache, Value } from 'silentium';
-import { StateRecord, Switch, Template } from 'silentium-components';
+import { Path, StateRecord, Switch, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
 import { Tr } from '../../io/Translation';
 import { TheMap } from '../../domain/Map';
@@ -9,7 +9,7 @@ type TheStates = 'waiting' | 'choosing' | 'next';
 export function Relation(map$: MessageSourceType<TheMap>) {
   const mode$ = Late<TheStates>('waiting');
   const activeNodeId$ = Context('active-node-id');
-  const relation$ = StateRecord(mode$, activeNodeId$, ['choosing', 'next']);
+  const relation$ = StateRecord(mode$, Path(activeNodeId$, 'id'), ['choosing', 'next']);
   const map = Value(map$);
   relation$.then((relation: any) => {
     const object = Object.values(map.value.objects).find(object => object.id === relation.choosing);
@@ -33,14 +33,14 @@ export function Relation(map$: MessageSourceType<TheMap>) {
     }
   });
   const mode = Value(mode$);
-  mode$.then(() => {
-    activeNodeId$.use(ResetSilenceCache);
+  const nodeEditBlock$ = Context<[string, boolean]>('node-edit-block-reasons');
+  mode$.then(v => {
+    nodeEditBlock$.use(['relation', v !== 'waiting']);
   });
   activeNodeId$.then(() => {
     if (mode.value === 'next') {
       mode$.use('waiting');
-    }
-    if (mode.value === 'choosing') {
+    } else if (mode.value === 'choosing') {
       mode$.use('next');
     }
   });

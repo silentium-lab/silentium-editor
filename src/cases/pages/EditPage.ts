@@ -21,10 +21,14 @@ import { TypesPanel } from '../components/TypesPanel';
 import { RulerX } from '../components/RulerX';
 import { RulerY } from '../components/RulerY';
 import { Relation } from '../components/Relation';
+import { NodeEdit } from '../components/NodeEdit';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const activeNodeId$ = Late();
   ContextOf('active-node-id').then(ContextChain(activeNodeId$));
+  const nodeEditBlockReasons$ = Late<[string, boolean]>();
+  ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
+  nodeEditBlockReasons$.then(console.log);
   const files$ = JSONSource<object>(content$);
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
@@ -35,7 +39,9 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   return Connected(
     Template(
       t =>
-        html`<div class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] h-screen">
+        html`<div
+          class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
+        >
           <div class="col-span-2 bg-secondary z-10 overflow-hidden">
             ${t.raw(NavigationPanel())}
           </div>
@@ -59,7 +65,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
-          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
+          ${t.raw(NodeEdit(nodeEditBlockReasons$))} ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
         </div>`
     ),
     scrollable$

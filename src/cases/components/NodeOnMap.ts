@@ -3,17 +3,16 @@ import {
   Connected,
   Context,
   MessageType,
-  ResetSilenceCache,
   SourceType,
   Value,
-  Void,
+  Void
 } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
-import { TheNode, TheNodeWithTemplate } from '../../domain/Node';
 import { Element } from 'silentium-web-api';
-import { Draggable } from '../../io/Draggable';
+import { TheNode, TheNodeWithTemplate } from '../../domain/Node';
 import { ThePosition } from '../../domain/Position';
+import { Draggable } from '../../io/Draggable';
 import { Line } from '../../io/Line';
 
 export function NodeOnMap(
@@ -32,8 +31,7 @@ export function NodeOnMap(
   const clicked$ = Clicked(ClassName(id$));
   clicked$.then(() => {
     if (node.value.node.id) {
-      activeNodeId$.use(ResetSilenceCache);
-      activeNodeId$.use(node.value.node.id);
+      activeNodeId$.use({ id: node.value.node.id });
     }
   });
   return Connected(
