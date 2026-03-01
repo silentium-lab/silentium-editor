@@ -22,10 +22,11 @@ import { RulerX } from '../components/RulerX';
 import { RulerY } from '../components/RulerY';
 import { Relation } from '../components/Relation';
 import { NodeEdit } from '../components/NodeEdit';
+import { NodeTypeForm } from '../components/NodeTypeForm';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
-  const activeNodeId$ = Late();
-  ContextOf('active-node-id').then(ContextChain(activeNodeId$));
+  ContextOf('active-node-id').then(ContextChain(Late()));
+  ContextOf('active-node-type-id').then(ContextChain(Late()));
   const nodeEditBlockReasons$ = Late<[string, boolean]>();
   ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
   const files$ = JSONSource<object>(content$);
@@ -41,7 +42,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
         html`<div
           class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
         >
-          <div class="col-span-2 bg-secondary z-10 overflow-hidden">
+          <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
             ${t.raw(NavigationPanel())}
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
@@ -65,6 +66,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
             </div>
           </div>
           ${t.raw(NodeEdit(nodeEditBlockReasons$))} ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
+          ${t.raw(NodeTypeForm())}
         </div>`
     ),
     scrollable$
