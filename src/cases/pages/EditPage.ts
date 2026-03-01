@@ -28,7 +28,6 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   ContextOf('active-node-id').then(ContextChain(activeNodeId$));
   const nodeEditBlockReasons$ = Late<[string, boolean]>();
   ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
-  nodeEditBlockReasons$.then(console.log);
   const files$ = JSONSource<object>(content$);
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);

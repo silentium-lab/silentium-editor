@@ -6,7 +6,6 @@ export function NodeEdit(nodeEditBlock$: MessageType<[string, boolean]>) {
   const isBlocked$ = Applied(nodeBlockRecord$, record =>
     Object.values(record).some(v => v === true)
   );
-  isBlocked$.then(console.log);
   const activeNodeId$ = Context('active-node-id');
   const nodeEditBlock = Value(isBlocked$);
   activeNodeId$.then(e => {

@@ -1,8 +1,8 @@
-import { Context, Late, Lazy, MessageSourceType, ResetSilenceCache, Value } from 'silentium';
-import { Path, StateRecord, Switch, Template } from 'silentium-components';
+import { Context, Late, Lazy, MessageSourceType, Value } from 'silentium';
+import { Path, StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { Tr } from '../../io/Translation';
 import { TheMap } from '../../domain/Map';
+import { Tr } from '../../io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 
@@ -34,7 +34,7 @@ export function Relation(map$: MessageSourceType<TheMap>) {
   });
   const mode = Value(mode$);
   const nodeEditBlock$ = Context<[string, boolean]>('node-edit-block-reasons');
-  mode$.then(v => {
+  Task(mode$).then(v => {
     nodeEditBlock$.use(['relation', v !== 'waiting']);
   });
   activeNodeId$.then(() => {
