@@ -1,5 +1,5 @@
 import { partial } from 'lodash-es';
-import { Applied, Late } from 'silentium';
+import { Applied, ContextChain, ContextOf, Late } from 'silentium';
 import { Router } from 'silentium-components';
 import { Render } from 'silentium-morphdom';
 import { Element } from 'silentium-web-api';
@@ -14,6 +14,8 @@ import { compose } from 'lodash/fp';
  */
 export function App() {
   const content$ = Late('');
+  content$.then(console.log);
+  ContextOf('app-file-content').then(ContextChain(content$));
   const platform$ = PlatformName();
   const openFile$ = Late();
   openFile$.then(partial(FilePickedFromFS, platform$, content$));

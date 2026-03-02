@@ -1,5 +1,5 @@
-import { All, Connected, Late, MessageType, SourceType } from 'silentium';
-import { Path, Task, Template } from 'silentium-components';
+import { All, Connected, Context, Late, MessageType, SourceType } from 'silentium';
+import { Path, Polling, Task, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheNodeType } from '../../domain/NodeType';
@@ -26,7 +26,9 @@ export function TypeView(
     draggablePosition$.use([0, 0]);
   });
   newType.chain(All(type, draggable$));
+  const activeNodeTypeId$ = Context('active-node-type-id');
   const clicked$ = Clicked(ClassName(id$));
+  activeNodeTypeId$.chain(Polling(Path(type, 'id'), clicked$).then(console.log));
   return Connected(
     Template(
       t =>
