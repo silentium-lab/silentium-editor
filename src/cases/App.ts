@@ -1,6 +1,6 @@
 import { partial } from 'lodash-es';
-import { Applied, ContextChain, ContextOf, Late } from 'silentium';
-import { Router } from 'silentium-components';
+import { Any, Applied, ContextChain, ContextOf, DestroyContainer, Late, Of } from 'silentium';
+import { Polling, Router } from 'silentium-components';
 import { Render } from 'silentium-morphdom';
 import { Element } from 'silentium-web-api';
 import { PlatformName } from '../io/CapacitorPlatform';
@@ -13,14 +13,21 @@ import { compose } from 'lodash/fp';
  * The main application entrypoint
  */
 export function App() {
+  const closed$ = Late();
+  ContextOf('app-closed').then(ContextChain(closed$));
   const content$ = Late('');
-  content$.then(console.log);
-  ContextOf('app-file-content').then(ContextChain(content$));
   const platform$ = PlatformName();
   const openFile$ = Late();
-  openFile$.then(partial(FilePickedFromFS, platform$, content$));
+  const dc = DestroyContainer();
+  openFile$.then(() => {
+    dc.destroy();
+    dc.add(FilePickedFromFS(platform$, content$));
+  });
+  closed$.then(() => {
+    content$.use('');
+  });
   const router$ = Router<string>(
-    Applied(content$, compose(String, Boolean)),
+    Any(Applied(content$, compose(String, Boolean)), Polling(Of('false'), closed$)),
     [
       {
         condition: c => c === 'false',

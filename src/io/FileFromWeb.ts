@@ -1,5 +1,5 @@
 import { throttle } from 'lodash-es';
-import { Applied, Late, MessageType, Value } from 'silentium';
+import { Applied, Connected, Destroyable, Late, MessageType, Value } from 'silentium';
 
 /**
  * An abstraction of a file from the web file system
@@ -24,5 +24,10 @@ export function FileFromWeb(changedContent$: MessageType<string>): MessageType<s
       }
     }, 500)
   );
-  return fileContent$;
+  return Connected(
+    fileContent$,
+    Destroyable(() => {
+      console.log('destroy ffw');
+    })
+  );
 }
