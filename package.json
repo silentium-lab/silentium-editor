@@ -8,7 +8,7 @@
     "mobile"
   ],
   "scripts": {
-    "start": "vite",
+    "start": "vite --force",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -31,8 +31,8 @@
     "linkerline": "^1.6.1",
     "lodash-es": "^4.17.23",
     "scrollbooster": "^3.0.2",
-    "silentium": "^0.0.209",
-    "silentium-components": "^0.0.116",
+    "silentium": "^0.0.210",
+    "silentium-components": "^0.0.118",
     "silentium-morphdom": "^0.0.24",
     "silentium-ui": "^0.0.12",
     "silentium-web-api": "^0.0.37",

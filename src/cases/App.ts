@@ -8,6 +8,7 @@ import { FilePickedFromFS } from './components/FilePickedFromFS';
 import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';
 import { compose } from 'lodash/fp';
+import { LoggingProxy } from '../tools/LoggingProxy';
 
 /**
  * The main application entrypoint
@@ -18,7 +19,12 @@ export function App() {
   const content$ = Late('');
   const platform$ = PlatformName();
   const openFile$ = Late();
-  const dc = DestroyContainer();
+  const dc = LoggingProxy('App DC', DestroyContainer());
+  content$.then(v => {
+    if (v === '') {
+      dc.destroy();
+    }
+  });
   openFile$.then(() => {
     dc.destroy();
     dc.add(FilePickedFromFS(platform$, content$));

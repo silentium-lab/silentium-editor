@@ -25,9 +25,9 @@ export function FileFromWeb(changedContent$: MessageType<string>): MessageType<s
     }, 500)
   );
   return Connected(
-    fileContent$,
+    fileContent$.catch(console.log),
     Destroyable(() => {
       console.log('destroy ffw');
     })
-  );
+  ).catch(console.log);
 }
