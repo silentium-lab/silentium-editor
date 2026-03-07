@@ -1,10 +1,9 @@
-import { Connected, Destroyable, Lazy, MessageSourceType, MessageType } from 'silentium';
-import { Switch } from 'silentium-components';
 import { partial } from 'lodash-es';
+import { Connected, Lazy, MessageSourceType, MessageType } from 'silentium';
+import { Switch } from 'silentium-components';
 import { FileFromAndroid } from '../../io/FileFromCapacitor';
 import { FileFromWeb } from '../../io/FileFromWeb';
 import { Platform } from '../../io/Platform';
-import { LoggingProxy } from '../../tools/LoggingProxy';
 
 /**
  * Pick the file from a fs and
@@ -20,19 +19,5 @@ export function FilePickedFromFS(
     ['android', android$],
     ['web', web$],
   ]).name('file$');
-  content$.chain(file$);
-  return LoggingProxy(
-    'Connected',
-    Connected(
-      LoggingProxy('file', file$),
-      android$,
-      web$,
-      LoggingProxy(
-        'destroyable',
-        Destroyable(() => {
-          console.log('d fpffs');
-        })
-      )
-    ).name('Connected')
-  );
+  return Connected<string>(file$, android$, web$);
 }

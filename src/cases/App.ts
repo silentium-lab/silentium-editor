@@ -1,4 +1,5 @@
 import { partial } from 'lodash-es';
+import { compose } from 'lodash/fp';
 import { Any, Applied, ContextChain, ContextOf, DestroyContainer, Late, Of } from 'silentium';
 import { Polling, Router } from 'silentium-components';
 import { Render } from 'silentium-morphdom';
@@ -7,8 +8,6 @@ import { PlatformName } from '../io/CapacitorPlatform';
 import { FilePickedFromFS } from './components/FilePickedFromFS';
 import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';
-import { compose } from 'lodash/fp';
-import { LoggingProxy } from '../tools/LoggingProxy';
 
 /**
  * The main application entrypoint
@@ -19,7 +18,7 @@ export function App() {
   const content$ = Late('');
   const platform$ = PlatformName();
   const openFile$ = Late();
-  const dc = LoggingProxy('App DC', DestroyContainer());
+  const dc = DestroyContainer();
   content$.then(v => {
     if (v === '') {
       dc.destroy();
@@ -27,7 +26,9 @@ export function App() {
   });
   openFile$.then(() => {
     dc.destroy();
-    dc.add(FilePickedFromFS(platform$, content$));
+    const file$ = FilePickedFromFS(platform$, content$);
+    content$.chain(file$);
+    dc.add(file$);
   });
   closed$.then(() => {
     content$.use('');
