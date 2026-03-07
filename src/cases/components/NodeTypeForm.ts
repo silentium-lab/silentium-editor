@@ -1,7 +1,7 @@
-import { Context, Of } from 'silentium';
+import { Connected, Context, Of } from 'silentium';
 
 export function NodeTypeForm() {
   const typeId$ = Context('active-node-type-id');
   typeId$.then(console.log);
-  return Of('<div></div>');
+  return Connected<string>(Of('<div></div>'), typeId$);
 }

@@ -1,4 +1,4 @@
-import { Computed, Context, Late, Map, MessageSourceType, Value } from 'silentium';
+import { Computed, Connected, Context, Late, Map, MessageSourceType, Value } from 'silentium';
 import { Part, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
@@ -31,11 +31,14 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
       },
     });
   });
-  return Template(
-    t => html`
-      <div class="types-panel relative px-2 z-10">
-        ${t.raw(Map(typesList$, t => TypeView(newNode$, t)))}
-      </div>
-    `
+  return Connected<string>(
+    Template(
+      t => html`
+        <div class="types-panel relative px-2 z-10">
+          ${t.raw(Map(typesList$, t => TypeView(newNode$, t)))}
+        </div>
+      `
+    ),
+    newNode$
   );
 }

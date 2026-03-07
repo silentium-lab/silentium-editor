@@ -1,4 +1,4 @@
-import { Applied, Context, MessageType, Of, Value } from 'silentium';
+import { Applied, Connected, Context, MessageType, Of, Value } from 'silentium';
 import { HashTable } from 'silentium-components';
 
 export function NodeEdit(nodeEditBlock$: MessageType<[string, boolean]>) {
@@ -14,5 +14,5 @@ export function NodeEdit(nodeEditBlock$: MessageType<[string, boolean]>) {
     }
     console.log('Open node edit', e);
   });
-  return Of('<div></div>');
+  return Connected<string>(Of('<div></div>'), activeNodeId$);
 }

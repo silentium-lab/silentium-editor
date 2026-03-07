@@ -1,12 +1,4 @@
-import {
-  All,
-  Connected,
-  Context,
-  MessageType,
-  SourceType,
-  Value,
-  Void
-} from 'silentium';
+import { All, Connected, Context, MessageType, SourceType, Value, Void } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
@@ -34,7 +26,7 @@ export function NodeOnMap(
       activeNodeId$.use({ id: node.value.node.id });
     }
   });
-  return Connected(
+  return Connected<string>(
     Template(
       t =>
         html`<div
@@ -47,6 +39,7 @@ export function NodeOnMap(
         </div>`
     ),
     draggable$,
-    line$
+    line$,
+    clicked$
   );
 }

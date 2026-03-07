@@ -1,16 +1,17 @@
-import { All, Connected, MessageType } from 'silentium';
+import { All, Connected, Local, MessageType } from 'silentium';
 import { Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { ThePoint } from '../../domain/Point';
 import { Element } from 'silentium-web-api';
 
 export function ArrowsArea(dragPosition$: MessageType<ThePoint>) {
+  const localDragPosition$ = Local(dragPosition$);
   const id$ = Id();
   const container$ = Element(ClassName(id$));
-  All(container$, dragPosition$).then(([el, position]) => {
+  All(container$, localDragPosition$).then(([el, position]) => {
     el.style.transform = `translate(${-position.x}px, ${-position.y}px)`;
   });
-  return Connected(
+  return Connected<string>(
     Template(
       t =>
         html`<div
@@ -18,6 +19,7 @@ export function ArrowsArea(dragPosition$: MessageType<ThePoint>) {
           style="transform: translate(0px, 0px);"
         ></div>`
     ),
-    container$
+    container$,
+    localDragPosition$
   );
 }

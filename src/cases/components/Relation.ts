@@ -1,4 +1,4 @@
-import { Context, Late, Lazy, MessageSourceType, Value } from 'silentium';
+import { Connected, Context, Late, Lazy, MessageSourceType, Value } from 'silentium';
 import { Path, StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
@@ -44,44 +44,49 @@ export function Relation(map$: MessageSourceType<TheMap>) {
       mode$.use('next');
     }
   });
-  return Template(
-    t =>
-      html`<div class="mt-auto p-2">
-        ${t.raw(
-          Switch(mode$, [
-            [
-              'waiting',
-              Lazy(() =>
-                Button(Tr('Choose object'), 'btn w-full cursor-pointer', mode$, '', 'choosing')
-              ),
-            ],
-            [
-              'choosing',
-              // TODO why Lazy required?
-              Lazy(() =>
-                Button(
-                  Tr('Cancel'),
-                  'btn w-full cursor-pointer bg-danger text-base',
-                  mode$,
-                  '',
-                  'waiting'
-                )
-              ),
-            ],
-            [
-              'next',
-              Lazy(() =>
-                Button(
-                  Tr('Next or cancel'),
-                  'btn w-full cursor-pointer bg-danger text-base',
-                  mode$,
-                  '',
-                  'waiting'
-                )
-              ),
-            ],
-          ])
-        )}
-      </div>`
+  return Connected<string>(
+    Template(
+      t =>
+        html`<div class="mt-auto p-2">
+          ${t.raw(
+            Switch(mode$, [
+              [
+                'waiting',
+                Lazy(() =>
+                  Button(Tr('Choose object'), 'btn w-full cursor-pointer', mode$, '', 'choosing')
+                ),
+              ],
+              [
+                'choosing',
+                // TODO why Lazy required?
+                Lazy(() =>
+                  Button(
+                    Tr('Cancel'),
+                    'btn w-full cursor-pointer bg-danger text-base',
+                    mode$,
+                    '',
+                    'waiting'
+                  )
+                ),
+              ],
+              [
+                'next',
+                Lazy(() =>
+                  Button(
+                    Tr('Next or cancel'),
+                    'btn w-full cursor-pointer bg-danger text-base',
+                    mode$,
+                    '',
+                    'waiting'
+                  )
+                ),
+              ],
+            ])
+          )}
+        </div>`
+    ),
+    activeNodeId$,
+    relation$,
+    mode$
   );
 }

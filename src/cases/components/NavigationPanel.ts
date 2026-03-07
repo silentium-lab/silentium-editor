@@ -1,6 +1,7 @@
-import { Context } from 'silentium';
+import { Connected, Context } from 'silentium';
 import { Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
+import { Connect } from 'vite';
 
 export function NavigationPanel() {
   const close$ = Id();
@@ -10,11 +11,14 @@ export function NavigationPanel() {
     e.preventDefault();
     appClosed$.use(Date.now());
   });
-  return Template(
-    t =>
-      html`<div class="flex w-full justify-between">
-        <div>Navigation</div>
-        <a href="#" class="${t.escaped(close$)}">Закрыть</a>
-      </div>`
+  return Connected<string>(
+    Template(
+      t =>
+        html`<div class="flex w-full justify-between">
+          <div>Navigation</div>
+          <a href="#" class="${t.escaped(close$)}">Закрыть</a>
+        </div>`
+    ),
+    closed$
   );
 }

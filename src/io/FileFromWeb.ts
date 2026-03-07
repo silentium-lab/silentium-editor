@@ -1,12 +1,14 @@
 import { throttle } from 'lodash-es';
-import { Applied, Connected, Destroyable, Late, MessageType, Value } from 'silentium';
+import { Applied, Connected, Late, Local, MessageType, Value } from 'silentium';
 
 /**
  * An abstraction of a file from the web file system
  */
 export function FileFromWeb(changedContent$: MessageType<string>): MessageType<string> {
+  const localContent$ = Local(changedContent$);
   let fileHandler$ = Late<FileSystemFileHandle>();
   const fileHandler = Value(fileHandler$);
+  // @ts-ignore
   window.showOpenFilePicker().then(([fileHandle]) => {
     fileHandler$.use(fileHandle);
   });
@@ -15,7 +17,7 @@ export function FileFromWeb(changedContent$: MessageType<string>): MessageType<s
       return handler.getFile().then(file => file.text()) as MessageType<string>;
     })
   );
-  changedContent$.then(
+  localContent$.then(
     throttle(async v => {
       if (v !== fileContent$.value && v !== '' && fileHandler.value) {
         const writableStream = await fileHandler.value.createWritable();
@@ -24,10 +26,5 @@ export function FileFromWeb(changedContent$: MessageType<string>): MessageType<s
       }
     }, 500)
   );
-  return Connected(
-    fileContent$.catch(console.log),
-    Destroyable(() => {
-      console.log('destroy ffw');
-    })
-  ).catch(console.log);
+  return Connected(fileContent$, localContent$);
 }
