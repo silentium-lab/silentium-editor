@@ -1,9 +1,10 @@
-import { All, Connected, Context, Late, MessageType, SourceType } from 'silentium';
-import { Path, Polling, Task, Template } from 'silentium-components';
-import { ClassName, Clicked, html, Id } from 'silentium-ui';
+import { All, Connected, Context, Late, MessageType, SourceType, Value } from 'silentium';
+import { Path, Task, Template } from 'silentium-components';
+import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheNodeType } from '../../domain/NodeType';
 import { ThePosition } from '../../domain/Position';
+import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 import { Draggable } from '../../io/Draggable';
 
 export function TypeView(
@@ -27,8 +28,11 @@ export function TypeView(
   });
   newType.chain(All(type, draggable$));
   const activeNodeTypeId$ = Context('active-node-type-id');
-  const clicked$ = Clicked(ClassName(id$));
-  activeNodeTypeId$.chain(Polling(Path(type, 'id'), clicked$).then(console.log));
+  const clicked$ = ClickWithoutDrag(container$);
+  const typeId = Value(Path(type, 'id'));
+  clicked$.then(() => {
+    activeNodeTypeId$.use({ id: typeId.value });
+  });
   return Connected(
     Template(
       t =>
@@ -40,6 +44,7 @@ export function TypeView(
           </div>
         </article>`
     ),
-    draggable$
+    draggable$,
+    clicked$
   );
 }

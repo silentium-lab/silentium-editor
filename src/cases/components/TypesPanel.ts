@@ -13,7 +13,7 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
   const types$ = Part<Record<string, TheNodeType>>(map$, 'types');
   const typesList$ = Computed(
     t => t.map(NodeTypeCompatibility),
-    Computed(Object.values<TheNodeType>, types$)
+    Computed(Object.entries<TheNodeType>, types$)
   );
   const newNode$ = Late<[TheNodeType, ThePosition]>();
   const map = Value(map$);
