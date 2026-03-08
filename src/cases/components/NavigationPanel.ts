@@ -1,11 +1,9 @@
-import { Connected, Context } from 'silentium';
+import { Connected, Context, Late } from 'silentium';
 import { Template } from 'silentium-components';
-import { ClassName, Clicked, html, Id } from 'silentium-ui';
-import { Connect } from 'vite';
+import { Button, html } from 'silentium-ui';
 
 export function NavigationPanel() {
-  const close$ = Id();
-  const closed$ = Clicked(ClassName(close$));
+  const closed$ = Late<Event>();
   const appClosed$ = Context('app-closed');
   closed$.then(e => {
     e.preventDefault();
@@ -16,7 +14,7 @@ export function NavigationPanel() {
       t =>
         html`<div class="flex w-full justify-between">
           <div>Navigation</div>
-          <a href="#" class="${t.escaped(close$)}">Закрыть</a>
+          ${t.raw(Button('&times;', 'btn', closed$))}
         </div>`
     ),
     closed$

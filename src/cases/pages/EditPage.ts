@@ -23,6 +23,8 @@ import { RulerY } from '../components/RulerY';
 import { Relation } from '../components/Relation';
 import { NodeEdit } from '../components/NodeEdit';
 import { NodeTypeForm } from '../components/NodeTypeForm';
+import { TypeNew } from '../components/TypeNew';
+import { Settings } from '../components/Settings';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   ContextOf('active-node-id').then(ContextChain(Late()));
@@ -47,7 +49,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             ${t.raw(Mount(TypesPanel(map$)))}
-            <div class="${t.raw(MountPoint(Relation(map$)))} mt-auto"></div>
+            <div class="flex gap-2 px-2 mt-auto">${t.raw(TypeNew())}${t.raw(Settings())}</div>
+            <div class="${t.raw(MountPoint(Relation(map$)))}"></div>
           </div>
           <div
             class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"

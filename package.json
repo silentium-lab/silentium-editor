@@ -35,7 +35,7 @@
     "silentium": "^0.0.216",
     "silentium-components": "^0.0.118",
     "silentium-morphdom": "^0.0.24",
-    "silentium-ui": "^0.0.12",
+    "silentium-ui": "^0.0.13",
     "silentium-web-api": "^0.0.37",
     "zone.js": "^0.16.0"
   },
