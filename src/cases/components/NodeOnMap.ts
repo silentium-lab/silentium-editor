@@ -6,6 +6,7 @@ import { TheNode, TheNodeWithTemplate } from '../../domain/Node';
 import { ThePosition } from '../../domain/Position';
 import { Draggable } from '../../io/Draggable';
 import { Line } from '../../io/Line';
+import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[TheNode, ThePosition]>,
@@ -20,8 +21,8 @@ export function NodeOnMap(
   newNodePosition.chain(All(Path<TheNode>(node$, 'node'), draggable$));
   const line$ = Line(Path(node$, 'node')).then(Void());
   const node = Value(node$);
-  const clicked$ = Clicked(ClassName(id$));
-  clicked$.then(() => {
+  const clicked$ = ClickWithoutDrag(container$);
+  clicked$.then((e) => {
     if (node.value.node.id) {
       activeNodeId$.use({ id: node.value.node.id });
     }
@@ -38,6 +39,7 @@ export function NodeOnMap(
           ${t.raw(Path(node$, 'template'))}
         </div>`
     ),
+    container$,
     draggable$,
     line$,
     clicked$
