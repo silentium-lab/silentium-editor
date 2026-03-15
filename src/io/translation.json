@@ -6,7 +6,10 @@
         "Choose object": "Выберите объект",
         "Next or cancel": "Следующий/отмена",
         "Cancel": "Отменить",
-        "Map object": "Объект карты"
+        "Map object": "Объект карты",
+        "Object type": "Тип объекта",
+        "New Type": "Новый тип",
+        "Settings": "Настройки"
     },
     "en": {}
 }

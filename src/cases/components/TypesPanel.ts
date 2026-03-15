@@ -34,8 +34,13 @@ export function TypesPanel(map$: MessageSourceType<TheMap>) {
   return Connected<string>(
     Template(
       t => html`
-        <div class="types-panel relative px-2 z-10">
-          ${t.raw(Map(typesList$, t => TypeView(newNode$, t)))}
+        <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
+          ${t.raw(
+            Computed(
+              arr => arr.join(''),
+              Map(typesList$, t => TypeView(newNode$, t))
+            )
+          )}
         </div>
       `
     ),

@@ -14,7 +14,7 @@ export function NodeTypeForm() {
   return Connected<string>(
     Mount(
       Modal(
-        Tr('Map type'),
+        Tr('Object type'),
         Template(
           t =>
             html`<div>
