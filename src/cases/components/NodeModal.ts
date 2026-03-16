@@ -4,7 +4,7 @@ import { html, Mount } from 'silentium-ui';
 import { Modal } from './Modal';
 import { Tr } from '../../io/Translation';
 
-export function NodeEdit(nodeEditBlock$: MessageType<[string, boolean]>) {
+export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>) {
   const nodeBlockRecord$ = HashTable(nodeEditBlock$);
   const isBlocked$ = Applied(nodeBlockRecord$, record =>
     Object.values(record).some(v => v === true)
@@ -18,12 +18,20 @@ export function NodeEdit(nodeEditBlock$: MessageType<[string, boolean]>) {
     }
     opened$.use(true);
   });
-  return Connected<string>(Mount(Modal(
-    Tr('Map object'),
-    Template((t) => html`<div>
-      <div>Edit</div>
-      <div>${t.escaped(Computed(JSON.stringify, activeNodeId$))}</div>
-    </div>`),
-    opened$
-  )), activeNodeId$);
+  return Connected<string>(
+    Mount(
+      Modal(
+        Tr('Map object'),
+        Template(
+          t =>
+            html`<div>
+              <div>Edit</div>
+              <div>${t.escaped(Computed(JSON.stringify, activeNodeId$))}</div>
+            </div>`
+        ),
+        opened$
+      )
+    ),
+    activeNodeId$
+  );
 }

@@ -1,10 +1,10 @@
-import { Applied, Computed, Connected, Context, Late, Of } from 'silentium';
-import { Modal } from './Modal';
+import { Computed, Connected, Context, Late } from 'silentium';
+import { Template } from 'silentium-components';
 import { html, Mount } from 'silentium-ui';
 import { Tr } from '../../io/Translation';
-import { Bool, Template } from 'silentium-components';
+import { Modal } from './Modal';
 
-export function NodeTypeForm() {
+export function NodeTypeModal() {
   const typeId$ = Context('active-node-type-id');
   typeId$.then(console.log);
   const opened$ = Late(false);

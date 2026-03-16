@@ -21,8 +21,8 @@ import { TypesPanel } from '../components/TypesPanel';
 import { RulerX } from '../components/RulerX';
 import { RulerY } from '../components/RulerY';
 import { Relation } from '../components/Relation';
-import { NodeEdit } from '../components/NodeEdit';
-import { NodeTypeForm } from '../components/NodeTypeForm';
+import { NodeModal } from '../components/NodeModal';
+import { NodeTypeModal } from '../components/NodeTypeModal';
 import { TypeNew } from '../components/TypeNew';
 import { Settings } from '../components/Settings';
 
@@ -68,8 +68,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
-          ${t.raw(NodeEdit(nodeEditBlockReasons$))} ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
-          ${t.raw(NodeTypeForm())}
+          ${t.raw(NodeModal(nodeEditBlockReasons$))}
+          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal())}
         </div>`
     ),
     scrollable$
