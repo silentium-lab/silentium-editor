@@ -1,6 +1,7 @@
 import { Any, Computed, Connected, MessageSourceType, MessageType } from 'silentium';
 import { Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
+import { EscapePressed } from '../../io/EscapePressed';
 
 export function Modal(
   title$: MessageType<string>,
@@ -22,6 +23,10 @@ export function Modal(
   const titleId$ = Id();
   Clicked(ClassName(titleId$), true).then(e => {
     e.stopPropagation();
+  });
+  const escape$ = EscapePressed();
+  escape$.then(() => {
+    opened$.use(false);
   });
   return Connected(
     Template(
@@ -63,6 +68,7 @@ export function Modal(
     ),
     closeClicked$,
     bgClicked$,
-    contentClicked$
+    contentClicked$,
+    escape$
   );
 }
