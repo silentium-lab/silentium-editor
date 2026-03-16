@@ -38,7 +38,7 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
           <div>
             <label> Height ${t.raw(Input(height$))} </label>
           </div>
-          <div>${t.raw(Button('Save', '', saved$))}</div>
+          <div>${t.raw(Button('Save', 'btn', saved$))}</div>
         </div>`
     ),
     dc
