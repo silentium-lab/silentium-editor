@@ -1,7 +1,8 @@
 import { Connected, DestroyContainer, Late, MessageSourceType } from 'silentium';
-import { Part, Template } from 'silentium-components';
-import { Button, ClassName, Clicked, html, Id, Input } from 'silentium-ui';
+import { Part, Polling, Template } from 'silentium-components';
+import { Button, html, Input } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
+import { Tr } from '../../io/Translation';
 
 export function TypeForm(type$: MessageSourceType<TheNodeType>) {
   const typeLocal$ = Late<TheNodeType>();
@@ -9,7 +10,7 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
   const markup$ = Part<string>(typeLocal$, 'markup');
   const width$ = Part<string>(typeLocal$, 'width');
   const height$ = Part<string>(typeLocal$, 'height');
-  const saved$ = Late();
+  const saved$ = Late(false);
 
   const dc = DestroyContainer();
   dc.add(
@@ -18,27 +19,46 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
     })
   );
 
-  typeLocal$.then(newType => {
-    type$.use(newType);
-  });
+  // Polling(typeLocal$, saved$).then((newType) => {
+  //   type$.use(newType);
+  // });
 
+  saved$.then(console.log);
+
+  // border-1 border-gray-300 bg-white p-2 rounded-sm w-full
   return Connected<string>(
     Template(
       t =>
         html`<div>
-          <div>
-            <label> Name ${t.raw(Input(name$))} </label>
+          <div class="mb-2">
+            <label>
+              <b>
+                ${t.escaped(Tr('Name'))}
+              </b>
+              <span class="block">
+                ${t.raw(Input(name$))}
+              </span>
+            </label>
           </div>
-          <div>
-            <label> Code ${t.raw(Input(markup$))} </label>
+          <div class="mb-2">
+            <label>
+              ${t.escaped(Tr('Code'))}
+              ${t.raw(Input(markup$))}
+            </label>
           </div>
-          <div>
-            <label> Width ${t.raw(Input(width$))} </label>
+          <div class="mb-2">
+            <label>
+              ${t.escaped(Tr('Width'))}
+              ${t.raw(Input(width$))}
+            </label>
           </div>
-          <div>
-            <label> Height ${t.raw(Input(height$))} </label>
+          <div class="mb-4">
+            <label>
+              ${t.escaped(Tr('Height'))}
+              ${t.raw(Input(height$))}
+            </label>
           </div>
-          <div>${t.raw(Button('Save', 'btn', saved$))}</div>
+          <div>${t.raw(Button(Tr('Save'), 'btn', saved$, '', true))}</div>
         </div>`
     ),
     dc

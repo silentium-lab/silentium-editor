@@ -69,7 +69,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
             </div>
           </div>
           ${t.raw(NodeModal(nodeEditBlockReasons$))}
-          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal())}
+          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(map$))}
         </div>`
     ),
     scrollable$
