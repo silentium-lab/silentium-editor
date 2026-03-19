@@ -37,7 +37,8 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
         ...map.value.types,
         [type.id]: type
       }
-    })
+    });
+    opened$.use(false);
   })
 
   return Connected<string>(

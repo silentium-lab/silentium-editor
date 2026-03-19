@@ -1,4 +1,4 @@
-import { Connected, DestroyContainer, Late, MessageSourceType } from 'silentium';
+import { Connected, DestroyContainer, Late, MessageSourceType, Of, Primitive, Value } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
 import { Button, html, Input } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
@@ -19,11 +19,9 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
     })
   );
 
-  // Polling(typeLocal$, saved$).then((newType) => {
-  //   type$.use(newType);
-  // });
-
-  saved$.then(console.log);
+  Polling(Of(Value(typeLocal$)), saved$).then((newType) => {
+    type$.use(newType.value);
+  });
 
   // border-1 border-gray-300 bg-white p-2 rounded-sm w-full
   return Connected<string>(
@@ -58,7 +56,7 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
               ${t.raw(Input(height$))}
             </label>
           </div>
-          <div>${t.raw(Button(Tr('Save'), 'btn', saved$, '', true))}</div>
+          <div>${t.raw(Button(Tr('Save'), 'btn', saved$))}</div>
         </div>`
     ),
     dc

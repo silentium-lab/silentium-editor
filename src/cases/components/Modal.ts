@@ -8,6 +8,11 @@ export function Modal(
   content$: MessageType<string>,
   opened$: MessageSourceType<boolean>
 ) {
+  const contentId$ = Id();
+  const contentClicked$ = Clicked(ClassName(contentId$));
+  contentClicked$.then(e => {
+    e.stopImmediatePropagation();
+  });
   const closeId$ = Id();
   const closeClicked$ = Clicked(ClassName(closeId$));
   const bgId$ = Id();
@@ -15,13 +20,8 @@ export function Modal(
   Any(closeClicked$, bgClicked$).then(() => {
     opened$.use(false);
   });
-  const contentId$ = Id();
-  const contentClicked$ = Clicked(ClassName(contentId$), true);
-  contentClicked$.then(e => {
-    e.stopPropagation();
-  });
   const titleId$ = Id();
-  Clicked(ClassName(titleId$), true).then(e => {
+  const titleClick$ = Clicked(ClassName(titleId$), true).then(e => {
     e.stopPropagation();
   });
   const escape$ = EscapePressed();
@@ -69,6 +69,7 @@ export function Modal(
     closeClicked$,
     bgClicked$,
     contentClicked$,
+    titleClick$,
     escape$
   );
 }
