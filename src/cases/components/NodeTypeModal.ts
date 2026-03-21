@@ -1,11 +1,11 @@
-import { All, Applied, Connected, Context, Late, Local, MessageSourceType, MessageType, Value } from 'silentium';
+import { All, Any, Applied, Connected, Context, Late, Local, MessageSourceType, SourceComputed, Value } from 'silentium';
 import { Template } from 'silentium-components';
 import { html, Mount } from 'silentium-ui';
+import { TheMap } from '../../domain/Map';
 import { TheNodeType } from '../../domain/NodeType';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
-import { TheMap } from '../../domain/Map';
 
 export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
   const typeId$ = Context<{id: string}>('active-node-type-id');
@@ -25,9 +25,6 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
     opened$.use(true);
   });
   const type$ = Late<TheNodeType>();
-  activeType$.then((type) => {
-    type$.use(type);
-  });
 
   const map = Value(map$);
   type$.then(type => {
@@ -39,7 +36,7 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
       }
     });
     opened$.use(false);
-  })
+  });
 
   return Connected<string>(
     Mount(
@@ -48,7 +45,10 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
         Template(
           t =>
             html`<div>
-              <div>${t.raw(TypeForm(type$))}</div>
+              <div>${t.raw(TypeForm(SourceComputed(
+                Any(type$, activeType$),
+                type$
+              )))}</div>
             </div>`
         ),
         opened$
