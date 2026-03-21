@@ -61,7 +61,7 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
               ${t.raw(Input(height$))}
             </label>
           </div>
-          <div>${t.raw(Button(Tr('Save'), 'btn', saved$))}</div>
+          <div class="border-t pt-4 border-gray-400">${t.raw(Button(Tr('Save'), 'btn', saved$))}</div>
         </div>`
     ),
     dc
