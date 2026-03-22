@@ -1,8 +1,8 @@
-import { Late } from 'silentium';
+import { Context, Late } from 'silentium';
 import { Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { Modal } from './Modal';
 import { Tr } from '../../io/Translation';
+import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
 import { TheNodeType } from '../../domain/NodeType';
 
@@ -11,8 +11,16 @@ const icon =
 
 export function TypeNew() {
   const opened$ = Late(false);
-  const newType$ = Late<TheNodeType>();
-  newType$.then(console.log);
+
+  const newType$ = Late<any>({
+    id: Date.now().toString(),
+  } as TheNodeType);
+  const mapType$ = Context('map-type');
+  newType$.then((type) => {
+    mapType$.use(type);
+    opened$.use(false);
+  });
+
   return Template(
     t =>
       html`<div class="w-full">
