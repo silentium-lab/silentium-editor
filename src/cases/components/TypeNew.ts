@@ -1,5 +1,5 @@
-import { Context, Late } from 'silentium';
-import { Template } from 'silentium-components';
+import { Context, Late, Lazy, MessageSourceType, Of } from 'silentium';
+import { Branch, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
@@ -12,9 +12,7 @@ const icon =
 export function TypeNew() {
   const opened$ = Late(false);
 
-  const newType$ = Late<any>({
-    id: Date.now().toString(),
-  } as TheNodeType);
+  const newType$ = Late<any>(createEmptyType());
   const mapType$ = Context('map-type');
   newType$.then((type) => {
     mapType$.use(type);
@@ -24,8 +22,25 @@ export function TypeNew() {
   return Template(
     t =>
       html`<div class="w-full">
-        ${t.raw(Mount(Modal(Tr('New Type'), TypeForm(newType$), opened$)))}
+        ${t.raw(Mount(Branch(opened$, Lazy(() => TypeNewModal(opened$)), Of(''))))}
         ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
       </div>`
   );
+}
+
+function TypeNewModal(opened$: MessageSourceType<boolean>) {
+  const newType$ = Late<any>(createEmptyType());
+  const mapType$ = Context('map-type');
+  newType$.then((type) => {
+    mapType$.use(type);
+    opened$.use(false);
+  });
+
+  return Modal(Tr('New Type'), TypeForm(newType$), opened$);
+}
+
+function createEmptyType() {
+  return {
+    id: Date.now().toString()
+  } as TheNodeType
 }
