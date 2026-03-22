@@ -25,6 +25,7 @@ import { NodeModal } from '../components/NodeModal';
 import { NodeTypeModal } from '../components/NodeTypeModal';
 import { TypeNew } from '../components/TypeNew';
 import { Settings } from '../components/Settings';
+import { MapType } from '../../flows/MapType';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   ContextOf('active-node-id').then(ContextChain(Late()));
@@ -34,6 +35,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   const files$ = JSONSource<object>(content$);
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
+  const mapType = MapType(map$);
   const canvasId$ = Id();
   const dragPosition$ = Late({ x: 0, y: 0 });
   ContextOf('canvas-position').then(ContextChain(dragPosition$));
@@ -72,6 +74,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(map$))}
         </div>`
     ),
-    scrollable$
+    scrollable$,
+    mapType
   );
 }

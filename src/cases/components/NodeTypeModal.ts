@@ -1,8 +1,7 @@
-import { All, Any, Applied, Connected, Context, Late, Local, MessageSourceType, SourceComputed, Value } from 'silentium';
+import { All, Any, Applied, Connected, Context, Late, Local, MessageSourceType, SourceComputed } from 'silentium';
 import { Template } from 'silentium-components';
 import { html, Mount } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
-import { TheNodeType } from '../../domain/NodeType';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
@@ -24,17 +23,9 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
   typeId$.then(() => {
     opened$.use(true);
   });
-  const type$ = Late<TheNodeType>();
 
-  const map = Value(map$);
-  type$.then(type => {
-    map$.use({
-      ...map.value,
-      types: {
-        ...map.value.types,
-        [type.id]: type
-      }
-    });
+  const type$ = Context('map-type');
+  type$.then(() => {
     opened$.use(false);
   });
 
