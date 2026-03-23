@@ -1,6 +1,6 @@
 import { All, Any, Applied, Connected, Context, Late, Local, MessageSourceType, SourceComputed } from 'silentium';
 import { Template } from 'silentium-components';
-import { html, Mount } from 'silentium-ui';
+import { Button, html, Mount } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
@@ -29,6 +29,9 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
     opened$.use(false);
   });
 
+  const deleted$ = Late();
+  deleted$.then(console.log);
+
   return Connected<string>(
     Mount(
       Modal(
@@ -39,7 +42,7 @@ export function NodeTypeModal(map$: MessageSourceType<TheMap>) {
               <div>${t.raw(TypeForm(SourceComputed(
                 Any(type$, activeType$),
                 type$
-              )))}</div>
+              ), Button(Tr('Delete'), 'btn bg-danger text-base', deleted$)))}</div>
             </div>`
         ),
         opened$

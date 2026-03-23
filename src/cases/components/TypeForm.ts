@@ -1,10 +1,10 @@
-import { Connected, Late, MessageSourceType, Of, Value } from 'silentium';
+import { Connected, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
 import { Button, html, Input, Textarea } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
 import { Tr } from '../../io/Translation';
 
-export function TypeForm(type$: MessageSourceType<TheNodeType>) {
+export function TypeForm(type$: MessageSourceType<TheNodeType>, actions$: MessageType<string> = Of('')) {
   const typeLocal$ = Late<TheNodeType>();
   const name$ = Part<string>(typeLocal$, 'name');
   const markup$ = Part<string>(typeLocal$, 'markup');
@@ -58,7 +58,10 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>) {
               ${t.raw(Input(height$))}
             </label>
           </div>
-          <div class="border-t pt-4 border-gray-400">${t.raw(Button(Tr('Save'), 'btn', saved$))}</div>
+          <div class="border-t pt-4 border-gray-400 flex gap-2">
+            ${t.raw(Button(Tr('Save'), 'btn', saved$))}
+            ${t.raw(actions$)}
+          </div>
         </div>`
     ),
     typeSub
