@@ -53,7 +53,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             ${t.raw(Mount(TypesPanel(mapModel)))}
-            <div class="flex gap-2 px-2 mt-auto">${t.raw(TypeNew())}${t.raw(Settings())}</div>
+            <div class="flex gap-2 px-2 mt-auto">${t.raw(TypeNew(mapModel))}${t.raw(Settings())}</div>
             <div class="${t.raw(MountPoint(Relation(map$)))}"></div>
           </div>
           <div

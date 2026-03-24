@@ -16,6 +16,7 @@ import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
+import { TheNodeType } from '../../domain/NodeType';
 
 export function NodeTypeModal(mapModel: MapModel) {
   const typeId$ = Context<{ id: string }>('active-node-type-id');
@@ -35,8 +36,10 @@ export function NodeTypeModal(mapModel: MapModel) {
     opened$.use(true);
   });
 
-  const type$ = Context('map-type');
-  type$.then(() => {
+  const type$ = Late<TheNodeType>();
+  type$.then((type) => {
+    const typeModel = mapModel.type(type.id);
+    typeModel.save(type);
     opened$.use(false);
   });
 
