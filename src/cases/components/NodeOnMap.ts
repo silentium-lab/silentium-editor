@@ -22,7 +22,7 @@ export function NodeOnMap(
   const line$ = Line(Path(node$, 'node')).then(Void());
   const node = Value(node$);
   const clicked$ = ClickWithoutDrag(container$);
-  clicked$.then((e) => {
+  clicked$.then(e => {
     if (node.value.node.id) {
       activeNodeId$.use({ id: node.value.node.id });
     }

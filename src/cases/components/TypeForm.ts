@@ -4,7 +4,10 @@ import { Button, html, Input, Textarea } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
 import { Tr } from '../../io/Translation';
 
-export function TypeForm(type$: MessageSourceType<TheNodeType>, actions$: MessageType<string> = Of('')) {
+export function TypeForm(
+  type$: MessageSourceType<TheNodeType>,
+  actions$: MessageType<string> = Of('')
+) {
   const typeLocal$ = Late<TheNodeType>();
   const name$ = Part<string>(typeLocal$, 'name');
   const markup$ = Part<string>(typeLocal$, 'markup');
@@ -16,7 +19,7 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>, actions$: Messag
     typeLocal$.use(type);
   });
 
-  Polling(Of(Value(typeLocal$)), saved$).then((newType) => {
+  Polling(Of(Value(typeLocal$)), saved$).then(newType => {
     type$.use(newType.value);
   });
 
@@ -26,41 +29,32 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>, actions$: Messag
         html`<div>
           <div class="mb-2">
             <label>
-              <b>
-                ${t.escaped(Tr('Name'))}
-              </b>
-              <span class="block">
-                ${t.raw(Input(name$))}
-              </span>
+              <b> ${t.escaped(Tr('Name'))} </b>
+              <span class="block"> ${t.raw(Input(name$))} </span>
             </label>
           </div>
           <div class="mb-2">
             <label>
-              <b>
-                ${t.escaped(Tr('Code'))}
-              </b>
-              ${t.raw(Textarea(markup$, 'border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24'))}
+              <b> ${t.escaped(Tr('Code'))} </b>
+              ${t.raw(
+                Textarea(markup$, 'border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24')
+              )}
             </label>
           </div>
           <div class="mb-2">
             <label>
-              <b>
-                ${t.escaped(Tr('Width'))}
-              </b>
+              <b> ${t.escaped(Tr('Width'))} </b>
               ${t.raw(Input(width$))}
             </label>
           </div>
           <div class="mb-4">
             <label>
-              <b>
-                ${t.escaped(Tr('Height'))}
-              </b>
+              <b> ${t.escaped(Tr('Height'))} </b>
               ${t.raw(Input(height$))}
             </label>
           </div>
           <div class="border-t pt-4 border-gray-400 flex gap-2">
-            ${t.raw(Button(Tr('Save'), 'btn', saved$))}
-            ${t.raw(actions$)}
+            ${t.raw(Button(Tr('Save'), 'btn', saved$))} ${t.raw(actions$)}
           </div>
         </div>`
     ),

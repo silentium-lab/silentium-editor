@@ -1,46 +1,37 @@
-import { Computed, Connected, Context, Late, Map, MessageSourceType, Value } from 'silentium';
-import { Part, Template } from 'silentium-components';
+import { Computed, Connected, Context, Late, Map, Value } from 'silentium';
+import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { TheMap } from '../../domain/Map';
-import { NodeNew } from '../../domain/NodeNew';
 import { TheNodeType } from '../../domain/NodeType';
 import { NodeTypeCompatibility } from '../../domain/NodeTypeCompatibility';
 import { ThePoint } from '../../domain/Point';
 import { ThePosition } from '../../domain/Position';
+import { MapModel } from '../../flows/MapModel';
 import { TypeView } from './TypeView';
 
-export function TypesPanel(map$: MessageSourceType<TheMap>) {
-  const types$ = Part<Record<string, TheNodeType>>(map$, 'types');
+export function TypesPanel(mapModel: MapModel) {
+  const types$ = Path(mapModel.message(), 'types');
   const typesList$ = Computed(
     t => t.map(NodeTypeCompatibility),
     Computed(Object.entries<TheNodeType>, types$)
   );
   const newNode$ = Late<[TheNodeType, ThePosition]>();
-  const map = Value(map$);
   const canvasPosition$ = Value(Context<ThePoint>('canvas-position'));
   newNode$.then(([type, position]) => {
-    const newNode = NodeNew(type, [
+    mapModel.addObject(type, [
       position[0] + canvasPosition$.value.x - 200,
       position[1] + canvasPosition$.value.y + 40,
     ]);
-    map$.use({
-      ...map.value,
-      objects: {
-        ...map.value.objects,
-        [newNode.id]: newNode,
-      },
-    });
   });
   return Connected<string>(
     Template(
       t => html`
         <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
           ${t.raw(
-            Computed(
-              arr => arr.join(''),
-              Map(typesList$, t => TypeView(newNode$, t))
-            )
-          )}
+        Computed(
+          arr => arr.join(''),
+          Map(typesList$, t => TypeView(newNode$, t))
+        )
+      )}
         </div>
       `
     ),

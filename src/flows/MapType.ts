@@ -1,6 +1,13 @@
-import { ContextChain, ContextOf, DestroyContainer, Late, MessageSourceType, Value } from "silentium";
-import { TheMap } from "../domain/Map";
-import { TheNodeType } from "../domain/NodeType";
+import {
+  ContextChain,
+  ContextOf,
+  DestroyContainer,
+  Late,
+  MessageSourceType,
+  Value,
+} from 'silentium';
+import { TheMap } from '../domain/Map';
+import { TheNodeType } from '../domain/NodeType';
 
 export function MapType(map$: MessageSourceType<TheMap>) {
   const type$ = Late<TheNodeType>();
@@ -12,8 +19,8 @@ export function MapType(map$: MessageSourceType<TheMap>) {
       ...map.value,
       types: {
         ...map.value.types,
-        [type.id]: type
-      }
+        [type.id]: type,
+      },
     });
   });
 

@@ -11,13 +11,24 @@ const icon =
 export function TypeNew() {
   const opened$ = Late(false);
 
-  return Connected(Template(
-    t =>
-      html`<div class="w-full">
-        ${t.raw(Mount(BranchLazy(opened$, () => TypeNewModal(opened$), () => Of('<div></div>'))))}
-        ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
-      </div>`
-  ), opened$);
+  return Connected(
+    Template(
+      t =>
+        html`<div class="w-full">
+          ${t.raw(
+            Mount(
+              BranchLazy(
+                opened$,
+                () => TypeNewModal(opened$),
+                () => Of('<div></div>')
+              )
+            )
+          )}
+          ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
+        </div>`
+    ),
+    opened$
+  );
 }
 
 function TypeNewModal(opened$: MessageSourceType<boolean>) {
@@ -25,7 +36,7 @@ function TypeNewModal(opened$: MessageSourceType<boolean>) {
     id: Date.now().toString(),
   });
   const mapType$ = Context('map-type');
-  const sub = newType$.then((type) => {
+  const sub = newType$.then(type => {
     if (Object.values(type).length <= 1) {
       return;
     }

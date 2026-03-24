@@ -11,21 +11,21 @@ import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheMap } from '../../domain/Map';
 import { MapSize } from '../../domain/MapSize';
+import { MapModel } from '../../flows/MapModel';
 import { JSONSource } from '../../io/JSONSource';
 import { ScrollByDrag } from '../../io/ScrollByDrag';
 import { ArrowsArea } from '../components/ArrowsArea';
 import { MiniMap } from '../components/MiniMap';
 import { NavigationPanel } from '../components/NavigationPanel';
+import { NodeModal } from '../components/NodeModal';
 import { NodesView } from '../components/NodesView';
-import { TypesPanel } from '../components/TypesPanel';
+import { NodeTypeModal } from '../components/NodeTypeModal';
+import { Relation } from '../components/Relation';
 import { RulerX } from '../components/RulerX';
 import { RulerY } from '../components/RulerY';
-import { Relation } from '../components/Relation';
-import { NodeModal } from '../components/NodeModal';
-import { NodeTypeModal } from '../components/NodeTypeModal';
-import { TypeNew } from '../components/TypeNew';
 import { Settings } from '../components/Settings';
-import { MapType } from '../../flows/MapType';
+import { TypeNew } from '../components/TypeNew';
+import { TypesPanel } from '../components/TypesPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   ContextOf('active-node-id').then(ContextChain(Late()));
@@ -35,11 +35,13 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   const files$ = JSONSource<object>(content$);
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
-  const mapType = MapType(map$);
+  const mapModel = new MapModel(map$);
+
   const canvasId$ = Id();
   const dragPosition$ = Late({ x: 0, y: 0 });
   ContextOf('canvas-position').then(ContextChain(dragPosition$));
   const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)), dragPosition$);
+
   return Connected(
     Template(
       t =>
@@ -50,7 +52,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
             ${t.raw(NavigationPanel())}
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
-            ${t.raw(Mount(TypesPanel(map$)))}
+            ${t.raw(Mount(TypesPanel(mapModel)))}
             <div class="flex gap-2 px-2 mt-auto">${t.raw(TypeNew())}${t.raw(Settings())}</div>
             <div class="${t.raw(MountPoint(Relation(map$)))}"></div>
           </div>
@@ -61,20 +63,19 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div
             class="${t.escaped(
-              canvasId$
-            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+          canvasId$
+        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
-            ${t.raw(Mount(NodesView(map$, MapSize())))}
+            ${t.raw(Mount(NodesView(mapModel, MapSize())))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
               <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
           ${t.raw(NodeModal(nodeEditBlockReasons$))}
-          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(map$))}
+          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(mapModel))}
         </div>`
     ),
     scrollable$,
-    mapType
   );
 }
