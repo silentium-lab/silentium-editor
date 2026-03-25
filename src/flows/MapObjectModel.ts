@@ -37,9 +37,9 @@ export class MapObjectModel {
         });
     }
 
-    public delete(id: string) {
+    public delete() {
         const map = Value(this.map$);
-        delete map.value.objects[id];
+        delete map.value.objects[this.id];
         this.map$.use({
             ...map.value,
             objects: {

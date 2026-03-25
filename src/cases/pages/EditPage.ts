@@ -72,7 +72,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
-          ${t.raw(NodeModal(nodeEditBlockReasons$))}
+          ${t.raw(NodeModal(nodeEditBlockReasons$, mapModel))}
           ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(mapModel))}
         </div>`
     ),
