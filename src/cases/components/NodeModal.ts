@@ -11,7 +11,7 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
     Object.values(record).some(v => v === true)
   );
   const opened$ = Late(false);
-  const activeNodeId$ = Context<{id: string}>('active-node-id');
+  const activeNodeId$ = Context<{ id: string }>('active-node-id');
   const nodeEditBlock = Value(isBlocked$);
   activeNodeId$.then(e => {
     if (nodeEditBlock.value) {
@@ -25,6 +25,8 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
     opened$.use(false);
   });
 
+  const saved$ = Late();
+
   return Connected<string>(
     Mount(
       Modal(
@@ -34,7 +36,8 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
             html`<div>
               <div class="mb-2">Edit</div>
               <div class="mb-2">${t.escaped(Computed(JSON.stringify, activeNodeId$))}</div>
-              <div class="mb-2">
+              <div class="mb-2 flex gap-2">
+                ${t.raw(Button(Tr('Save'), 'btn text-base', saved$))}
                 ${t.raw(Button(Tr('Delete'), 'btn bg-danger text-base', deleted$))}
               </div>
             </div>`
