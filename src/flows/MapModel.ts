@@ -1,4 +1,4 @@
-import { MessageSourceType } from 'silentium';
+import { All, Applied, Context, MessageSourceType } from 'silentium';
 import { TheMap } from '../domain/Map';
 import { NodeNew } from '../domain/NodeNew';
 import { TheNodeType } from '../domain/NodeType';
@@ -37,5 +37,15 @@ export class MapModel {
 
     public settings(): SettingsModel {
         return new SettingsModel(this.map$);
+    }
+
+    public activeObject() {
+        const activeId$ = Context<{ id: string }>('active-node-type-id');
+        return Applied(All(activeId$, this.map$), ([id, map]) => {
+            if (map.objects[id.id]) {
+                return map.objects[id.id];
+            }
+            throw new Error(`Object not found #id-${id.id}`);
+        });
     }
 }
