@@ -40,7 +40,7 @@ export class MapModel {
     }
 
     public activeObject() {
-        const activeId$ = Context<{ id: string }>('active-node-type-id');
+        const activeId$ = Context<{ id: string }>('active-node-id');
         return Applied(All(activeId$, this.map$), ([id, map]) => {
             if (map.objects[id.id]) {
                 return map.objects[id.id];
