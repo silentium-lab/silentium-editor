@@ -1,9 +1,11 @@
-import { Applied, Computed, Connected, Context, Late, MessageType, Of, Value } from 'silentium';
+import { Any, Applied, Connected, Context, Late, MessageType, Of, SourceComputed, Value } from 'silentium';
 import { HashTable, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
+import { TheNode } from '../../domain/Node';
+import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
-import { MapModel } from '../../flows/MapModel';
+import { NodeForm } from './NodeForm';
 
 export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapModel: MapModel) {
   const nodeBlockRecord$ = HashTable(nodeEditBlock$);
@@ -11,7 +13,7 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
     Object.values(record).some(v => v === true)
   );
   const opened$ = Late(false);
-  const activeNodeId$ = Context<{id: string}>('active-node-id');
+  const activeNodeId$ = Context<{ id: string }>('active-node-id');
   const nodeEditBlock = Value(isBlocked$);
   activeNodeId$.then(e => {
     if (nodeEditBlock.value) {
@@ -25,6 +27,14 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
     opened$.use(false);
   });
 
+  const saved$ = Late(false);
+  const object$ = Late<TheNode>();
+  const activeObject$ = mapModel.activeObject();
+  object$.then(object => {
+    mapModel.object(object.id).save(object);
+    opened$.use(false);
+  });
+
   return Connected<string>(
     Mount(
       Modal(
@@ -33,8 +43,12 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
           t =>
             html`<div>
               <div class="mb-2">Edit</div>
-              <div class="mb-2">${t.escaped(Computed(JSON.stringify, activeNodeId$))}</div>
-              <div class="mb-2">
+              <div class="mb-2">${t.raw(NodeForm(
+              SourceComputed(Any(object$, activeObject$), object$),
+              saved$
+            ))}</div>
+              <div class="mb-2 flex gap-2">
+                ${t.raw(Button(Tr('Save'), 'btn text-base', saved$))}
                 ${t.raw(Button(Tr('Delete'), 'btn bg-danger text-base', deleted$))}
               </div>
             </div>`
