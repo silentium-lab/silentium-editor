@@ -45,7 +45,6 @@ export class MapModel {
             if (map.objects[id.id]) {
                 return map.objects[id.id];
             }
-            throw new Error(`Object not found #id-${id.id}`);
         });
     }
 }

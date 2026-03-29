@@ -42,7 +42,6 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
         Template(
           t =>
             html`<div>
-              <div class="mb-2">Edit</div>
               <div class="mb-2">${t.raw(NodeForm(
               SourceComputed(Any(object$, activeObject$), object$),
               saved$
@@ -57,6 +56,7 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
       )
     ),
     activeNodeId$,
+    activeObject$,
     deleted$
   );
 }
