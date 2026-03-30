@@ -9,7 +9,6 @@ export function NodeForm(
     saved$: MessageType<boolean>
 ) {
     const local$ = Late<TheNode>();
-    const name$ = Part<string>(local$, 'name');
     const sub = object$.then(type => {
         local$.use(type);
     });
@@ -24,8 +23,14 @@ export function NodeForm(
                 html`<div>
           <div class="mb-2">
             <label>
-              <b> ${t.escaped(Tr('Name'))} </b>
-              <span class="block"> ${t.raw(Input(name$))} </span>
+              <b> ${t.escaped(Tr('Name top'))} </b>
+              <span class="block"> ${t.raw(Input(Part<string>(local$, 'additionalName')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Name bottom'))} </b>
+              <span class="block"> ${t.raw(Input(Part<string>(local$, 'name')))} </span>
             </label>
           </div>
         </div>`
