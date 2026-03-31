@@ -6,19 +6,20 @@ import { ThePosition } from '../domain/Position';
 import { MapObjectModel } from './MapObjectModel';
 import { MapTypeModel } from './MapTypeModel';
 import { SettingsModel } from './SettingsModel';
+import { Path } from 'silentium-components';
 
 export class MapModel {
   public constructor(private map$: MessageSourceType<TheMap>) {}
 
   public addType = (data: TheNodeType) => {
-    const newType = new MapTypeModel(this.map$, Date.now().toString());
+    const newType = new MapTypeModel(this, Date.now().toString());
     newType.save(data);
     return this;
   };
 
   public addObject = (type: TheNodeType, position: ThePosition) => {
     const object = NodeNew(type, position);
-    const newObject = new MapObjectModel(this.map$, object.id);
+    const newObject = new MapObjectModel(this, object.id);
     newObject.save(object);
     return this;
   };
@@ -32,25 +33,24 @@ export class MapModel {
   }
 
   public type(id: string) {
-    return new MapTypeModel(this.map$, id);
+    return new MapTypeModel(this, id);
   }
 
   public object(id: string) {
-    return new MapObjectModel(this.map$, id);
+    return new MapObjectModel(this, id);
   }
 
   public settings(): SettingsModel {
-    return new SettingsModel(this.map$);
+    return new SettingsModel(this);
   }
 
   public activeObject() {
     const activeId$ = Context<{ id: string }>('active-node-id');
-    const map = Value(this.map$);
-    return Applied(activeId$, id => {
-      if (map.value.objects[id.id]) {
-        return map.value.objects[id.id];
-      }
-      throw new Error(`MapModel: object with id #${id.id} was not found!`);
-    });
+    return new MapObjectModel(this, Path(activeId$, 'id'));
+  }
+
+  public save(newMap: TheMap) {
+    this.map$.use(newMap);
+    return this;
   }
 }

@@ -20,7 +20,8 @@
         "Name bottom": "Название внизу",
         "Creation date": "Дата создания",
         "Update date": "Дата изменения",
-        "Name as link": "Название как ссылка"
+        "Name as link": "Название как ссылка",
+        "Relations": "Связи"
     },
     "en": {}
 }

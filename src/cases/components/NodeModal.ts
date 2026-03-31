@@ -40,7 +40,8 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
 
   const saved$ = Late(false);
   const object$ = Late<TheNode>();
-  const activeObject$ = mapModel.activeObject();
+  const activeObject = mapModel.activeObject();
+  const activeObject$ = activeObject.message();
   object$.then(object => {
     mapModel.object(object.id).save(object);
     opened$.use(false);

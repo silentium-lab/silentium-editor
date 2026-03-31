@@ -1,21 +1,21 @@
 import { MessageSourceType } from 'silentium';
 import { Part } from 'silentium-components';
-import { TheMap } from '../domain/Map';
 import { TheSettings } from '../domain/Settings';
+import { MapModel } from './MapModel';
 
 export class SettingsModel {
-    private settings: MessageSourceType<TheSettings>;
+  private settings: MessageSourceType<TheSettings>;
 
-    public constructor(private map$: MessageSourceType<TheMap>) {
-        this.settings = Part(this.map$, 'settings');
-    }
+  public constructor(private map: MapModel) {
+    this.settings = Part(this.map.message(), 'settings');
+  }
 
-    public message() {
-        return this.settings;
-    }
+  public message() {
+    return this.settings;
+  }
 
-    public save = (data: TheSettings) => {
-        this.settings.use({ ...data });
-        return this;
-    }
+  public save = (data: TheSettings) => {
+    this.settings.use({ ...data });
+    return this;
+  };
 }

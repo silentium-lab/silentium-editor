@@ -4,6 +4,8 @@ import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { TheNode } from '../../domain/Node';
 import { Tr } from '../../io/Translation';
 import { TheNodeType } from '../../domain/NodeType';
+import { NodeRelations } from './NodeRelations';
+import { TheNodeRelation } from '../../domain/NodeRelation';
 
 export function NodeForm(
   object$: MessageSourceType<TheNode>,
@@ -74,6 +76,14 @@ export function NodeForm(
               <b> ${t.escaped(Tr('Object type'))} </b>
               <span class="block">
                 ${t.raw(Select(Part<string>(local$, 'type'), typesList$))}
+              </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Relations'))} </b>
+              <span class="block">
+                ${t.raw(NodeRelations(Part<TheNodeRelation[]>(local$, 'arrows')))}
               </span>
             </label>
           </div>
