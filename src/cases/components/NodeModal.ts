@@ -66,7 +66,13 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
                 </b>
               </div>
               <div class="mb-2">
-                ${t.raw(NodeForm(SourceComputed(Any(object$, activeObject$), object$), saved$))}
+                ${t.raw(
+                  NodeForm(
+                    SourceComputed(Any(object$, activeObject$), object$),
+                    saved$,
+                    mapModel.types()
+                  )
+                )}
               </div>
               <div class="border-t pt-4 mt-4 border-gray-400 flex gap-2">
                 ${t.raw(Button(Tr('Save'), 'btn', saved$))}
