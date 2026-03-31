@@ -1,5 +1,5 @@
 import { Connected, Context, Late, Lazy, MessageSourceType, Value } from 'silentium';
-import { Path, StateRecord, Switch, Task, Template } from 'silentium-components';
+import { StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
 import { TheMap } from '../../domain/Map';
 import { Tr } from '../../io/Translation';
