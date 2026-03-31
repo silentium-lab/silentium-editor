@@ -1,14 +1,22 @@
-import { Connected, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
+import { Applied, Connected, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
-import { Checkbox, html, Input } from 'silentium-ui';
+import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { TheNode } from '../../domain/Node';
 import { Tr } from '../../io/Translation';
+import { TheNodeType } from '../../domain/NodeType';
 
-export function NodeForm(object$: MessageSourceType<TheNode>, saved$: MessageType<boolean>) {
+export function NodeForm(
+  object$: MessageSourceType<TheNode>,
+  saved$: MessageType<boolean>,
+  types$: MessageType<TheNodeType[]>
+) {
   const local$ = Late<TheNode>();
   const sub = object$.then(type => {
     local$.use(type);
   });
+  const typesList$ = Applied(types$, types =>
+    types.map(type => ({ _id: type.id, title: type.name }))
+  );
 
   Polling(Of(Value(local$)), saved$).then(object => {
     object$.use(object.value);
@@ -35,6 +43,38 @@ export function NodeForm(object$: MessageSourceType<TheNode>, saved$: MessageTyp
             <label>
               <b> ${t.escaped(Tr('Name bottom'))} </b>
               <span class="block"> ${t.raw(Input(Part<string>(local$, 'name')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Description'))} </b>
+              <span class="block"> ${t.raw(Input(Part<string>(local$, 'description')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Z-index'))} </b>
+              <span class="block"> ${t.raw(Input(Part<string>(local$, 'zindex')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Width'))} </b>
+              <span class="block"> ${t.raw(Input(Part<string>(local$, 'width')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Height'))} </b>
+              <span class="block"> ${t.raw(Input(Part<string>(local$, 'height')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Object type'))} </b>
+              <span class="block">
+                ${t.raw(Select(Part<string>(local$, 'type'), typesList$))}
+              </span>
             </label>
           </div>
         </div>`
