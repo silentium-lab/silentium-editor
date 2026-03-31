@@ -9,12 +9,12 @@ type TheStates = 'waiting' | 'choosing' | 'next';
 export function Relation(map$: MessageSourceType<TheMap>) {
   const mode$ = Late<TheStates>('waiting');
   const activeNodeId$ = Context('active-node-id');
-  const relation$ = StateRecord(mode$, Path(activeNodeId$, 'id'), ['choosing', 'next']);
+  const relation$ = StateRecord(mode$, activeNodeId$, ['choosing', 'next']);
   const map = Value(map$);
   relation$.then((relation: any) => {
-    const object = Object.values(map.value.objects).find(object => object.id === relation.choosing);
+    const object = Object.values(map.value.objects).find(object => object.id === relation.choosing.id);
     if (!object) {
-      throw new Error(`Relation: object was not found ${relation.choosing}`);
+      throw new Error(`Relation: object was not found ${relation.choosing.id}`);
     }
     if (object) {
       map$.use({
@@ -26,7 +26,7 @@ export function Relation(map$: MessageSourceType<TheMap>) {
             arrows: [
               ...object.arrows,
               {
-                id: relation.next,
+                id: relation.next.id,
                 label: '',
               },
             ],
