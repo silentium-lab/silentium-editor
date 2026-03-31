@@ -13,6 +13,9 @@ export function Relation(map$: MessageSourceType<TheMap>) {
   const map = Value(map$);
   relation$.then((relation: any) => {
     const object = Object.values(map.value.objects).find(object => object.id === relation.choosing);
+    if (!object) {
+      throw new Error(`Relation: object was not found ${relation.choosing}`);
+    }
     if (object) {
       map$.use({
         ...map.value,
