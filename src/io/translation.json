@@ -17,7 +17,9 @@
         "Height": "Высота",
         "Delete": "Удалить",
         "Name top": "Название сверху",
-        "Name bottom": "Название внизу"
+        "Name bottom": "Название внизу",
+        "Creation date": "Дата создания",
+        "Update date": "Дата изменения"
     },
     "en": {}
 }
