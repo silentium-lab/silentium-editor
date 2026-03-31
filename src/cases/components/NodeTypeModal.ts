@@ -8,9 +8,9 @@ import {
   Local,
   Of,
   SourceComputed,
-  Value
+  Value,
 } from 'silentium';
-import { Polling, Template } from 'silentium-components';
+import { Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
@@ -37,7 +37,7 @@ export function NodeTypeModal(mapModel: MapModel) {
   });
 
   const type$ = Late<TheNodeType>();
-  type$.then((type) => {
+  type$.then(type => {
     const typeModel = mapModel.type(type.id);
     typeModel.save(type);
     opened$.use(false);
@@ -45,7 +45,7 @@ export function NodeTypeModal(mapModel: MapModel) {
 
   const deleted$ = Late();
   deleted$.then(console.log);
-  const deletion = Polling(Of(Value(typeId$)), deleted$).then((typeId) => {
+  const deletion = Polling(Of(Value(typeId$)), deleted$).then(typeId => {
     const type = mapModel.type(typeId.value.id);
     type.delete();
     opened$.use(false);
@@ -54,17 +54,17 @@ export function NodeTypeModal(mapModel: MapModel) {
   return Connected<string>(
     Mount(
       Modal(
-        Tr('Object type'),
+        Template(t => `${t.escaped(Tr('Object type'))} #${t.escaped(Path(activeType$, 'id'))}`),
         Template(
           t =>
             html`<div>
               <div>
                 ${t.raw(
-              TypeForm(
-                SourceComputed(Any(type$, activeType$), type$),
-                Button(Tr('Delete'), 'btn bg-danger text-base', deleted$)
-              )
-            )}
+                  TypeForm(
+                    SourceComputed(Any(type$, activeType$), type$),
+                    Button(Tr('Delete'), 'btn bg-danger text-base', deleted$)
+                  )
+                )}
               </div>
             </div>`
         ),
