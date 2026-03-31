@@ -1,4 +1,4 @@
-import { Any, Computed, Connected, MessageSourceType, MessageType } from 'silentium';
+import { Any, Computed, Connected, MessageSourceType, MessageType, Value } from 'silentium';
 import { Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { EscapePressed } from '../../io/EscapePressed';
@@ -9,21 +9,20 @@ export function Modal(
   opened$: MessageSourceType<boolean>
 ) {
   const contentId$ = Id();
-  const contentClicked$ = Clicked(ClassName(contentId$));
-  contentClicked$.then(e => {
-    e.stopImmediatePropagation();
-  });
   const closeId$ = Id();
   const closeClicked$ = Clicked(ClassName(closeId$));
   const bgId$ = Id();
   const bgClicked$ = Clicked(ClassName(bgId$));
-  Any(closeClicked$, bgClicked$).then(() => {
+  bgClicked$.then(e => {
+    const bgId = Value(bgId$);
+    if ((e.target as HTMLElement).classList.contains(bgId.value)) {
+      opened$.use(false);
+    }
+  });
+  closeClicked$.then(() => {
     opened$.use(false);
   });
   const titleId$ = Id();
-  const titleClick$ = Clicked(ClassName(titleId$), true).then(e => {
-    e.stopPropagation();
-  });
   const escape$ = EscapePressed();
   escape$.then(() => {
     opened$.use(false);
@@ -68,8 +67,6 @@ export function Modal(
     ),
     closeClicked$,
     bgClicked$,
-    contentClicked$,
-    titleClick$,
     escape$
   );
 }
