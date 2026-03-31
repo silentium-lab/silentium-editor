@@ -2,9 +2,11 @@ import {
   Connected,
   ContextChain,
   ContextOf,
+  Filtered,
   Late,
   MessageSourceType,
   MessageType,
+  SourceComputed,
 } from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
@@ -32,7 +34,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   ContextOf('active-node-type-id').then(ContextChain(Late()));
   const nodeEditBlockReasons$ = Late<[string, boolean]>();
   ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
-  const files$ = JSONSource<object>(content$);
+  const files$ = JSONSource<object>(SourceComputed(Filtered<string>(content$, Boolean), content$));
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
   const mapModel = new MapModel(map$);
@@ -53,7 +55,9 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             ${t.raw(Mount(TypesPanel(mapModel)))}
-            <div class="flex gap-2 px-2 mt-auto">${t.raw(TypeNew(mapModel))}${t.raw(Settings())}</div>
+            <div class="flex gap-2 px-2 mt-auto">
+              ${t.raw(TypeNew(mapModel))}${t.raw(Settings())}
+            </div>
             <div class="${t.raw(MountPoint(Relation(map$)))}"></div>
           </div>
           <div
@@ -63,8 +67,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div
             class="${t.escaped(
-          canvasId$
-        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+              canvasId$
+            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel, MapSize())))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
@@ -76,6 +80,6 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(mapModel))}
         </div>`
     ),
-    scrollable$,
+    scrollable$
   );
 }
