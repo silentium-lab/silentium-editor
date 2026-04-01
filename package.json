@@ -32,11 +32,11 @@
     "linkerline": "^1.6.1",
     "lodash-es": "^4.17.23",
     "scrollbooster": "^3.0.2",
-    "silentium": "^0.0.220",
-    "silentium-components": "^0.0.119",
-    "silentium-morphdom": "^0.0.25",
-    "silentium-ui": "^0.0.16",
-    "silentium-web-api": "^0.0.38",
+    "silentium": "^0.0.222",
+    "silentium-components": "^0.0.121",
+    "silentium-morphdom": "^0.0.26",
+    "silentium-ui": "^0.0.18",
+    "silentium-web-api": "^0.0.40",
     "zone.js": "^0.16.0"
   },
   "devDependencies": {
