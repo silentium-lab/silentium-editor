@@ -1,12 +1,13 @@
-import { Any, Computed, Connected, MessageSourceType, MessageType, Value } from 'silentium';
-import { Template } from 'silentium-components';
+import { Applied, Computed, Connected, MessageSourceType, MessageType, Of, Value } from 'silentium';
+import { BranchLazy, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { EscapePressed } from '../../io/EscapePressed';
 
 export function Modal(
   title$: MessageType<string>,
   content$: MessageType<string>,
-  opened$: MessageSourceType<boolean>
+  opened$: MessageSourceType<boolean>,
+  actions$: MessageType<string> = Of('')
 ) {
   const contentId$ = Id();
   const closeId$ = Id();
@@ -62,6 +63,21 @@ export function Modal(
             <div class="${t.escaped(contentId$)} px-6 py-4 overflow-y-auto flex-1">
               ${t.raw(content$)}
             </div>
+            ${t.raw(
+              BranchLazy(
+                Applied(actions$, Boolean),
+                () =>
+                  Template(
+                    t =>
+                      html`<div
+                        class="px-6 py-4 border-t border-gray-400 flex justify-between items-center"
+                      >
+                        ${t.raw(actions$)}
+                      </div>`
+                  ),
+                () => Of('')
+              )
+            )}
           </div>
         </div>`
     ),

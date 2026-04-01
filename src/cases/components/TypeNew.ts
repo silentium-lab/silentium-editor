@@ -17,14 +17,14 @@ export function TypeNew(mapModel: MapModel) {
       t =>
         html`<div class="w-full">
           ${t.raw(
-          Mount(
-            BranchLazy(
-              opened$,
-              () => TypeNewModal(opened$, mapModel),
-              () => Of('<div></div>')
+            Mount(
+              BranchLazy(
+                opened$,
+                () => TypeNewModal(opened$, mapModel),
+                () => Of('<div></div>')
+              )
             )
-          )
-        )}
+          )}
           ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
         </div>`
     ),
@@ -43,5 +43,15 @@ function TypeNewModal(opened$: MessageSourceType<boolean>, mapModel: MapModel) {
     mapModel.type(type.id).save(type);
     opened$.use(false);
   });
-  return Connected(Modal(Tr('New Type'), TypeForm(newType$), opened$), sub);
+  const saved$ = Late(false);
+
+  return Connected(
+    Modal(
+      Tr('New Type'),
+      TypeForm(newType$, saved$),
+      opened$,
+      Template(t => html`<div class="flex gap-2">${t.raw(Button(Tr('Save'), 'btn', saved$))}</div>`)
+    ),
+    sub
+  );
 }

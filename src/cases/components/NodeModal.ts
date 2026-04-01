@@ -68,20 +68,28 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
               </div>
               <div class="mb-2">
                 ${t.raw(
-                  BranchLazy(opened$, () => NodeForm(
-                    SourceComputed(Any(object$, activeObject$), object$),
-                    saved$,
-                    mapModel.types()
-                  ), () => Of('-'))
+                  BranchLazy(
+                    opened$,
+                    () =>
+                      NodeForm(
+                        SourceComputed(Any(object$, activeObject$), object$),
+                        saved$,
+                        mapModel.types()
+                      ),
+                    () => Of('-')
+                  )
                 )}
-              </div>
-              <div class="border-t pt-4 mt-4 border-gray-400 flex gap-2">
-                ${t.raw(Button(Tr('Save'), 'btn', saved$))}
-                ${t.raw(Button(Tr('Delete'), 'btn bg-danger text-base', deleted$))}
               </div>
             </div>`
         ),
-        opened$
+        opened$,
+        Template(
+          t =>
+            html`<div class="flex gap-2">
+              ${t.raw(Button(Tr('Save'), 'btn', saved$))}
+              ${t.raw(Button(Tr('Delete'), 'btn bg-danger text-base', deleted$))}
+            </div>`
+        )
       )
     ),
     activeNodeId$,

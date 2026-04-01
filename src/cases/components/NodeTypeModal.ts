@@ -10,7 +10,7 @@ import {
   SourceComputed,
   Value,
 } from 'silentium';
-import { Path, Polling, Template } from 'silentium-components';
+import { BranchLazy, Path, Polling, Task, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
@@ -51,6 +51,8 @@ export function NodeTypeModal(mapModel: MapModel) {
     opened$.use(false);
   });
 
+  const saved$ = Late(false);
+
   return Connected<string>(
     Mount(
       Modal(
@@ -60,15 +62,23 @@ export function NodeTypeModal(mapModel: MapModel) {
             html`<div>
               <div>
                 ${t.raw(
-                  TypeForm(
-                    SourceComputed(Any(type$, activeType$), type$),
-                    Button(Tr('Delete'), 'btn bg-danger text-base', deleted$)
+                  BranchLazy(
+                    opened$,
+                    () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
+                    () => Of('-')
                   )
                 )}
               </div>
             </div>`
         ),
-        opened$
+        opened$,
+        Template(
+          t =>
+            html`<div class="flex gap-2">
+              ${t.raw(Button(Tr('Save'), 'btn', saved$))}
+              ${t.raw(Button(Tr('Delete'), 'btn bg-danger text-base', deleted$))}
+            </div>`
+        )
       )
     ),
     typeId$,
