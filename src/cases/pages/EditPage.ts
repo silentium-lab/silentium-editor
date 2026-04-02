@@ -6,8 +6,7 @@ import {
   Late,
   MessageSourceType,
   MessageType,
-  Shared,
-  SourceComputed,
+  SourceComputed
 } from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
@@ -31,13 +30,12 @@ import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
-  const sharedContent$ = Shared(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
   const nodeEditBlockReasons$ = Late<[string, boolean]>();
   ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
   const files$ = JSONSource<object>(
-    SourceComputed(Filtered<string>(sharedContent$, Boolean), sharedContent$)
+    SourceComputed(Filtered<string>(content$, Boolean), content$)
   );
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
@@ -85,6 +83,5 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
         </div>`
     ),
     scrollable$,
-    sharedContent$
   );
 }

@@ -19,11 +19,9 @@ export function NodeForm(
   const typesList$ = Applied(types$, types =>
     types.map(type => ({ _id: type.id, title: type.name }))
   );
-
   Polling(Of(Value(local$)), saved$).then(object => {
     object$.use(object.value);
   });
-
   return Connected<string>(
     Template(
       t =>

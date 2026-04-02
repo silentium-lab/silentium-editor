@@ -1,3 +1,4 @@
+import { debounce } from 'lodash-es';
 import { DestroyContainer, MessageSourceType, Source } from 'silentium';
 
 export function JSONSource<T>(src: MessageSourceType<string>) {
@@ -17,8 +18,8 @@ export function JSONSource<T>(src: MessageSourceType<string>) {
       );
       return dc.destructor();
     },
-    v => {
+    debounce(v => {
       src.use(JSON.stringify(v));
-    }
+    }, 100)
   );
 }
