@@ -11,8 +11,10 @@ export function Relation(map$: MessageSourceType<TheMap>) {
   const activeNodeId$ = Context('active-node-id');
   const relation$ = StateRecord(mode$, activeNodeId$, ['choosing', 'next']);
   const map = Value(map$);
-  relation$.then((relation: any) => {
-    const object = Object.values(map.value.objects).find(object => object.id === relation.choosing.id);
+  const rSub = relation$.then((relation: any) => {
+    const object = Object.values(map.value.objects).find(
+      object => object.id === relation.choosing.id
+    );
     if (!object) {
       throw new Error(`Relation: object was not found ${relation.choosing.id}`);
     }
@@ -37,10 +39,10 @@ export function Relation(map$: MessageSourceType<TheMap>) {
   });
   const mode = Value(mode$);
   const nodeEditBlock$ = Context<[string, boolean]>('node-edit-block-reasons');
-  Task(mode$).then(v => {
+  const modeSub = Task(mode$).then(v => {
     nodeEditBlock$.use(['relation', v !== 'waiting']);
   });
-  activeNodeId$.then(() => {
+  const anSub = activeNodeId$.then(() => {
     if (mode.value === 'next') {
       mode$.use('waiting');
     } else if (mode.value === 'choosing') {
@@ -90,6 +92,9 @@ export function Relation(map$: MessageSourceType<TheMap>) {
     ),
     activeNodeId$,
     relation$,
-    mode$
+    mode$,
+    anSub,
+    rSub,
+    modeSub
   );
 }

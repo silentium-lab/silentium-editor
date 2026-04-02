@@ -6,6 +6,7 @@ import {
   Late,
   MessageSourceType,
   MessageType,
+  Shared,
   SourceComputed,
 } from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
@@ -30,11 +31,14 @@ import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
+  const sharedContent$ = Shared(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
   const nodeEditBlockReasons$ = Late<[string, boolean]>();
   ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
-  const files$ = JSONSource<object>(SourceComputed(Filtered<string>(content$, Boolean), content$));
+  const files$ = JSONSource<object>(
+    SourceComputed(Filtered<string>(sharedContent$, Boolean), sharedContent$)
+  );
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
   const mapModel = new MapModel(map$);
@@ -80,6 +84,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(mapModel))}
         </div>`
     ),
-    scrollable$
+    scrollable$,
+    sharedContent$
   );
 }
