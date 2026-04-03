@@ -4,6 +4,7 @@ import {
   ContextOf,
   Filtered,
   Late,
+  Local,
   MessageSourceType,
   MessageType,
   SourceComputed
@@ -30,12 +31,13 @@ import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
+  const localContent$ = Local(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
   const nodeEditBlockReasons$ = Late<[string, boolean]>();
   ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
   const files$ = JSONSource<object>(
-    SourceComputed(Filtered<string>(content$, Boolean), content$)
+    SourceComputed(Filtered<string>(localContent$, Boolean), content$)
   );
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
@@ -82,6 +84,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(mapModel))}
         </div>`
     ),
+    localContent$,
     scrollable$,
   );
 }
