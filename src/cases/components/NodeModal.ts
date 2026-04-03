@@ -26,7 +26,7 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
   const opened$ = Late(false);
   const activeNodeId$ = Context<{ id: string }>('active-node-id');
   const nodeEditBlock = Value(isBlocked$);
-  activeNodeId$.then(e => {
+  activeNodeId$.then(() => {
     if (nodeEditBlock.value) {
       return;
     }
@@ -38,13 +38,14 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
     opened$.use(false);
   });
 
-  const saved$ = Late(false);
+  const saved$ = Late<boolean>(false);
   const object$ = Late<TheNode>();
   const activeObject = mapModel.activeObject();
   const activeObject$ = activeObject.message();
   object$.then(object => {
     mapModel.object(object.id).save(object);
     opened$.use(false);
+    saved$.use(false);
   });
 
   return Connected<string>(

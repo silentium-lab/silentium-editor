@@ -1,4 +1,4 @@
-import { Applied, Connected, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
+import { Applied, Connected, Filtered, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { TheNode } from '../../domain/Node';
@@ -19,7 +19,7 @@ export function NodeForm(
   const typesList$ = Applied(types$, types =>
     types.map(type => ({ _id: type.id, title: type.name }))
   );
-  Polling(Of(Value(local$)), saved$).then(object => {
+  Polling(Of(Value(local$)), Filtered(saved$, Boolean)).then(object => {
     object$.use(object.value);
   });
   return Connected<string>(

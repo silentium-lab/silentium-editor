@@ -41,6 +41,7 @@ export function NodeTypeModal(mapModel: MapModel) {
     const typeModel = mapModel.type(type.id);
     typeModel.save(type);
     opened$.use(false);
+    saved$.use(false);
   });
 
   const deleted$ = Late();

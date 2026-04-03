@@ -1,4 +1,4 @@
-import { Connected, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
+import { Connected, Filtered, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
 import { html, Input, Textarea } from 'silentium-ui';
 import { TheNodeType } from '../../domain/NodeType';
@@ -15,7 +15,7 @@ export function TypeForm(type$: MessageSourceType<TheNodeType>, saved$: MessageT
     typeLocal$.use(type);
   });
 
-  Polling(Of(Value(typeLocal$)), saved$).then(newType => {
+  Polling(Of(Value(typeLocal$)), Filtered(saved$, Boolean)).then(newType => {
     type$.use(newType.value);
   });
 
