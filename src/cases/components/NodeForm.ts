@@ -1,5 +1,5 @@
-import { Applied, Connected, Filtered, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
-import { Part, Polling, Template } from 'silentium-components';
+import { Applied, Connected, Context, Filtered, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
+import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { TheNode } from '../../domain/Node';
 import { Tr } from '../../io/Translation';
@@ -12,6 +12,9 @@ export function NodeForm(
   saved$: MessageType<boolean>,
   types$: MessageType<TheNodeType[]>
 ) {
+  const map$ = Context('map');
+  const url = Value(Path<string>(map$, 'url'));
+  console.log(url.value);
   const local$ = Late<TheNode>();
   const sub = object$.then(type => {
     local$.use(type);
@@ -20,7 +23,9 @@ export function NodeForm(
     types.map(type => ({ _id: type.id, title: type.name }))
   );
   Polling(Of(Value(local$)), Filtered(saved$, Boolean)).then(object => {
-    object$.use(object.value);
+    if (object.value) {
+      object$.use(object.value);
+    }
   });
   return Connected<string>(
     Template(
@@ -33,7 +38,17 @@ export function NodeForm(
               </span>
             </label>
           </div>
-          <div class="mb-2">
+          ${t.raw(
+          BranchLazy(Path(local$, 'linked'), () => Template(t => html`<div id="link" class="mb-2">
+              <label>
+                <span class="block">
+                  ${url.value}
+                  ${t.raw(Input(Part<string>(local$, 'outlink', url.value ?? '')))}
+                </span>
+              </label>
+            </div>`), () => Of(''))
+        )}
+          <div id="name" class="mb-2">
             <label>
               <b> ${t.escaped(Tr('Name top'))} </b>
               <span class="block"> ${t.raw(Input(Part<string>(local$, 'additionalName')))} </span>

@@ -43,6 +43,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   const map$ = Part<TheMap>(files$, mapName$);
   const mapModel = new MapModel(map$);
 
+  ContextOf('map').then(ContextChain(map$));
+
   const canvasId$ = Id();
   const dragPosition$ = Late({ x: 0, y: 0 });
   ContextOf('canvas-position').then(ContextChain(dragPosition$));
@@ -71,8 +73,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div
             class="${t.escaped(
-              canvasId$
-            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+          canvasId$
+        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel, MapSize())))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
