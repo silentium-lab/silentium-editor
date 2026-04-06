@@ -8,6 +8,7 @@ import { PlatformName } from '../io/CapacitorPlatform';
 import { FilePickedFromFS } from './components/FilePickedFromFS';
 import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';
+import { AppModel } from '../flows/AppModel';
 
 /**
  * The main application entrypoint
@@ -33,16 +34,17 @@ export function App() {
   closed$.then(() => {
     content$.use('');
   });
+  const appModel = new AppModel();
   const router$ = Router<string>(
     Any(Applied(content$, compose(String, Boolean)), Polling(Of('false'), closed$)),
     [
       {
         condition: c => c === 'false',
-        message: partial(MainPage, openFile$),
+        message: partial(MainPage.bind(appModel), openFile$),
       },
       {
         condition: c => c === 'true',
-        message: partial(EditPage, content$),
+        message: partial(EditPage.bind(appModel), content$),
       },
     ],
     () => 'NotFound!'

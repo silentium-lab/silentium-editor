@@ -1,15 +1,13 @@
 import {
   Any,
-  Applied,
   Connected,
   Context,
   Late,
-  MessageType,
   Of,
   SourceComputed,
-  Value,
+  Value
 } from 'silentium';
-import { BranchLazy, HashTable, Path, Polling, Template } from 'silentium-components';
+import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { TheNode } from '../../domain/Node';
 import { MapModel } from '../../flows/MapModel';
@@ -18,14 +16,10 @@ import { DateReadable } from '../formats/DateReadable';
 import { Modal } from './Modal';
 import { NodeForm } from './NodeForm';
 
-export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapModel: MapModel) {
-  const nodeBlockRecord$ = HashTable(nodeEditBlock$);
-  const isBlocked$ = Applied(nodeBlockRecord$, record =>
-    Object.values(record).some(v => v === true)
-  );
+export function NodeModal(this: MapModel) {
   const opened$ = Late(false);
   const activeNodeId$ = Context<{ id: string }>('active-node-id');
-  const nodeEditBlock = Value(isBlocked$);
+  const nodeEditBlock = Value(this.isNodeEditBlocked());
   activeNodeId$.then(() => {
     if (nodeEditBlock.value) {
       return;
@@ -34,16 +28,16 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
   });
   const deleted$ = Late();
   Polling(Of(Value(activeNodeId$)), deleted$).then(active => {
-    mapModel.object(active.value.id).delete();
+    this.object(active.value.id).delete();
     opened$.use(false);
   });
 
   const saved$ = Late<boolean>(false);
   const object$ = Late<TheNode>();
-  const activeObject = mapModel.activeObject();
+  const activeObject = this.activeObject();
   const activeObject$ = activeObject.message();
   object$.then(object => {
-    mapModel.object(object.id).save(object);
+    this.object(object.id).save(object);
     opened$.use(false);
     saved$.use(false);
   });
@@ -75,7 +69,7 @@ export function NodeModal(nodeEditBlock$: MessageType<[string, boolean]>, mapMod
                       NodeForm(
                         SourceComputed(Any(object$, activeObject$), object$),
                         saved$,
-                        mapModel.types()
+                        this.types()
                       ),
                     () => Of('-')
                   )

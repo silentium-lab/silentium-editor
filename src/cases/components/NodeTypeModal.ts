@@ -10,17 +10,17 @@ import {
   SourceComputed,
   Value,
 } from 'silentium';
-import { BranchLazy, Path, Polling, Task, Template } from 'silentium-components';
+import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
+import { TheNodeType } from '../../domain/NodeType';
 import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
-import { TheNodeType } from '../../domain/NodeType';
 
-export function NodeTypeModal(mapModel: MapModel) {
+export function NodeTypeModal(this: MapModel) {
   const typeId$ = Context<{ id: string }>('active-node-type-id');
-  const localMap$ = Local(mapModel.message());
+  const localMap$ = Local(this.message());
   const activeType$ = Applied(All(typeId$, localMap$), ([typeId, localMap]) => {
     const types = Object.values(localMap.types);
     if (!types) {
@@ -38,7 +38,7 @@ export function NodeTypeModal(mapModel: MapModel) {
 
   const type$ = Late<TheNodeType>();
   type$.then(type => {
-    const typeModel = mapModel.type(type.id);
+    const typeModel = this.type(type.id);
     typeModel.save(type);
     opened$.use(false);
     saved$.use(false);
@@ -47,7 +47,7 @@ export function NodeTypeModal(mapModel: MapModel) {
   const deleted$ = Late();
   deleted$.then(console.log);
   const deletion = Polling(Of(Value(typeId$)), deleted$).then(typeId => {
-    const type = mapModel.type(typeId.value.id);
+    const type = this.type(typeId.value.id);
     type.delete();
     opened$.use(false);
   });

@@ -29,19 +29,18 @@ import { RulerY } from '../components/RulerY';
 import { Settings } from '../components/Settings';
 import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
+import { AppModel } from '../../flows/AppModel';
 
-export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
+export function EditPage(this: AppModel, content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
-  const nodeEditBlockReasons$ = Late<[string, boolean]>();
-  ContextOf('node-edit-block-reasons').then(ContextChain(nodeEditBlockReasons$));
   const files$ = JSONSource<object>(
     SourceComputed(Filtered<string>(localContent$, Boolean), content$)
   );
   const mapName$ = Late('current');
   const map$ = Part<TheMap>(files$, mapName$);
-  const mapModel = new MapModel(map$);
+  this.init(map$);
 
   ContextOf('map').then(ContextChain(map$));
 
@@ -60,30 +59,30 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
             ${t.raw(NavigationPanel())}
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
-            ${t.raw(Mount(TypesPanel(mapModel)))}
+            ${t.raw(Mount(TypesPanel.call(this.map())))}
             <div class="flex gap-2 px-2 mt-auto">
-              ${t.raw(TypeNew(mapModel))}${t.raw(Settings())}
+              ${t.raw(TypeNew.call(this.map()))}${t.raw(Settings.call(this.map()))}
             </div>
-            <div class="${t.raw(MountPoint(Relation(map$)))}"></div>
+            <div class="${t.raw(MountPoint(Relation.call(this.map())))}"></div>
           </div>
           <div
             class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
           >
-            ${t.raw(Mount(MiniMap(map$)))}
+            ${t.raw(Mount(MiniMap.call(this.map())))}
           </div>
           <div
             class="${t.escaped(
           canvasId$
         )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
-            ${t.raw(Mount(NodesView(mapModel, MapSize())))}
+            ${t.raw(Mount(NodesView.call(this.map(), MapSize())))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
               <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
-          ${t.raw(NodeModal(nodeEditBlockReasons$, mapModel))}
-          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal(mapModel))}
+          ${t.raw(NodeModal.call(this.map()))}
+          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal.call(this.map()))}
         </div>`
     ),
     localContent$,

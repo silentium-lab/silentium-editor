@@ -1,4 +1,5 @@
-import { Applied, Context, MessageSourceType, Value } from 'silentium';
+import { Applied, Context, ContextChain, ContextOf, Late, MessageSourceType } from 'silentium';
+import { HashTable, Path } from 'silentium-components';
 import { TheMap } from '../domain/Map';
 import { NodeNew } from '../domain/NodeNew';
 import { TheNodeType } from '../domain/NodeType';
@@ -6,10 +7,13 @@ import { ThePosition } from '../domain/Position';
 import { MapObjectModel } from './MapObjectModel';
 import { MapTypeModel } from './MapTypeModel';
 import { SettingsModel } from './SettingsModel';
-import { Path } from 'silentium-components';
 
 export class MapModel {
-  public constructor(private map$: MessageSourceType<TheMap>) {}
+  private nodeEditBlockReasons$ = Late<[string, boolean]>();
+
+  public constructor(private map$: MessageSourceType<TheMap>) {
+    this.objectEditBlockInit();
+  }
 
   public addType = (data: TheNodeType) => {
     const newType = new MapTypeModel(this, Date.now().toString());
@@ -52,5 +56,16 @@ export class MapModel {
   public save(newMap: TheMap) {
     this.map$.use(newMap);
     return this;
+  }
+
+  private objectEditBlockInit() {
+    ContextOf('node-edit-block-reasons').then(ContextChain(this.nodeEditBlockReasons$));
+  }
+
+  public isNodeEditBlocked() {
+    const nodeBlockRecord$ = HashTable(this.nodeEditBlockReasons$);
+    return Applied(nodeBlockRecord$, record =>
+      Object.values(record).some(v => v === true)
+    );
   }
 }
