@@ -1,6 +1,6 @@
 import { Connected, DestroyContainer, Late, MessageType, SourceType } from 'silentium';
 import Draggabilly from 'draggabilly';
-import { ThePosition } from '../domain/Position';
+import { Position } from '../domain/Position';
 import { PositionMultiplied } from '../domain/PositionMultiplied';
 
 const defaultGridMultiplier = 15;
@@ -15,13 +15,13 @@ export function Draggable(
   parentSelector: string = ''
 ) {
   const dc = DestroyContainer();
-  const dragEnd$ = Late<ThePosition>();
+  const dragEnd$ = Late<Position>();
   const dragEndHandler = pointer => {
     let target = pointer.target;
     if (parentSelector) {
       target = pointer.target.closest(parentSelector);
     }
-    const position: ThePosition = [target?.offsetLeft ?? 0, target?.offsetTop ?? 0];
+    const position: Position = [target?.offsetLeft ?? 0, target?.offsetTop ?? 0];
     const positionMultiplied = PositionMultiplied(defaultGridMultiplier, position);
     dragEnd$.use(positionMultiplied);
   };
@@ -45,5 +45,5 @@ export function Draggable(
     });
     return dc.destructor;
   });
-  return Connected<ThePosition>(dragEnd$, sub);
+  return Connected<Position>(dragEnd$, sub);
 }

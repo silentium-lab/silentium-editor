@@ -1,1 +1,1 @@
-export type ThePosition = [number, number];
+export type Position = [number, number];

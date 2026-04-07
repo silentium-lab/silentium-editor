@@ -1,7 +1,7 @@
 import { Settings } from 'node:http2';
-import { TheNodeType } from './NodeType';
+import { NodeType } from './NodeType';
 import { TheSearchQuery } from './SearchQuery';
-import { TheNode } from './Node';
+import { Node } from './Node';
 
 export interface TheDocument {
   document: string;
@@ -9,8 +9,8 @@ export interface TheDocument {
   parent: string;
   progress: number;
   parentNames?: Record<string, string>;
-  types: Record<string, TheNodeType>;
-  objects: Record<string, TheNode>;
+  types: Record<string, NodeType>;
+  objects: Record<string, NodeType>;
   position?: [number, number];
   namedSearches?: TheSearchQuery[];
   settings: Settings;

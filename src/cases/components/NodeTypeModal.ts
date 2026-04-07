@@ -12,7 +12,7 @@ import {
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { TheNodeType } from '../../domain/NodeType';
+import { NodeType } from '../../domain/NodeType';
 import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
@@ -36,9 +36,9 @@ export function NodeTypeModal(this: MapModel) {
     opened$.use(true);
   });
 
-  const type$ = Late<TheNodeType>();
+  const type$ = Late<NodeType>();
   type$.then(type => {
-    const typeModel = this.type(type.id);
+    const typeModel = this.nodeType(type.id);
     typeModel.save(type);
     opened$.use(false);
     saved$.use(false);
@@ -47,7 +47,7 @@ export function NodeTypeModal(this: MapModel) {
   const deleted$ = Late();
   deleted$.then(console.log);
   const deletion = Polling(Of(Value(typeId$)), deleted$).then(typeId => {
-    const type = this.type(typeId.value.id);
+    const type = this.nodeType(typeId.value.id);
     type.delete();
     opened$.use(false);
   });

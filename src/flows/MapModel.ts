@@ -1,61 +1,78 @@
-import { Applied, Context, ContextChain, ContextOf, Late, MessageSourceType } from 'silentium';
+import { Applied, Context, ContextChain, ContextOf, Late, MessageSourceType, PassiveType } from 'silentium';
 import { HashTable, Path } from 'silentium-components';
-import { TheMap } from '../domain/Map';
+import { Map } from '../domain/Map';
 import { NodeNew } from '../domain/NodeNew';
-import { TheNodeType } from '../domain/NodeType';
-import { ThePosition } from '../domain/Position';
-import { MapObjectModel } from './MapObjectModel';
-import { MapTypeModel } from './MapTypeModel';
+import { NodeType } from '../domain/NodeType';
+import { Position } from '../domain/Position';
+import { NodeModel } from './NodeModel';
+import { NodeTypeModel } from './NodeTypeModel';
 import { SettingsModel } from './SettingsModel';
+import { fromJS } from 'immutable';
+import { Node } from '../domain/Node';
 
 export class MapModel {
-  private nodeEditBlockReasons$ = Late<[string, boolean]>();
+  private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
+  private readonly nodeBlockRecord$ = HashTable(this.nodeEditBlockReasons$);
+  private readonly map: PassiveType<Map>;
+  private readonly TYPES_KEY = 'types';
+  private readonly NODES_KEY = 'objects';
 
-  public constructor(private map$: MessageSourceType<TheMap>) {
+  public constructor(private map$: MessageSourceType<Map>) {
     this.objectEditBlockInit();
   }
-
-  public addType = (data: TheNodeType) => {
-    const newType = new MapTypeModel(this, Date.now().toString());
-    newType.save(data);
-    return this;
-  };
-
-  public addObject = (type: TheNodeType, position: ThePosition) => {
-    const object = NodeNew(type, position);
-    const newObject = new MapObjectModel(this, object.id);
-    newObject.save(object);
-    return this;
-  };
 
   public message() {
     return this.map$;
   }
 
-  public types() {
+  public nodeTypes() {
     return Applied(this.map$, map => Object.values(map.types));
   }
 
-  public type(id: string) {
-    return new MapTypeModel(this, id);
+  public nodeType(id: string) {
+    return new NodeTypeModel(this, id);
   }
 
-  public object(id: string) {
-    return new MapObjectModel(this, id);
+  public saveNodeType(data: NodeType) {
+    const state = fromJS(this.map.value);
+    this.map$.use(state.setIn([this.TYPES_KEY, data.id], data) as unknown as Map);
+    return this;
+  };
+
+  public deleteNodeType(id: string) {
+    const state = fromJS(this.map.value);
+    this.map$.use(state.deleteIn([this.TYPES_KEY, id]) as unknown as Map);
+    return this;
+  }
+
+  public activeNode() {
+    const activeId$ = Context<{ id: string }>('active-node-id');
+    return new NodeModel(this, Path(activeId$, 'id'));
+  }
+
+  public node(id: string) {
+    return new NodeModel(this, id);
+  }
+
+  public saveNode(data: Node) {
+    const state = fromJS(this.map.value);
+    this.map$.use(state.setIn([this.NODES_KEY, data.id], data) as unknown as Map);
+    return this;
+  }
+
+  public deleteNode(id: string) {
+    const state = fromJS(this.map.value);
+    this.map$.use(state.deleteIn([this.NODES_KEY, id]) as unknown as Map);
+    return this;
+  }
+
+  public addNode(type: NodeType, position: Position) {
+    this.saveNode(NodeNew(type, position));
+    return this;
   }
 
   public settings(): SettingsModel {
     return new SettingsModel(this);
-  }
-
-  public activeObject() {
-    const activeId$ = Context<{ id: string }>('active-node-id');
-    return new MapObjectModel(this, Path(activeId$, 'id'));
-  }
-
-  public save(newMap: TheMap) {
-    this.map$.use(newMap);
-    return this;
   }
 
   private objectEditBlockInit() {
@@ -63,8 +80,7 @@ export class MapModel {
   }
 
   public isNodeEditBlocked() {
-    const nodeBlockRecord$ = HashTable(this.nodeEditBlockReasons$);
-    return Applied(nodeBlockRecord$, record =>
+    return Applied(this.nodeBlockRecord$, record =>
       Object.values(record).some(v => v === true)
     );
   }

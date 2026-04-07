@@ -1,12 +1,12 @@
 import { Connected, Context, Late, Lazy, MessageSourceType, Value } from 'silentium';
 import { StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { TheMap } from '../../domain/Map';
+import { Map } from '../../domain/Map';
 import { Tr } from '../../io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 
-export function Relation(map$: MessageSourceType<TheMap>) {
+export function Relation(map$: MessageSourceType<Map>) {
   const mode$ = Late<TheStates>('waiting');
   const activeNodeId$ = Context('active-node-id');
   const relation$ = StateRecord(mode$, activeNodeId$, ['choosing', 'next']);

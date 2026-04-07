@@ -4,11 +4,11 @@ import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { ThePoint } from '../../domain/Point';
 import { ElementGeometry } from '../../io/ElementGeometry';
 import { Element } from 'silentium-web-api';
-import { TheMap } from '../../domain/Map';
+import { Map } from '../../domain/Map';
 
 const scale = 130 / 3000;
 
-export function MiniMap(map$: MessageType<TheMap>) {
+export function MiniMap(map$: MessageType<Map>) {
   const canvasPosition$ = Context<ThePoint>('canvas-position');
   const canvasRect$ = Applied(ElementGeometry('.nodes-view'), rect => {
     return {

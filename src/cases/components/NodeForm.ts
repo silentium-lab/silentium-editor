@@ -1,21 +1,21 @@
 import { Applied, Connected, Context, Filtered, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
 import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
-import { TheNode } from '../../domain/Node';
+import { Node } from '../../domain/Node';
 import { Tr } from '../../io/Translation';
-import { TheNodeType } from '../../domain/NodeType';
+import { NodeType } from '../../domain/NodeType';
 import { NodeRelations } from './NodeRelations';
-import { TheNodeRelation } from '../../domain/NodeRelation';
+import { NodeRelation } from '../../domain/NodeRelation';
 
 export function NodeForm(
-  object$: MessageSourceType<TheNode>,
+  object$: MessageSourceType<Node>,
   saved$: MessageType<boolean>,
-  types$: MessageType<TheNodeType[]>
+  types$: MessageType<Node[]>
 ) {
   const map$ = Context('map');
   const url = Value(Path<string>(map$, 'url'));
   console.log(url.value);
-  const local$ = Late<TheNode>();
+  const local$ = Late<Node>();
   const sub = object$.then(type => {
     local$.use(type);
   });
@@ -96,7 +96,7 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Relations'))} </b>
               <span class="block">
-                ${t.raw(NodeRelations(Part<TheNodeRelation[]>(local$, 'arrows')))}
+                ${t.raw(NodeRelations(Part<NodeRelation[]>(local$, 'arrows')))}
               </span>
             </label>
           </div>

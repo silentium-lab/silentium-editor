@@ -1,7 +1,7 @@
 /**
  * The type of a map node
  */
-export interface TheNodeType {
+export interface NodeType {
   id: string;
   name: string;
   markup: string;

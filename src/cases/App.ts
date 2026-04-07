@@ -8,7 +8,7 @@ import { PlatformName } from '../io/CapacitorPlatform';
 import { FilePickedFromFS } from './components/FilePickedFromFS';
 import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';
-import { AppModel } from '../flows/AppModel';
+import { Application } from '../flows/AppModel';
 
 /**
  * The main application entrypoint
@@ -34,7 +34,7 @@ export function App() {
   closed$.then(() => {
     content$.use('');
   });
-  const appModel = new AppModel();
+  const appModel = new Application();
   const router$ = Router<string>(
     Any(Applied(content$, compose(String, Boolean)), Polling(Of('false'), closed$)),
     [

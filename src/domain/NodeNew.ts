@@ -1,7 +1,8 @@
-import { TheNodeType } from './NodeType';
-import { ThePosition } from './Position';
+import { Node } from './Node';
+import { NodeType } from './NodeType';
+import { Position } from './Position';
 
-export function NodeNew(type: TheNodeType, position: ThePosition) {
+export function NodeNew(type: NodeType, position: Position): Node {
   return {
     additionalName: '',
     arrows: [],

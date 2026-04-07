@@ -1,9 +1,9 @@
 import LinkerLine from 'linkerline';
 import { All, DestroyContainer, Message, MessageType } from 'silentium';
-import { TheNode } from '../domain/Node';
+import { Node } from '../domain/Node';
 import { Element } from 'silentium-web-api';
 
-export function Line(node$: MessageType<TheNode>) {
+export function Line(node$: MessageType<Node>) {
   const arrowsArea$ = Element('.arrows-area');
   const dc = DestroyContainer();
   return Message((resolve, reject) => {

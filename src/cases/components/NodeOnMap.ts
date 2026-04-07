@@ -2,15 +2,15 @@ import { All, Connected, Context, MessageType, SourceType, Value, Void } from 's
 import { Path, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { TheNode, TheNodeWithTemplate } from '../../domain/Node';
-import { ThePosition } from '../../domain/Position';
+import { Node, NodeWithTemplate } from '../../domain/Node';
+import { Position } from '../../domain/Position';
 import { Draggable } from '../../io/Draggable';
 import { Line } from '../../io/Line';
 import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 
 export function NodeOnMap(
-  newNodePosition: SourceType<[TheNode, ThePosition]>,
-  node$: MessageType<TheNodeWithTemplate>
+  newNodePosition: SourceType<[Node, Position]>,
+  node$: MessageType<NodeWithTemplate>
 ) {
   const activeNodeId$ = Context('active-node-id');
   const left$ = Path(node$, 'node.position.0');
@@ -18,7 +18,7 @@ export function NodeOnMap(
   const id$ = Id();
   const container$ = Element(ClassName(id$));
   const draggable$ = Draggable(container$, {}, undefined, '.node-view');
-  newNodePosition.chain(All(Path<TheNode>(node$, 'node'), draggable$));
+  newNodePosition.chain(All(Path<Node>(node$, 'node'), draggable$));
   const line$ = Line(Path(node$, 'node')).then(Void());
   const node = Value(node$);
   const clicked$ = ClickWithoutDrag(container$);

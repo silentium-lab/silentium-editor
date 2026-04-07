@@ -40,7 +40,7 @@ function TypeNewModal(opened$: MessageSourceType<boolean>, mapModel: MapModel) {
     if (Object.values(type).length <= 1) {
       return;
     }
-    mapModel.type(type.id).save(type);
+    mapModel.nodeType(type.id).save(type);
     opened$.use(false);
   });
   const saved$ = Late(false);

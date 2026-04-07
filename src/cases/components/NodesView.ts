@@ -9,8 +9,8 @@ import {
 } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { TheNode } from '../../domain/Node';
-import { ThePosition } from '../../domain/Position';
+import { Node } from '../../domain/Node';
+import { Position } from '../../domain/Position';
 import { TheSize } from '../../domain/Size';
 import { MapModel } from '../../flows/MapModel';
 import { NodesWithTemplate } from '../../flows/NodesWithTemplate';
@@ -19,9 +19,9 @@ import { NodeOnMap } from './NodeOnMap';
 export function NodesView(mapModel: MapModel, mapSize: MaybeMessage<TheSize>) {
   const templates$ = NodesWithTemplate(mapModel.message());
   const mapSize$ = Actual(mapSize);
-  const newNodePosition$ = Late<[TheNode, ThePosition]>();
+  const newNodePosition$ = Late<[Node, Position]>();
   newNodePosition$.then(([node, position]) => {
-    const objectModel = mapModel.object(node.id);
+    const objectModel = mapModel.node(node.id);
     objectModel.newPosition(position);
   });
   return Connected<string>(

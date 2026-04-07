@@ -1,23 +1,23 @@
-import { TheNode } from './Node';
-import { TheNodeType } from './NodeType';
+import { Node } from './Node';
+import { NodeType } from './NodeType';
 import { TheSearchQuery } from './SearchQuery';
 import { TheSettings } from './Settings';
 
-export interface TheMap {
+export interface Map {
   document: string;
   url: string;
   parent: string;
   progress: number;
   parentNames?: Record<string, string>;
-  types: Record<string, TheNodeType>;
-  objects: Record<string, TheNode>;
+  types: Record<string, Node>;
+  objects: Record<string, Node>;
   position?: [number, number];
   namedSearches?: TheSearchQuery[];
   settings: TheSettings;
 }
 
 // Map object for tests
-export function FakeMap(): TheMap {
+export function FakeMap(): Map {
   return {
     document: 'Example',
     progress: 0,

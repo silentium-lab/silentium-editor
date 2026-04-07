@@ -13,9 +13,4 @@ export class SettingsModel {
   public message() {
     return this.settings;
   }
-
-  public save = (data: TheSettings) => {
-    this.settings.use({ ...data });
-    return this;
-  };
 }

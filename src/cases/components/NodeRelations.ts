@@ -1,10 +1,10 @@
 import { Applied, Late, Map, MessageSourceType, MessageType, Value } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { TheNodeRelation } from '../../domain/NodeRelation';
+import { NodeRelation } from '../../domain/NodeRelation';
 import { Tr } from '../../io/Translation';
 
-export function NodeRelations(arrows$: MessageSourceType<TheNodeRelation[]>) {
+export function NodeRelations(arrows$: MessageSourceType<NodeRelation[]>) {
   const deleted$ = Late<string>();
   const arrows = Value(arrows$);
   deleted$.then(id => {
@@ -22,7 +22,7 @@ export function NodeRelations(arrows$: MessageSourceType<TheNodeRelation[]>) {
   );
 }
 
-function NodeRelation(deleted$: MessageSourceType<string>, arrow: MessageType<TheNodeRelation>) {
+function NodeRelation(deleted$: MessageSourceType<string>, arrow: MessageType<NodeRelation>) {
   const currentArrow = Value(arrow);
   const clicked = Late();
   clicked.then(() => {

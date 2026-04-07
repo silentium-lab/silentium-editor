@@ -9,7 +9,7 @@ import {
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { TheNode } from '../../domain/Node';
+import { Node } from '../../domain/Node';
 import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { DateReadable } from '../formats/DateReadable';
@@ -28,16 +28,16 @@ export function NodeModal(this: MapModel) {
   });
   const deleted$ = Late();
   Polling(Of(Value(activeNodeId$)), deleted$).then(active => {
-    this.object(active.value.id).delete();
+    this.node(active.value.id).delete();
     opened$.use(false);
   });
 
   const saved$ = Late<boolean>(false);
-  const object$ = Late<TheNode>();
-  const activeObject = this.activeObject();
+  const object$ = Late<Node>();
+  const activeObject = this.activeNode();
   const activeObject$ = activeObject.message();
   object$.then(object => {
-    this.object(object.id).save(object);
+    this.node(object.id).save(object);
     opened$.use(false);
     saved$.use(false);
   });
@@ -69,7 +69,7 @@ export function NodeModal(this: MapModel) {
                       NodeForm(
                         SourceComputed(Any(object$, activeObject$), object$),
                         saved$,
-                        this.types()
+                        this.nodeTypes()
                       ),
                     () => Of('-')
                   )
