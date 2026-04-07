@@ -2,8 +2,7 @@ import { values } from 'lodash-es';
 import { Applied, Computed, MessageType } from 'silentium';
 import { Path } from 'silentium-components';
 import { Map } from '../domain/Map';
-import { Node, NodeWithTemplate } from '../domain/Node';
-import { NodeType } from '../domain/NodeType';
+import { Node, NodeAndTemplate } from '../domain/Node';
 import { NodeWithTemplate } from '../domain/NodeWithTemplate';
 
 /**
@@ -11,7 +10,7 @@ import { NodeWithTemplate } from '../domain/NodeWithTemplate';
  * compilation means insert values instead
  * variables placeholders
  */
-export function NodesWithTemplate(map$: MessageType<Map>): MessageType<NodeWithTemplate[]> {
+export function NodesWithTemplate(map$: MessageType<Map>): MessageType<NodeAndTemplate[]> {
   const objects$ = Applied<unknown, Node[]>(Path<Node>(map$, 'objects'), values);
   const types$ = Path<Record<string, Node>>(map$, 'types');
   return Computed(

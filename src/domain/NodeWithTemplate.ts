@@ -1,10 +1,10 @@
-import { Node, NodeWithTemplate } from './Node';
+import { Node, NodeAndTemplate } from './Node';
 import { NodeType } from './NodeType';
 
 const notFoundTemplateMarkup =
   '<div style="background:red;padding:10px;color:white">Template Not Found! id="$id"</div>';
 
-export function NodeWithTemplate(object: Node, types: NodeType[]): NodeWithTemplate {
+export function NodeWithTemplate(object: Node, types: NodeType[]): NodeAndTemplate {
   const type = types.find(ct => ct.name === object.type || ct.id === object.type);
   if (!type) {
     return {

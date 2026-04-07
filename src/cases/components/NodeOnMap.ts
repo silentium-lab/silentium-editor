@@ -2,7 +2,7 @@ import { All, Connected, Context, MessageType, SourceType, Value, Void } from 's
 import { Path, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Node, NodeWithTemplate } from '../../domain/Node';
+import { Node, NodeAndTemplate } from '../../domain/Node';
 import { Position } from '../../domain/Position';
 import { Draggable } from '../../io/Draggable';
 import { Line } from '../../io/Line';
@@ -10,7 +10,7 @@ import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[Node, Position]>,
-  node$: MessageType<NodeWithTemplate>
+  node$: MessageType<NodeAndTemplate>
 ) {
   const activeNodeId$ = Context('active-node-id');
   const left$ = Path(node$, 'node.position.0');

@@ -29,7 +29,7 @@ import { RulerY } from '../components/RulerY';
 import { Settings } from '../components/Settings';
 import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
-import { Application } from '../../flows/AppModel';
+import { Application } from '../../flows/Application';
 
 export function EditPage(this: Application, content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);

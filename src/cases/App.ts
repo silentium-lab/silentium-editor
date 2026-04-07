@@ -8,7 +8,7 @@ import { PlatformName } from '../io/CapacitorPlatform';
 import { FilePickedFromFS } from './components/FilePickedFromFS';
 import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';
-import { Application } from '../flows/AppModel';
+import { Application } from '../flows/Application';
 
 /**
  * The main application entrypoint
