@@ -7,10 +7,7 @@ import { Position } from '../../domain/Position';
 import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 import { Draggable } from '../../io/Draggable';
 
-export function TypeView(
-  newType: SourceType<[NodeType, Position]>,
-  type: MessageType<NodeType>
-) {
+export function TypeView(newType: SourceType<[NodeType, Position]>, type: MessageType<NodeType>) {
   const markup$ = Path(type, 'markup');
   const id$ = Id();
   const container$ = Element(ClassName(id$));

@@ -35,15 +35,12 @@ export function NodeTypeModal(this: MapModel) {
   typeId$.then(() => {
     opened$.use(true);
   });
-
   const type$ = Late<NodeType>();
   type$.then(type => {
-    const typeModel = this.nodeType(type.id);
-    typeModel.save(type);
+    this.saveNodeType(type);
     opened$.use(false);
     saved$.use(false);
   });
-
   const deleted$ = Late();
   deleted$.then(console.log);
   const deletion = Polling(Of(Value(typeId$)), deleted$).then(typeId => {
@@ -51,9 +48,7 @@ export function NodeTypeModal(this: MapModel) {
     type.delete();
     opened$.use(false);
   });
-
   const saved$ = Late(false);
-
   return Connected<string>(
     Mount(
       Modal(

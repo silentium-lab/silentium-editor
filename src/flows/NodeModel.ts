@@ -3,6 +3,7 @@ import { Position } from '../domain/Position';
 import { MapModel } from './MapModel';
 import { fromJS } from 'immutable';
 import { Node } from '../domain/Node';
+import { NodeRelation } from '../domain/NodeRelation';
 
 export class NodeModel {
   private readonly id: MessageType<string>;
@@ -20,7 +21,19 @@ export class NodeModel {
 
   public newPosition(position: Position) {
     const node = Value(this.message());
-    this.map.saveNode(fromJS(node.value).setIn(['position'], position) as unknown as Node)
+    this.map.saveNode(fromJS(node.value).setIn(['position'], position) as unknown as Node);
+  }
+
+  public newRelation(toNodeId: string) {
+    const node = Value(this.message());
+    this.map.saveNode(
+      fromJS(node.value).updateIn(['arrows'], (arr: NodeRelation[]) =>
+        arr.push({
+          id: toNodeId,
+          label: '',
+        })
+      ) as unknown as Node
+    );
   }
 
   public delete() {

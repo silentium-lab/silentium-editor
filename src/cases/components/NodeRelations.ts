@@ -14,10 +14,10 @@ export function NodeRelations(arrows$: MessageSourceType<NodeRelation[]>) {
     t =>
       html`<div>
         ${t.raw(
-        Applied(Map(arrows$, NodeRelation.bind(null, deleted$)), arr =>
-          arr.length ? arr.join('') : '-'
-        )
-      )}
+          Applied(Map(arrows$, NodeRelation.bind(null, deleted$)), arr =>
+            arr.length ? arr.join('') : '-'
+          )
+        )}
       </div>`
   );
 }
@@ -35,8 +35,8 @@ function NodeRelation(deleted$: MessageSourceType<string>, arrow: MessageType<No
       html`<div class="mb-1">
         ${t.escaped(Tr('Relation with'))} #${t.escaped(Path(arrow, 'id'))}
         ${t.raw(
-        Button('&times;', 'btn h-5 w-5 p-0 inline-flex justify-center items-center', clicked)
-      )}
+          Button('&times;', 'btn h-5 w-5 p-0 inline-flex justify-center items-center', clicked)
+        )}
       </div>`
   );
 }

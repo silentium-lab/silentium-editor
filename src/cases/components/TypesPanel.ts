@@ -8,8 +8,8 @@ import { Position } from '../../domain/Position';
 import { MapModel } from '../../flows/MapModel';
 import { TypeView } from './TypeView';
 
-export function TypesPanel(mapModel: MapModel) {
-  const types$ = Path(mapModel.message(), 'types');
+export function TypesPanel(this: MapModel) {
+  const types$ = Path(this.message(), 'types');
   const typesList$ = Computed(
     t => t.map(NodeTypeCompatibility),
     Computed(Object.entries<NodeType>, types$)
@@ -17,7 +17,7 @@ export function TypesPanel(mapModel: MapModel) {
   const newNode$ = Late<[NodeType, Position]>();
   const canvasPosition$ = Value(Context<ThePoint>('canvas-position'));
   newNode$.then(([type, position]) => {
-    mapModel.addNode(type, [
+    this.addNode(type, [
       position[0] + canvasPosition$.value.x - 200,
       position[1] + canvasPosition$.value.y + 40,
     ]);
@@ -27,11 +27,11 @@ export function TypesPanel(mapModel: MapModel) {
       t => html`
         <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
           ${t.raw(
-        Computed(
-          arr => arr.join(''),
-          Map(typesList$, t => TypeView(newNode$, t))
-        )
-      )}
+            Computed(
+              arr => arr.join(''),
+              Map(typesList$, t => TypeView(newNode$, t))
+            )
+          )}
         </div>
       `
     ),

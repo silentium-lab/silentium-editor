@@ -1,4 +1,12 @@
-import { Applied, Context, ContextChain, ContextOf, Late, MessageSourceType, PassiveType } from 'silentium';
+import {
+  Applied,
+  Context,
+  ContextChain,
+  ContextOf,
+  Late,
+  MessageSourceType,
+  PassiveType,
+} from 'silentium';
 import { HashTable, Path } from 'silentium-components';
 import { Map } from '../domain/Map';
 import { NodeNew } from '../domain/NodeNew';
@@ -37,7 +45,7 @@ export class MapModel {
     const state = fromJS(this.map.value);
     this.map$.use(state.setIn([this.TYPES_KEY, data.id], data) as unknown as Map);
     return this;
-  };
+  }
 
   public deleteNodeType(id: string) {
     const state = fromJS(this.map.value);
@@ -80,8 +88,6 @@ export class MapModel {
   }
 
   public isNodeEditBlocked() {
-    return Applied(this.nodeBlockRecord$, record =>
-      Object.values(record).some(v => v === true)
-    );
+    return Applied(this.nodeBlockRecord$, record => Object.values(record).some(v => v === true));
   }
 }

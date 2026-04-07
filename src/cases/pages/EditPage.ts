@@ -7,7 +7,7 @@ import {
   Local,
   MessageSourceType,
   MessageType,
-  SourceComputed
+  SourceComputed,
 } from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
@@ -31,7 +31,10 @@ import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
 import { Application } from '../../flows/Application';
 
-export function EditPage(this: Application, content$: MessageSourceType<string>): MessageType<string> {
+export function EditPage(
+  this: Application,
+  content$: MessageSourceType<string>
+): MessageType<string> {
   const localContent$ = Local(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
@@ -72,8 +75,8 @@ export function EditPage(this: Application, content$: MessageSourceType<string>)
           </div>
           <div
             class="${t.escaped(
-          canvasId$
-        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+              canvasId$
+            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView.call(this.map().get(), MapSize())))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
@@ -82,10 +85,11 @@ export function EditPage(this: Application, content$: MessageSourceType<string>)
             </div>
           </div>
           ${t.raw(NodeModal.call(this.map().get()))}
-          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))} ${t.raw(NodeTypeModal.call(this.map().get()))}
+          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
+          ${t.raw(NodeTypeModal.call(this.map().get()))}
         </div>`
     ),
     localContent$,
-    scrollable$,
+    scrollable$
   );
 }

@@ -1,12 +1,4 @@
-import {
-  Any,
-  Connected,
-  Context,
-  Late,
-  Of,
-  SourceComputed,
-  Value
-} from 'silentium';
+import { Any, Connected, Context, Late, Of, SourceComputed, Value } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { Node } from '../../domain/Node';
@@ -31,17 +23,15 @@ export function NodeModal(this: MapModel) {
     this.node(active.value.id).delete();
     opened$.use(false);
   });
-
   const saved$ = Late<boolean>(false);
-  const object$ = Late<Node>();
+  const node$ = Late<Node>();
   const activeObject = this.activeNode();
   const activeObject$ = activeObject.message();
-  object$.then(object => {
-    this.node(object.id).save(object);
+  node$.then(node => {
+    this.saveNode(node);
     opened$.use(false);
     saved$.use(false);
   });
-
   return Connected<string>(
     Mount(
       Modal(
@@ -67,7 +57,7 @@ export function NodeModal(this: MapModel) {
                     opened$,
                     () =>
                       NodeForm(
-                        SourceComputed(Any(object$, activeObject$), object$),
+                        SourceComputed(Any(node$, activeObject$), node$),
                         saved$,
                         this.nodeTypes()
                       ),

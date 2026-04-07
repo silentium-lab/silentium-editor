@@ -1,14 +1,14 @@
-import { All, Applied, Connected, Context, MessageType } from 'silentium';
+import { All, Applied, Connected, Context } from 'silentium';
 import { Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount } from 'silentium-ui';
-import { ThePoint } from '../../domain/Point';
-import { ElementGeometry } from '../../io/ElementGeometry';
 import { Element } from 'silentium-web-api';
-import { Map } from '../../domain/Map';
+import { ThePoint } from '../../domain/Point';
+import { MapModel } from '../../flows/MapModel';
+import { ElementGeometry } from '../../io/ElementGeometry';
 
 const scale = 130 / 3000;
 
-export function MiniMap(map$: MessageType<Map>) {
+export function MiniMap(this: MapModel) {
   const canvasPosition$ = Context<ThePoint>('canvas-position');
   const canvasRect$ = Applied(ElementGeometry('.nodes-view'), rect => {
     return {
@@ -34,7 +34,7 @@ export function MiniMap(map$: MessageType<Map>) {
           ${t.raw(
             Mount(
               Applied(
-                map$,
+                this.message(),
                 map =>
                   `<div class="mini-elements">${Object.values(map.objects)
                     .map(

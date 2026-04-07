@@ -1,48 +1,24 @@
-import { Connected, Context, Late, Lazy, MessageSourceType, Value } from 'silentium';
+import { Connected, Context, Late, Lazy, Value } from 'silentium';
 import { StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { Map } from '../../domain/Map';
+import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 
-export function Relation(map$: MessageSourceType<Map>) {
+export function Relation(this: MapModel) {
   const mode$ = Late<TheStates>('waiting');
-  const activeNodeId$ = Context('active-node-id');
-  const relation$ = StateRecord(mode$, activeNodeId$, ['choosing', 'next']);
-  const map = Value(map$);
+  const activeNode = this.activeNode();
+  const relation$ = StateRecord(mode$, activeNode.message(), ['choosing', 'next']);
   const rSub = relation$.then((relation: any) => {
-    const object = Object.values(map.value.objects).find(
-      object => object.id === relation.choosing.id
-    );
-    if (!object) {
-      throw new Error(`Relation: object was not found ${relation.choosing.id}`);
-    }
-    if (object) {
-      map$.use({
-        ...map.value,
-        objects: {
-          ...map.value.objects,
-          [object.id]: {
-            ...object,
-            arrows: [
-              ...object.arrows,
-              {
-                id: relation.next.id,
-                label: '',
-              },
-            ],
-          },
-        },
-      });
-    }
+    activeNode.newRelation(relation.next.id);
   });
   const mode = Value(mode$);
   const nodeEditBlock$ = Context<[string, boolean]>('node-edit-block-reasons');
   const modeSub = Task(mode$).then(v => {
     nodeEditBlock$.use(['relation', v !== 'waiting']);
   });
-  const anSub = activeNodeId$.then(() => {
+  const anSub = activeNode.message().then(() => {
     if (mode.value === 'next') {
       mode$.use('waiting');
     } else if (mode.value === 'choosing') {
@@ -90,7 +66,6 @@ export function Relation(map$: MessageSourceType<Map>) {
           )}
         </div>`
     ),
-    activeNodeId$,
     relation$,
     mode$,
     anSub,

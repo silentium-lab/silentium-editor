@@ -1,4 +1,14 @@
-import { Applied, Connected, Context, Filtered, Late, MessageSourceType, MessageType, Of, Value } from 'silentium';
+import {
+  Applied,
+  Connected,
+  Context,
+  Filtered,
+  Late,
+  MessageSourceType,
+  MessageType,
+  Of,
+  Value,
+} from 'silentium';
 import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { Node } from '../../domain/Node';
@@ -39,15 +49,23 @@ export function NodeForm(
             </label>
           </div>
           ${t.raw(
-          BranchLazy(Path(local$, 'linked'), () => Template(t => html`<div id="link" class="mb-2">
-              <label>
-                <span class="block">
-                  ${url.value}
-                  ${t.raw(Input(Part<string>(local$, 'outlink', url.value ?? '')))}
-                </span>
-              </label>
-            </div>`), () => Of(''))
-        )}
+            BranchLazy(
+              Path(local$, 'linked'),
+              () =>
+                Template(
+                  t =>
+                    html`<div id="link" class="mb-2">
+                      <label>
+                        <span class="block">
+                          ${url.value}
+                          ${t.raw(Input(Part<string>(local$, 'outlink', url.value ?? '')))}
+                        </span>
+                      </label>
+                    </div>`
+                ),
+              () => Of('')
+            )
+          )}
           <div id="name" class="mb-2">
             <label>
               <b> ${t.escaped(Tr('Name top'))} </b>
