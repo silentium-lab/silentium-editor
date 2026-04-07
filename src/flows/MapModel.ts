@@ -43,13 +43,13 @@ export class MapModel {
 
   public saveNodeType(data: NodeType) {
     const state = fromJS(this.map.value);
-    this.map$.use(state.setIn([this.TYPES_KEY, data.id], data) as unknown as Map);
+    this.map$.use(state.setIn([this.TYPES_KEY, data.id], data).toObject() as unknown as Map);
     return this;
   }
 
   public deleteNodeType(id: string) {
     const state = fromJS(this.map.value);
-    this.map$.use(state.deleteIn([this.TYPES_KEY, id]) as unknown as Map);
+    this.map$.use(state.deleteIn([this.TYPES_KEY, id]).toObject() as unknown as Map);
     return this;
   }
 
@@ -64,13 +64,13 @@ export class MapModel {
 
   public saveNode(data: Node) {
     const state = fromJS(this.map.value);
-    this.map$.use(state.setIn([this.NODES_KEY, data.id], data) as unknown as Map);
+    this.map$.use(state.setIn([this.NODES_KEY, data.id], data).toObject() as unknown as Map);
     return this;
   }
 
   public deleteNode(id: string) {
     const state = fromJS(this.map.value);
-    this.map$.use(state.deleteIn([this.NODES_KEY, id]) as unknown as Map);
+    this.map$.use(state.deleteIn([this.NODES_KEY, id]).toObject() as unknown as Map);
     return this;
   }
 

@@ -21,7 +21,7 @@ export class NodeModel {
 
   public newPosition(position: Position) {
     const node = Value(this.message());
-    this.map.saveNode(fromJS(node.value).setIn(['position'], position) as unknown as Node);
+    this.map.saveNode(fromJS(node.value).setIn(['position'], position).toObject() as unknown as Node);
   }
 
   public newRelation(toNodeId: string) {
@@ -32,7 +32,7 @@ export class NodeModel {
           id: toNodeId,
           label: '',
         })
-      ) as unknown as Node
+      ).toObject() as unknown as Node
     );
   }
 
