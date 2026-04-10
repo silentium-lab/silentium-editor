@@ -27,8 +27,8 @@ export function NodeModal(this: MapModel) {
   const node$ = Late<Node>();
   const activeObject = this.activeNode();
   const activeObject$ = activeObject.message();
-  node$.then(node => {
-    this.saveNode(node);
+  const saveDone$ = Late();
+  saveDone$.then(() => {
     opened$.use(false);
     saved$.use(false);
   });
@@ -57,9 +57,10 @@ export function NodeModal(this: MapModel) {
                     opened$,
                     () =>
                       NodeForm(
-                        SourceComputed(Any(node$, activeObject$), node$),
+                        activeObject,
                         saved$,
-                        this.nodeTypes()
+                        this.nodeTypes(),
+                        saveDone$
                       ),
                     () => Of('-')
                   )

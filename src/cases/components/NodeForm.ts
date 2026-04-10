@@ -4,27 +4,31 @@ import {
   Context,
   Filtered,
   Late,
-  MessageSourceType,
   MessageType,
   Of,
-  Value,
+  SourceComputed,
+  SourceType,
+  Value
 } from 'silentium';
 import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { Node } from '../../domain/Node';
 import { NodeRelation } from '../../domain/NodeRelation';
+import { NodeModel } from '../../flows/NodeModel';
 import { Tr } from '../../io/Translation';
 import { NodeRelations } from './NodeRelations';
+import { NodeVariables } from './NodeVariables';
 
 export function NodeForm(
-  object$: MessageSourceType<Node>,
+  nodeModel: NodeModel,
   saved$: MessageType<boolean>,
-  types$: MessageType<Node[]>
+  types$: MessageType<Node[]>,
+  done$: SourceType<object>,
 ) {
   const map$ = Context('map');
   const url = Value(Path<string>(map$, 'url'));
   const local$ = Late<Node>();
-  const sub = object$.then(type => {
+  const sub = nodeModel.message().then(type => {
     local$.use({...type, outlink: type.outlink || url.value});
   });
   const typesList$ = Applied(types$, types =>
@@ -32,9 +36,11 @@ export function NodeForm(
   );
   Polling(Of(Value(local$)), Filtered(saved$, Boolean)).then(object => {
     if (object.value) {
-      object$.use(object.value);
+      nodeModel.update(object.value);
+      done$.use({});
     }
   });
+  const additionalFields$ = Part(local$, 'additionalFields', {});
   return Connected<string>(
     Template(
       t =>
@@ -67,6 +73,14 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Name top'))} </b>
               <span class="block"> ${t.raw(Input(Part<string>(local$, 'additionalName')))} </span>
+            </label>
+          </div>
+          <div class="mb-2">
+            <label>
+              <b> ${t.escaped(Tr('Variables'))} </b>
+              <span class="block">
+                ${t.raw(NodeVariables(SourceComputed(additionalFields$, additionalFields$)))}
+              </span>
             </label>
           </div>
           <div class="mb-2">

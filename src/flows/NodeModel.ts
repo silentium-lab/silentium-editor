@@ -47,4 +47,15 @@ export class NodeModel {
     this.map.deleteNode(id.value);
     return this;
   }
+
+  public update(v: Node) {
+    this.map.saveNode(v);
+    return this;
+  }
+
+  public additionalFields(): MessageType<Record<string, string>> {
+    return Applied(All(this.message(), this.map.nodeTypes()), ([node, types]) => {
+      const type = types.find
+    })
+  }
 }

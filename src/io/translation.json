@@ -21,7 +21,10 @@
         "Creation date": "Дата создания",
         "Update date": "Дата изменения",
         "Name as link": "Название как ссылка",
-        "Relations": "Связи"
+        "Variables": "Переменные",
+        "Relations": "Связи",
+        "Description": "Описание",
+        "Z-index": "Глубина"
     },
     "en": {}
 }

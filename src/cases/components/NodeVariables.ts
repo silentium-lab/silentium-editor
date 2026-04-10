@@ -21,15 +21,16 @@ function NodeVariable(vars$: MessageSourceType<Record<string, string>>, theVar: 
     const varModel = Late<string>('');
     const sub = varModel.chain(Path(theVar, '1'));
     const varVal = Value(theVar);
-    All(Value(Of(vars$)), varModel).then(((vars, v)) => {
+    All(Of(Value(vars$)), varModel).then(([vars, v]) => {
         vars$.use({
             ...vars.value,
+            [varVal.value[0]]: v
         })
-    })
+    });
     return Connected(Template(
         t =>
             html`<div class="mb-1">
-        ${t.escaped(Tr('Relation with'))} #${t.escaped(Path(theVar, '0'))}
+        ${t.escaped(Tr('Variable: '))} #${t.escaped(Path(theVar, '0'))}
         ${t.raw(Input(varModel))}
       </div>`
     ), sub);

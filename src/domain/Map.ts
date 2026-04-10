@@ -9,7 +9,7 @@ export interface Map {
   parent: string;
   progress: number;
   parentNames?: Record<string, string>;
-  types: Record<string, Node>;
+  types: Record<string, NodeType>;
   objects: Record<string, Node>;
   position?: [number, number];
   namedSearches?: TheSearchQuery[];

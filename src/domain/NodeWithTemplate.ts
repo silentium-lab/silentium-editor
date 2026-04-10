@@ -21,7 +21,7 @@ export function NodeWithTemplate(object: Node, types: NodeType[]): NodeAndTempla
       markup = markup.replaceAll(`\${${key}}`, value);
     });
   }
-  ['width', 'height'].forEach(key => {
+  ['width', 'height', 'zindex'].forEach(key => {
     markup = markup.replaceAll(`\${${key}}`, (object as any)[key]);
   });
   return {
