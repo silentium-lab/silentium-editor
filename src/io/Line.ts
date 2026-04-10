@@ -17,6 +17,9 @@ export function Line(node$: MessageType<Node>) {
           relations.forEach(relation => {
             const toEl = document.querySelector('.node-id-' + relation.id);
             if (toEl) {
+              if (toEl === fromEl) {
+                throw new Error(`Line: self link detected`);
+              }
               const line = new LinkerLine({
                 parent: arrowsArea,
                 start: fromEl,

@@ -12,10 +12,9 @@ import {
 import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { Node } from '../../domain/Node';
-import { Tr } from '../../io/Translation';
-import { NodeType } from '../../domain/NodeType';
-import { NodeRelations } from './NodeRelations';
 import { NodeRelation } from '../../domain/NodeRelation';
+import { Tr } from '../../io/Translation';
+import { NodeRelations } from './NodeRelations';
 
 export function NodeForm(
   object$: MessageSourceType<Node>,
@@ -24,10 +23,9 @@ export function NodeForm(
 ) {
   const map$ = Context('map');
   const url = Value(Path<string>(map$, 'url'));
-  console.log(url.value);
   const local$ = Late<Node>();
   const sub = object$.then(type => {
-    local$.use(type);
+    local$.use({...type, outlink: type.outlink || url.value});
   });
   const typesList$ = Applied(types$, types =>
     types.map(type => ({ _id: type.id, title: type.name }))
@@ -57,7 +55,6 @@ export function NodeForm(
                     html`<div id="link" class="mb-2">
                       <label>
                         <span class="block">
-                          ${url.value}
                           ${t.raw(Input(Part<string>(local$, 'outlink', url.value ?? '')))}
                         </span>
                       </label>

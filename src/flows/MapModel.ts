@@ -6,6 +6,7 @@ import {
   Late,
   MessageSourceType,
   PassiveType,
+  Value,
 } from 'silentium';
 import { HashTable, Path } from 'silentium-components';
 import { Map } from '../domain/Map';
@@ -27,6 +28,7 @@ export class MapModel {
 
   public constructor(private map$: MessageSourceType<Map>) {
     this.objectEditBlockInit();
+    this.map = Value(map$);
   }
 
   public message() {

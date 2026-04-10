@@ -24,7 +24,7 @@ export class NodeModel {
     this.map.saveNode(fromJS(node.value).setIn(['position'], position).toObject() as unknown as Node);
   }
 
-  public newRelation(toNodeId: string) {
+  public toRelation(toNodeId: string) {
     const node = Value(this.message());
     this.map.saveNode(
       fromJS(node.value).updateIn(['arrows'], (arr: NodeRelation[]) =>
@@ -34,6 +34,12 @@ export class NodeModel {
         })
       ).toObject() as unknown as Node
     );
+  }
+
+  public fromRelation(fromNodeId: string) {
+    const node = this.map.node(fromNodeId);
+    node.toRelation(Value(this.id).value);
+    return this;
   }
 
   public delete() {

@@ -11,7 +11,7 @@ export function Relation(this: MapModel) {
   const activeNode = this.activeNode();
   const relation$ = StateRecord(mode$, activeNode.message(), ['choosing', 'next']);
   const rSub = relation$.then((relation: any) => {
-    activeNode.newRelation(relation.next.id);
+    activeNode.fromRelation(relation.choosing.id);
   });
   const mode = Value(mode$);
   const nodeEditBlock$ = Context<[string, boolean]>('node-edit-block-reasons');
