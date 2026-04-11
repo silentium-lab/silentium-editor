@@ -25,7 +25,7 @@ export function NodeModal(map: MapModel) {
   const saved$ = Late<boolean>(false);
   const activeObject = map.activeNode();
   const activeObject$ = Applied(activeObject.message(), (o) => o.data());
-  const saveDone$ = Late();
+  const saveDone$ = Late<object>();
   saveDone$.then(() => {
     opened$.use(false);
     saved$.use(false);
