@@ -55,13 +55,7 @@ export function NodeModal(this: MapModel) {
                 ${t.raw(
                   BranchLazy(
                     opened$,
-                    () =>
-                      NodeForm(
-                        activeObject,
-                        saved$,
-                        this.nodeTypes(),
-                        saveDone$
-                      ),
+                    () => NodeForm(activeObject, saved$, this.nodeTypes(), saveDone$),
                     () => Of('-')
                   )
                 )}

@@ -8,7 +8,7 @@ import {
   Of,
   SourceComputed,
   SourceType,
-  Value
+  Value,
 } from 'silentium';
 import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
@@ -23,13 +23,13 @@ export function NodeForm(
   nodeModel: NodeModel,
   saved$: MessageType<boolean>,
   types$: MessageType<Node[]>,
-  done$: SourceType<object>,
+  done$: SourceType<object>
 ) {
   const map$ = Context('map');
   const url = Value(Path<string>(map$, 'url'));
   const local$ = Late<Node>();
   const sub = nodeModel.message().then(type => {
-    local$.use({...type, outlink: type.outlink || url.value});
+    local$.use({ ...type, outlink: type.outlink || url.value });
   });
   const typesList$ = Applied(types$, types =>
     types.map(type => ({ _id: type.id, title: type.name }))

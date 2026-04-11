@@ -4,13 +4,10 @@ import { TheSettings } from '../domain/Settings';
 import { MapModel } from './MapModel';
 
 export class SettingsModel {
-  private settings: MessageSourceType<TheSettings>;
-
   public constructor(private map: MapModel) {
-    this.settings = Part(this.map.message(), 'settings');
   }
 
   public message() {
-    return this.settings;
+    return {};
   }
 }

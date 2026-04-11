@@ -30,9 +30,7 @@ import { TypeNew } from '../components/TypeNew';
 import { TypesPanel } from '../components/TypesPanel';
 import { MapModel } from '../../flows/MapModel';
 
-export function EditPage(
-  content$: MessageSourceType<string>
-): MessageType<string> {
+export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
@@ -82,8 +80,7 @@ export function EditPage(
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
-          ${t.raw(NodeModal.call(mapModel))}
-          ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
+          ${t.raw(NodeModal.call(mapModel))} ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
           ${t.raw(NodeTypeModal.call(mapModel))}
         </div>`
     ),

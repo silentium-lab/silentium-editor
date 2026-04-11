@@ -1,9 +1,9 @@
-import { Actual, All, Applied, MaybeMessage, MessageType, Value } from 'silentium';
-import { Position } from '../domain/Position';
-import { MapModel } from './MapModel';
 import { fromJS } from 'immutable';
+import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'silentium';
 import { Node } from '../domain/Node';
 import { NodeRelation } from '../domain/NodeRelation';
+import { Position } from '../domain/Position';
+import { MapModel } from './MapModel';
 
 export class NodeModel {
   private readonly id: MessageType<string>;
@@ -16,46 +16,46 @@ export class NodeModel {
   }
 
   public message() {
-    return Applied(All(this.map.message(), this.id), ([map, id]) => map.objects[id]);
+    return Applied(All(this.map.message(), this.id), ([map, id]) => map.nodeById(id));
   }
 
   public newPosition(position: Position) {
-    const node = Value(this.message());
-    this.map.saveNode(fromJS(node.value).setIn(['position'], position).toObject() as unknown as Node);
+    const node = Primitive(this.message());
+    this.map.saveNode(
+      fromJS(node.primitiveWithException())
+        .setIn(['position'], position)
+        .toObject() as unknown as Node
+    );
   }
 
   public toRelation(toNodeId: string) {
-    const node = Value(this.message());
+    const node = Primitive(Applied(this.message(), (n) => n.data()));
     this.map.saveNode(
-      fromJS(node.value).updateIn(['arrows'], (arr: NodeRelation[]) =>
-        arr.push({
-          id: toNodeId,
-          label: '',
-        })
-      ).toObject() as unknown as Node
+      fromJS(node.primitiveWithException())
+        .updateIn(['arrows'], (arr) =>
+          (arr as NodeRelation[]).push({
+            id: toNodeId,
+            label: '',
+          })
+        )
+        .toObject() as unknown as Node
     );
   }
 
   public fromRelation(fromNodeId: string) {
     const node = this.map.node(fromNodeId);
-    node.toRelation(Value(this.id).value);
+    node.toRelation(Primitive(this.id).primitiveWithException());
     return this;
   }
 
   public delete() {
-    const id = Value(this.id);
-    this.map.deleteNode(id.value);
+    const id = Primitive(this.id);
+    this.map.deleteNode(id.primitiveWithException());
     return this;
   }
 
   public update(v: Node) {
     this.map.saveNode(v);
     return this;
-  }
-
-  public additionalFields(): MessageType<Record<string, string>> {
-    return Applied(All(this.message(), this.map.nodeTypes()), ([node, types]) => {
-      const type = types.find
-    })
   }
 }

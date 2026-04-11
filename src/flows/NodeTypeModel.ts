@@ -1,4 +1,4 @@
-import { Actual, All, Applied, MaybeMessage, MessageType, Value } from 'silentium';
+import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'silentium';
 import { MapModel } from './MapModel';
 
 export class NodeTypeModel {
@@ -12,12 +12,12 @@ export class NodeTypeModel {
   }
 
   public message() {
-    return Applied(All(this.map.message(), this.id), ([map, id]) => map.types[id]);
+    return Applied(All(this.map.message(), this.id), ([map, id]) => map.typeById(id));
   }
 
   public delete() {
-    const id = Value(this.id);
-    this.map.deleteNode(id.value);
+    const id = Primitive(this.id);
+    this.map.deleteNode(id.primitiveWithException());
     return this;
   }
 }
