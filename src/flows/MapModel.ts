@@ -38,6 +38,14 @@ export class MapModel {
     return Applied(this.map$, (map) => new MapEntity(map));
   }
 
+  public size() {
+    return Applied(this.message(), (m) => m.size());
+  }
+
+  public url() {
+    return Applied(this.message(), (m) => m.data().url)
+  }
+
   public nodeTypes() {
     return Applied(this.message(), map => map.types());
   }
@@ -56,6 +64,10 @@ export class MapModel {
     const state = fromJS(this.map.primitiveWithException());
     this.map$.use(state.deleteIn([this.TYPES_KEY, id]).toObject() as unknown as Map);
     return this;
+  }
+
+  public nodes() {
+    return Applied(this.message(), (m) => m.nodes());
   }
 
   public activeNode() {

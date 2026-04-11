@@ -1,16 +1,17 @@
-import { All, Connected, Context, MessageType, SourceType, Value, Void } from 'silentium';
+import { All, Connected, Context, MessageType, Primitive, SourceType, Void } from 'silentium';
 import { Path, Template } from 'silentium-components';
-import { ClassName, Clicked, html, Id } from 'silentium-ui';
+import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Node, NodeAndTemplate } from '../../domain/Node';
+import { Node } from '../../domain/Node';
+import { NodeEntity } from '../../domain/NodeEntity';
 import { Position } from '../../domain/Position';
+import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 import { Draggable } from '../../io/Draggable';
 import { Line } from '../../io/Line';
-import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[Node, Position]>,
-  node$: MessageType<NodeAndTemplate>
+  node$: MessageType<NodeEntity>
 ) {
   const activeNodeId$ = Context('active-node-id');
   const left$ = Path(node$, 'node.position.0');
@@ -21,20 +22,18 @@ export function NodeOnMap(
   const draggable$ = Draggable(container$, {}, undefined, '.node-view');
   newNodePosition.chain(All(Path<Node>(node$, 'node'), draggable$));
   const line$ = Line(Path(node$, 'node')).then(Void());
-  const node = Value(node$);
+  const node = Primitive(node$);
   const clicked$ = ClickWithoutDrag(container$);
   clicked$.then(e => {
-    if (node.value.node.id) {
-      activeNodeId$.use({ id: node.value.node.id });
-    }
+    activeNodeId$.use({ id: node.primitiveWithException().data().id });
   });
   return Connected<string>(
     Template(
       t =>
         html`<div
           class="node-view select-none absolute ${t.escaped(id$)} node-id-${t.escaped(
-            Path(node$, 'node.id')
-          )}"
+          Path(node$, 'node.id')
+        )}"
           style="left: ${t.escaped(left$)}px;top: ${t.escaped(top$)}px;z-index: ${t.escaped(z$)}"
         >
           ${t.raw(Path(node$, 'template'))}

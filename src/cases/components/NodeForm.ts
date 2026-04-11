@@ -6,6 +6,7 @@ import {
   Late,
   MessageType,
   Of,
+  Primitive,
   SourceComputed,
   SourceType,
   Value,
@@ -14,29 +15,28 @@ import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components'
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { Node } from '../../domain/Node';
 import { NodeRelation } from '../../domain/NodeRelation';
-import { NodeModel } from '../../flows/NodeModel';
+import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { NodeRelations } from './NodeRelations';
 import { NodeVariables } from './NodeVariables';
 
 export function NodeForm(
-  nodeModel: NodeModel,
+  map: MapModel,
   saved$: MessageType<boolean>,
-  types$: MessageType<Node[]>,
   done$: SourceType<object>
 ) {
-  const map$ = Context('map');
-  const url = Value(Path<string>(map$, 'url'));
+  const url = Primitive(map.url());
   const local$ = Late<Node>();
-  const sub = nodeModel.message().then(type => {
-    local$.use({ ...type, outlink: type.outlink || url.value });
+  const activeNode = map.activeNode();
+  const sub = activeNode.message().then(node => {
+    local$.use({ ...node.data(), outlink: node.data().outlink || url.primitiveWithException() });
   });
-  const typesList$ = Applied(types$, types =>
-    types.map(type => ({ _id: type.id, title: type.name }))
+  const typesList$ = Applied(map.nodeTypes(), types =>
+    types.map(type => ({ _id: type.data().id, title: type.data().name }))
   );
   Polling(Of(Value(local$)), Filtered(saved$, Boolean)).then(object => {
     if (object.value) {
-      nodeModel.update(object.value);
+      activeNode.update(object.value);
       done$.use({});
     }
   });
@@ -53,22 +53,22 @@ export function NodeForm(
             </label>
           </div>
           ${t.raw(
-            BranchLazy(
-              Path(local$, 'linked'),
-              () =>
-                Template(
-                  t =>
-                    html`<div id="link" class="mb-2">
+          BranchLazy(
+            Path(local$, 'linked'),
+            () =>
+              Template(
+                t =>
+                  html`<div id="link" class="mb-2">
                       <label>
                         <span class="block">
-                          ${t.raw(Input(Part<string>(local$, 'outlink', url.value ?? '')))}
+                          ${t.raw(Input(Part<string>(local$, 'outlink', url.primitiveWithException() ?? '')))}
                         </span>
                       </label>
                     </div>`
-                ),
-              () => Of('')
-            )
-          )}
+              ),
+            () => Of('')
+          )
+        )}
           <div id="name" class="mb-2">
             <label>
               <b> ${t.escaped(Tr('Name top'))} </b>

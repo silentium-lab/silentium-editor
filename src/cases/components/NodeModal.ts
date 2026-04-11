@@ -1,17 +1,16 @@
-import { Any, Connected, Context, Late, Of, SourceComputed, Value } from 'silentium';
+import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { Node } from '../../domain/Node';
 import { MapModel } from '../../flows/MapModel';
 import { Tr } from '../../io/Translation';
 import { DateReadable } from '../formats/DateReadable';
 import { Modal } from './Modal';
 import { NodeForm } from './NodeForm';
 
-export function NodeModal(this: MapModel) {
+export function NodeModal(map: MapModel) {
   const opened$ = Late(false);
   const activeNodeId$ = Context<{ id: string }>('active-node-id');
-  const nodeEditBlock = Value(this.isNodeEditBlocked());
+  const nodeEditBlock = Value(map.isNodeEditBlocked());
   activeNodeId$.then(() => {
     if (nodeEditBlock.value) {
       return;
@@ -19,14 +18,13 @@ export function NodeModal(this: MapModel) {
     opened$.use(true);
   });
   const deleted$ = Late();
-  Polling(Of(Value(activeNodeId$)), deleted$).then(active => {
-    this.node(active.value.id).delete();
+  Polling(Of(Primitive(activeNodeId$)), deleted$).then(active => {
+    map.node(active.primitiveWithException().id).delete();
     opened$.use(false);
   });
   const saved$ = Late<boolean>(false);
-  const node$ = Late<Node>();
-  const activeObject = this.activeNode();
-  const activeObject$ = activeObject.message();
+  const activeObject = map.activeNode();
+  const activeObject$ = Applied(activeObject.message(), (o) => o.data());
   const saveDone$ = Late();
   saveDone$.then(() => {
     opened$.use(false);
@@ -53,12 +51,12 @@ export function NodeModal(this: MapModel) {
               </div>
               <div class="mb-2">
                 ${t.raw(
-                  BranchLazy(
-                    opened$,
-                    () => NodeForm(activeObject, saved$, this.nodeTypes(), saveDone$),
-                    () => Of('-')
-                  )
-                )}
+              BranchLazy(
+                opened$,
+                () => NodeForm(map, saved$, saveDone$),
+                () => Of('-')
+              )
+            )}
               </div>
             </div>`
         ),

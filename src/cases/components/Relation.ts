@@ -6,9 +6,9 @@ import { Tr } from '../../io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 
-export function Relation(this: MapModel) {
+export function Relation(map: MapModel) {
   const mode$ = Late<TheStates>('waiting');
-  const activeNode = this.activeNode();
+  const activeNode = map.activeNode();
   const relation$ = StateRecord(mode$, activeNode.message(), ['choosing', 'next']);
   const rSub = relation$.then((relation: any) => {
     activeNode.fromRelation(relation.choosing.id);
@@ -30,40 +30,40 @@ export function Relation(this: MapModel) {
       t =>
         html`<div class="mt-auto p-2">
           ${t.raw(
-            Switch(mode$, [
-              [
-                'waiting',
-                Lazy(() =>
-                  Button(Tr('Choose object'), 'btn w-full cursor-pointer', mode$, '', 'choosing')
-                ),
-              ],
-              [
-                'choosing',
-                // TODO why Lazy required?
-                Lazy(() =>
-                  Button(
-                    Tr('Cancel'),
-                    'btn w-full cursor-pointer bg-danger text-base',
-                    mode$,
-                    '',
-                    'waiting'
-                  )
-                ),
-              ],
-              [
-                'next',
-                Lazy(() =>
-                  Button(
-                    Tr('Next or cancel'),
-                    'btn w-full cursor-pointer bg-danger text-base',
-                    mode$,
-                    '',
-                    'waiting'
-                  )
-                ),
-              ],
-            ])
-          )}
+          Switch(mode$, [
+            [
+              'waiting',
+              Lazy(() =>
+                Button(Tr('Choose object'), 'btn w-full cursor-pointer', mode$, '', 'choosing')
+              ),
+            ],
+            [
+              'choosing',
+              // TODO why Lazy required?
+              Lazy(() =>
+                Button(
+                  Tr('Cancel'),
+                  'btn w-full cursor-pointer bg-danger text-base',
+                  mode$,
+                  '',
+                  'waiting'
+                )
+              ),
+            ],
+            [
+              'next',
+              Lazy(() =>
+                Button(
+                  Tr('Next or cancel'),
+                  'btn w-full cursor-pointer bg-danger text-base',
+                  mode$,
+                  '',
+                  'waiting'
+                )
+              ),
+            ],
+          ])
+        )}
         </div>`
     ),
     relation$,

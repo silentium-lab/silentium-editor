@@ -5,6 +5,10 @@ import { NodeTypeEntity } from './NodeTypeEntity';
 export class MapEntity {
   public constructor(private map: Map) { }
 
+  public data() {
+    return this.map;
+  }
+
   public nodes() {
     return Object.values(this.map.objects).map(
       node => new NodeEntity(node, this.typeById(node.type))

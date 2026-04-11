@@ -7,8 +7,8 @@ import {
   Late,
   Local,
   Of,
-  SourceComputed,
-  Value,
+  Primitive,
+  SourceComputed
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
@@ -18,18 +18,11 @@ import { Tr } from '../../io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
 
-export function NodeTypeModal(this: MapModel) {
+export function NodeTypeModal(map: MapModel) {
   const typeId$ = Context<{ id: string }>('active-node-type-id');
-  const localMap$ = Local(this.message());
+  const localMap$ = Local(map.message());
   const activeType$ = Applied(All(typeId$, localMap$), ([typeId, localMap]) => {
-    const types = Object.values(localMap.types);
-    if (!types) {
-      throw Error('Type not found!');
-    }
-    if (types[typeId.id]) {
-      return types[typeId.id];
-    }
-    return types.find(t => t.id === typeId.id || t.name === typeId.id);
+    return localMap.typeById(typeId.id).data();
   });
   const opened$ = Late(false);
   typeId$.then(() => {
@@ -37,14 +30,14 @@ export function NodeTypeModal(this: MapModel) {
   });
   const type$ = Late<NodeType>();
   type$.then(type => {
-    this.saveNodeType(type);
+    map.saveNodeType(type);
     opened$.use(false);
     saved$.use(false);
   });
   const deleted$ = Late();
   deleted$.then(console.log);
-  const deletion = Polling(Of(Value(typeId$)), deleted$).then(typeId => {
-    const type = this.nodeType(typeId.value.id);
+  const deletion = Polling(Of(Primitive(typeId$)), deleted$).then(typeId => {
+    const type = map.nodeType(typeId.primitiveWithException().id);
     type.delete();
     opened$.use(false);
   });
@@ -58,12 +51,12 @@ export function NodeTypeModal(this: MapModel) {
             html`<div>
               <div>
                 ${t.raw(
-                  BranchLazy(
-                    opened$,
-                    () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
-                    () => Of('-')
-                  )
-                )}
+              BranchLazy(
+                opened$,
+                () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
+                () => Of('-')
+              )
+            )}
               </div>
             </div>`
         ),

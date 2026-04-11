@@ -8,7 +8,14 @@ export class NodeEntity {
   ) { }
 
   public data() {
-    return this.node;
+    return {
+      ...this.node,
+      additionalFields: this.additionalFields()
+    };
+  }
+
+  public type() {
+    return this.nodeType;
   }
 
   public template() {
