@@ -1,7 +1,7 @@
 import { Connected, Late, MessageSourceType, Of } from 'silentium';
 import { BranchLazy, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { MapModel } from '@/flows/MapModel';
+import { MapModel } from '@/models/MapModel';
 import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
@@ -17,14 +17,14 @@ export function TypeNew(mapModel: MapModel) {
       t =>
         html`<div class="w-full">
           ${t.raw(
-            Mount(
-              BranchLazy(
-                opened$,
-                () => TypeNewModal(opened$, mapModel),
-                () => Of('<div></div>')
-              )
+          Mount(
+            BranchLazy(
+              opened$,
+              () => TypeNewModal(opened$, mapModel),
+              () => Of('<div></div>')
             )
-          )}
+          )
+        )}
           ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
         </div>`
     ),

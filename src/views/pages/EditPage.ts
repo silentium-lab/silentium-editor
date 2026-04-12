@@ -12,22 +12,22 @@ import {
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Map } from '@/domain/Map';
-import { MapModel } from '@/flows/MapModel';
+import { Map } from '@/entities/Map';
+import { MapModel } from '@/models/MapModel';
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
-import { ArrowsArea } from '@/cases/components/ArrowsArea';
-import { MiniMap } from '@/cases/components/MiniMap';
-import { NavigationPanel } from '@/cases/components/NavigationPanel';
-import { NodeModal } from '@/cases/components/NodeModal';
-import { NodesView } from '@/cases/components/NodesView';
-import { NodeTypeModal } from '@/cases/components/NodeTypeModal';
-import { Relation } from '@/cases/components/Relation';
-import { RulerX } from '@/cases/components/RulerX';
-import { RulerY } from '@/cases/components/RulerY';
-import { Settings } from '@/cases/components/Settings';
-import { TypeNew } from '@/cases/components/TypeNew';
-import { TypesPanel } from '@/cases/components/TypesPanel';
+import { ArrowsArea } from '@/views/components/ArrowsArea';
+import { MiniMap } from '@/views/components/MiniMap';
+import { NavigationPanel } from '@/views/components/NavigationPanel';
+import { NodeModal } from '@/views/components/NodeModal';
+import { NodesView } from '@/views/components/NodesView';
+import { NodeTypeModal } from '@/views/components/NodeTypeModal';
+import { Relation } from '@/views/components/Relation';
+import { RulerX } from '@/views/components/RulerX';
+import { RulerY } from '@/views/components/RulerY';
+import { Settings } from '@/views/components/Settings';
+import { TypeNew } from '@/views/components/TypeNew';
+import { TypesPanel } from '@/views/components/TypesPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);

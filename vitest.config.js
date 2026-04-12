@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     pool: 'forks',
     globals: true,
+    reporters: ['default'],
   },
   resolve: {},
   outputFile: {

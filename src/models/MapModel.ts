@@ -10,16 +10,16 @@ import {
   PrimitiveImpl,
 } from 'silentium';
 import { HashTable, Path } from 'silentium-components';
-import { Map } from '@/domain/Map';
-import { Node } from '@/domain/Node';
-import { NodeType } from '@/domain/NodeType';
-import { Position } from '@/domain/Position';
+import { Map } from '@/entities/Map';
+import { Node } from '@/entities/Node';
+import { NodeType } from '@/entities/NodeType';
+import { Position } from '@/entities/Position';
 import { NodeModel } from './NodeModel';
 import { NodeTypeModel } from './NodeTypeModel';
 import { SettingsModel } from './SettingsModel';
-import { MapEntity } from '@/domain/MapEntity';
-import { NodeTypeEntity } from '@/domain/NodeTypeEntity';
-import { NodeEntity } from '@/domain/NodeEntity';
+import { MapEntity } from '@/entities/MapEntity';
+import { NodeTypeEntity } from '@/entities/NodeTypeEntity';
+import { NodeEntity } from '@/entities/NodeEntity';
 
 export class MapModel {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();

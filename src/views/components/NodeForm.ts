@@ -11,9 +11,9 @@ import {
 } from 'silentium';
 import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
-import { Node } from '@/domain/Node';
-import { NodeRelation } from '@/domain/NodeRelation';
-import { MapModel } from '@/flows/MapModel';
+import { Node } from '@/entities/Node';
+import { NodeRelation } from '@/entities/NodeRelation';
+import { MapModel } from '@/models/MapModel';
 import { Tr } from '@/io/Translation';
 import { NodeRelations } from './NodeRelations';
 import { NodeVariables } from './NodeVariables';

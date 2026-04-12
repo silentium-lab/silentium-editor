@@ -1,9 +1,8 @@
-import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
-import { BranchLazy, Path, Polling, Template } from 'silentium-components';
-import { Button, html, Mount } from 'silentium-ui';
-import { MapModel } from '@/flows/MapModel';
 import { Tr } from '@/io/Translation';
-import { DateReadable } from '@/cases/formats/DateReadable';
+import { MapModel } from '@/models/MapModel';
+import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
+import { BranchLazy, Getter, Path, Polling, Template } from 'silentium-components';
+import { Button, html, Mount } from 'silentium-ui';
 import { Modal } from './Modal';
 import { NodeForm } from './NodeForm';
 
@@ -40,13 +39,13 @@ export function NodeModal(map: MapModel) {
               <div class="mb-2">
                 <b>
                   ${t.escaped(Tr('Creation date'))}:
-                  ${t.escaped(DateReadable(Path(activeObject$, 'createTimestamp')))}
+                  ${t.escaped(Getter(activeObject$, 'createdAt'))}
                 </b>
               </div>
               <div class="mb-2">
                 <b>
                   ${t.escaped(Tr('Update date'))}:
-                  ${t.escaped(DateReadable(Path(activeObject$, 'changeTimestamp')))}
+                  ${t.escaped(Getter(activeObject$, 'changedAt'))}
                 </b>
               </div>
               <div class="mb-2">

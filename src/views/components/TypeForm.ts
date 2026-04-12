@@ -1,7 +1,7 @@
 import { Connected, Filtered, Late, MessageSourceType, MessageType, Of, Primitive } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
 import { html, Input, Textarea } from 'silentium-ui';
-import { NodeType } from '@/domain/NodeType';
+import { NodeType } from '@/entities/NodeType';
 import { Tr } from '@/io/Translation';
 
 export function TypeForm(type$: MessageSourceType<NodeType>, saved$: MessageType<boolean>) {

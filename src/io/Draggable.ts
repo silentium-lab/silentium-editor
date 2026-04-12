@@ -1,7 +1,7 @@
 import { Connected, DestroyContainer, Late, MessageType, SourceType } from 'silentium';
 import Draggabilly from 'draggabilly';
-import { Position } from '@/domain/Position';
-import { PositionMultiplied } from '@/domain/PositionMultiplied';
+import { Position } from '@/entities/Position';
+import { PositionMultiplied } from '@/entities/PositionMultiplied';
 
 const defaultGridMultiplier = 15;
 

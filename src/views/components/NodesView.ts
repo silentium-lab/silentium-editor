@@ -1,9 +1,9 @@
 import { Applied, Connected, Late, Map } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { Node } from '@/domain/Node';
-import { Position } from '@/domain/Position';
-import { MapModel } from '@/flows/MapModel';
+import { Node } from '@/entities/Node';
+import { Position } from '@/entities/Position';
+import { MapModel } from '@/models/MapModel';
 import { NodeOnMap } from './NodeOnMap';
 
 export function NodesView(map: MapModel) {

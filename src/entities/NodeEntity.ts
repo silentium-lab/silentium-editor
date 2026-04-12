@@ -1,3 +1,4 @@
+import { DateEntity } from '@/entities/DateEntity';
 import { Node } from './Node';
 import { NodeTypeEntity } from './NodeTypeEntity';
 import { Position } from './Position';
@@ -36,6 +37,14 @@ export class NodeEntity {
     return Object.fromEntries(
       Array.from(this.nodeType.template().matchAll(/\$\{(.+)\}/gi)).map(match => [match[1], ''])
     );
+  }
+
+  public createdAt() {
+    return DateEntity.fromTimestamp(this.node.createTimestamp).readable();
+  }
+
+  public changedAt() {
+    return DateEntity.fromTimestamp(this.node.changeTimestamp).readable();
   }
 
   public static newNode(type: NodeTypeEntity, position: Position) {

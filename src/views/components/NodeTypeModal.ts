@@ -12,8 +12,8 @@ import {
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { NodeType } from '@/domain/NodeType';
-import { MapModel } from '@/flows/MapModel';
+import { NodeType } from '@/entities/NodeType';
+import { MapModel } from '@/models/MapModel';
 import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';

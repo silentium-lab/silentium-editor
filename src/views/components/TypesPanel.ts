@@ -1,11 +1,11 @@
 import { Applied, Computed, Connected, Context, Late, Map, Primitive } from 'silentium';
 import { Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { NodeTypeEntity } from '@/domain/NodeTypeEntity';
-import { ThePoint } from '@/domain/Point';
-import { Position } from '@/domain/Position';
-import { MapModel } from '@/flows/MapModel';
-import { TypeView } from '@/cases/components/TypeView';
+import { NodeTypeEntity } from '@/entities/NodeTypeEntity';
+import { ThePoint } from '@/entities/Point';
+import { Position } from '@/entities/Position';
+import { MapModel } from '@/models/MapModel';
+import { TypeView } from '@/views/components/TypeView';
 
 export function TypesPanel(map: MapModel) {
   const types$ = Applied(map.message(), (m) => m.types());
