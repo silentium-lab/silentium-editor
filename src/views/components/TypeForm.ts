@@ -9,7 +9,7 @@ import {
 } from 'silentium';
 import { Part, Polling, Template } from 'silentium-components';
 import { html, Input, Textarea } from 'silentium-ui';
-import { NodeType } from '@/entities/NodeType';
+import { NodeType } from '@/cells/NodeType';
 import { Tr } from '@/io/Translation';
 
 export function TypeForm(type$: MessageSourceType<NodeType>, saved$: MessageType<boolean>) {
@@ -41,8 +41,8 @@ export function TypeForm(type$: MessageSourceType<NodeType>, saved$: MessageType
             <label>
               <b> ${t.escaped(Tr('Code'))} </b>
               ${t.raw(
-                Textarea(markup$, 'border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24')
-              )}
+          Textarea(markup$, 'border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24')
+        )}
             </label>
           </div>
           <div class="mb-2">

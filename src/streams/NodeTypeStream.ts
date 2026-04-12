@@ -1,5 +1,5 @@
 import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { MapActor } from './MapActor';
+import { MapActor } from './MapStream';
 
 export class NodeTypeActor {
   private id: MessageType<string>;

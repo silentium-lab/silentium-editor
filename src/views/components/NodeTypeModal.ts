@@ -12,8 +12,8 @@ import {
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { NodeType } from '@/entities/NodeType';
-import { MapActor } from '@/actors/MapActor';
+import { NodeType } from '@/cells/NodeType';
+import { MapActor } from '@/streams/MapStream';
 import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
@@ -51,12 +51,12 @@ export function NodeTypeModal(map: MapActor) {
             html`<div>
               <div>
                 ${t.raw(
-                  BranchLazy(
-                    opened$,
-                    () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
-                    () => Of('-')
-                  )
-                )}
+              BranchLazy(
+                opened$,
+                () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
+                () => Of('-')
+              )
+            )}
               </div>
             </div>`
         ),

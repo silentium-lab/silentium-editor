@@ -1,10 +1,10 @@
 import { fromJS } from 'immutable';
 import { Actual, All, Applied, Filtered, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { Node } from '@/entities/Node';
-import { NodeRelation } from '@/entities/NodeRelation';
-import { Position } from '@/entities/Position';
-import { MapActor } from './MapActor';
-import { NodeEntity } from '@/entities/NodeEntity';
+import { Node } from '@/cells/Node';
+import { NodeRelation } from '@/cells/NodeRelation';
+import { Position } from '@/cells/Position';
+import { MapActor } from './MapStream';
+import { NodeCell } from '@/cells/NodeCell';
 
 export class NodeActor {
   private readonly id: MessageType<string>;
@@ -17,7 +17,7 @@ export class NodeActor {
   }
 
   public message() {
-    return Filtered(Applied(All(this.map.message(), this.id), ([map, id]) => map.hasNode(id) ? map.nodeById(id) : false), Boolean) as MessageType<NodeEntity>;
+    return Filtered(Applied(All(this.map.message(), this.id), ([map, id]) => map.hasNode(id) ? map.nodeById(id) : false), Boolean) as MessageType<NodeCell>;
   }
 
   public newPosition(position: Position) {

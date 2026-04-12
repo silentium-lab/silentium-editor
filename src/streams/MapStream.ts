@@ -10,16 +10,16 @@ import {
   PrimitiveImpl,
 } from 'silentium';
 import { HashTable, Path } from 'silentium-components';
-import { Map } from '@/entities/Map';
-import { Node } from '@/entities/Node';
-import { NodeType } from '@/entities/NodeType';
-import { Position } from '@/entities/Position';
-import { NodeActor } from './NodeActor';
-import { NodeTypeActor } from './NodeTypeActor';
-import { SettingsModel } from './SettingsModel';
-import { MapEntity } from '@/entities/MapEntity';
-import { NodeTypeEntity } from '@/entities/NodeTypeEntity';
-import { NodeEntity } from '@/entities/NodeEntity';
+import { Map } from '@/cells/Map';
+import { Node } from '@/cells/Node';
+import { NodeType } from '@/cells/NodeType';
+import { Position } from '@/cells/Position';
+import { NodeActor } from './NodeStream';
+import { NodeTypeActor } from './NodeTypeStream';
+import { SettingsModel } from './SettingsStream';
+import { MapCell } from '@/cells/MapCell';
+import { NodeTypeCell } from '@/cells/NodeTypeCell';
+import { NodeCell } from '@/cells/NodeCell';
 
 export class MapActor {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
@@ -36,7 +36,7 @@ export class MapActor {
   }
 
   public message() {
-    return Applied(this.map$, map => new MapEntity(map));
+    return Applied(this.map$, map => new MapCell(map));
   }
 
   public size() {
@@ -92,8 +92,8 @@ export class MapActor {
     return this;
   }
 
-  public addNode(type: NodeTypeEntity, position: Position) {
-    this.saveNode(NodeEntity.newNode(type, position).data());
+  public addNode(type: NodeTypeCell, position: Position) {
+    this.saveNode(NodeCell.newNode(type, position).data());
     return this;
   }
 

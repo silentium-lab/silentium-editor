@@ -1,15 +1,15 @@
 import { Applied, Computed, Connected, Context, Late, Map, Primitive } from 'silentium';
 import { Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { NodeTypeEntity } from '@/entities/NodeTypeEntity';
-import { ThePoint } from '@/entities/Point';
-import { Position } from '@/entities/Position';
-import { MapActor } from '@/actors/MapActor';
+import { NodeTypeCell } from '@/cells/NodeTypeCell';
+import { ThePoint } from '@/cells/Point';
+import { Position } from '@/cells/Position';
+import { MapActor } from '@/streams/MapStream';
 import { TypeView } from '@/views/components/TypeView';
 
 export function TypesPanel(map: MapActor) {
   const types$ = Applied(map.message(), m => m.types());
-  const newNode$ = Late<[NodeTypeEntity, Position]>();
+  const newNode$ = Late<[NodeTypeCell, Position]>();
   const canvasPosition$ = Primitive(Context<ThePoint>('canvas-position'));
   newNode$.then(([type, position]) => {
     map.addNode(type, [
@@ -22,11 +22,11 @@ export function TypesPanel(map: MapActor) {
       t => html`
         <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
           ${t.raw(
-            Computed(
-              arr => arr.join(''),
-              Map(types$, t => TypeView(newNode$, t))
-            )
-          )}
+        Computed(
+          arr => arr.join(''),
+          Map(types$, t => TypeView(newNode$, t))
+        )
+      )}
         </div>
       `
     ),

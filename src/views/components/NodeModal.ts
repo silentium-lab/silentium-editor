@@ -1,5 +1,5 @@
 import { Tr } from '@/io/Translation';
-import { MapActor } from '@/actors/MapActor';
+import { MapActor } from '@/streams/MapStream';
 import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
 import { BranchLazy, Getter, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';

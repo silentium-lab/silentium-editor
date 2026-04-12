@@ -1,6 +1,6 @@
 import LinkerLine from 'linkerline';
 import { All, DestroyContainer, Message, MessageType } from 'silentium';
-import { Node } from '@/entities/Node';
+import { Node } from '@/cells/Node';
 import { Element } from 'silentium-web-api';
 
 export function Line(node$: MessageType<Node>) {

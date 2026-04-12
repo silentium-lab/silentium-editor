@@ -1,6 +1,6 @@
 import ScrollBooster from 'scrollbooster';
 import { DestroyContainer, MessageType, SourceType } from 'silentium';
-import { ThePoint } from '@/entities/Point';
+import { ThePoint } from '@/cells/Point';
 
 export function ScrollByDrag(el$: MessageType<HTMLElement>, position: SourceType<ThePoint>) {
   const dc = DestroyContainer();

@@ -11,16 +11,16 @@ import {
 import { Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Node } from '@/entities/Node';
-import { NodeEntity } from '@/entities/NodeEntity';
-import { Position } from '@/entities/Position';
+import { Node } from '@/cells/Node';
+import { NodeCell } from '@/cells/NodeCell';
+import { Position } from '@/cells/Position';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
 import { Line } from '@/io/Line';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[Node, Position]>,
-  nodeEntity$: MessageType<NodeEntity>
+  nodeEntity$: MessageType<NodeCell>
 ) {
   const node$ = Applied(nodeEntity$, n => n.data());
   const left$ = Path(node$, 'position.0');
@@ -42,8 +42,8 @@ export function NodeOnMap(
       t =>
         html`<div
           class="node-view select-none absolute ${t.escaped(id$)} node-id-${t.escaped(
-            Path(node$, 'id')
-          )}"
+          Path(node$, 'id')
+        )}"
           style="left: ${t.escaped(left$)}px;top: ${t.escaped(top$)}px;z-index: ${t.escaped(z$)}"
         >
           ${t.raw(Applied(nodeEntity$, n => n.template()))}

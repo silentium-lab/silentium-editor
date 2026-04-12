@@ -1,7 +1,7 @@
 import { All, Connected, Local, MessageType } from 'silentium';
 import { Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
-import { ThePoint } from '@/entities/Point';
+import { ThePoint } from '@/cells/Point';
 import { Element } from 'silentium-web-api';
 
 export function ArrowsArea(dragPosition$: MessageType<ThePoint>) {

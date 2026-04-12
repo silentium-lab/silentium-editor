@@ -1,12 +1,12 @@
-import { DateEntity } from '@/entities/DateEntity';
+import { DateCell } from '@/cells/DateCell';
 import { Node } from './Node';
-import { NodeTypeEntity } from './NodeTypeEntity';
+import { NodeTypeCell } from './NodeTypeCell';
 import { Position } from './Position';
 
-export class NodeEntity {
+export class NodeCell {
   public constructor(
     private node: Node,
-    private nodeType: NodeTypeEntity
+    private nodeType: NodeTypeCell
   ) { }
 
   public id() {
@@ -44,15 +44,15 @@ export class NodeEntity {
   }
 
   public createdAt() {
-    return DateEntity.fromTimestamp(this.node.createTimestamp).readable();
+    return DateCell.fromTimestamp(this.node.createTimestamp).readable();
   }
 
   public changedAt() {
-    return DateEntity.fromTimestamp(this.node.changeTimestamp).readable();
+    return DateCell.fromTimestamp(this.node.changeTimestamp).readable();
   }
 
-  public static newNode(type: NodeTypeEntity, position: Position) {
-    return new NodeEntity(
+  public static newNode(type: NodeTypeCell, position: Position) {
+    return new NodeCell(
       {
         additionalName: '',
         arrows: [],

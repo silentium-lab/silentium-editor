@@ -12,8 +12,8 @@ import {
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Map } from '@/entities/Map';
-import { MapActor } from '@/actors/MapActor';
+import { Map } from '@/cells/Map';
+import { MapActor } from '@/streams/MapStream';
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { ArrowsArea } from '@/views/components/ArrowsArea';
@@ -70,8 +70,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div
             class="${t.escaped(
-              canvasId$
-            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+          canvasId$
+        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel)))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
