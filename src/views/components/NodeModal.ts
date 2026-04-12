@@ -18,7 +18,7 @@ export function NodeModal(map: MapActor) {
   });
   const deleted$ = Late();
   Polling(Of(Primitive(activeNodeId$)), deleted$).then(active => {
-    map.node(active.primitiveWithException().id).delete();
+    map.deleteNode(active.primitiveWithException().id);
     opened$.use(false);
   });
   const saved$ = Late<boolean>(false);
@@ -50,12 +50,12 @@ export function NodeModal(map: MapActor) {
               </div>
               <div class="mb-2">
                 ${t.raw(
-                  BranchLazy(
-                    opened$,
-                    () => NodeForm(map, saved$, saveDone$),
-                    () => Of('-')
-                  )
-                )}
+              BranchLazy(
+                opened$,
+                () => NodeForm(map, saved$, saveDone$),
+                () => Of('-')
+              )
+            )}
               </div>
             </div>`
         ),

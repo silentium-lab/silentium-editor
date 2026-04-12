@@ -3,7 +3,7 @@ import { NodeEntity } from './NodeEntity';
 import { NodeTypeEntity } from './NodeTypeEntity';
 
 export class MapEntity {
-  public constructor(private map: Map) {}
+  public constructor(private map: Map) { }
 
   public data() {
     return this.map;
@@ -21,7 +21,14 @@ export class MapEntity {
 
   public nodeById(id: string) {
     const node = this.map.objects[id] ?? Object.values(this.map.objects).find(t => t.id === id);
+    if (node === undefined) {
+      console.log(id);
+    }
     return new NodeEntity(node, this.typeById(node.type));
+  }
+
+  public hasNode(id: string) {
+    return !!this.map.objects[id];
   }
 
   public typeById(id: string) {

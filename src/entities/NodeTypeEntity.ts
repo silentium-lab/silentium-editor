@@ -4,7 +4,7 @@ const notFoundTemplateMarkup =
   '<div style="background:red;padding:10px;color:white">Template Not Found! id="$id"</div>';
 
 export class NodeTypeEntity {
-  public constructor(private nodeType: NodeType) {}
+  public constructor(private nodeType: NodeType) { }
 
   public data() {
     return {
