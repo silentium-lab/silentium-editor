@@ -13,7 +13,7 @@ import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { Map } from '@/entities/Map';
-import { MapModel } from '@/models/MapModel';
+import { MapActor } from '@/actors/MapActor';
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { ArrowsArea } from '@/views/components/ArrowsArea';
@@ -38,7 +38,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   );
   const mapName$ = Late('current');
   const map$ = Part<Map>(files$, mapName$);
-  const mapModel = new MapModel(map$);
+  const mapModel = new MapActor(map$);
 
   ContextOf('map').then(ContextChain(map$));
 

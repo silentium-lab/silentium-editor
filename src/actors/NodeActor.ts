@@ -3,13 +3,13 @@ import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'sile
 import { Node } from '@/entities/Node';
 import { NodeRelation } from '@/entities/NodeRelation';
 import { Position } from '@/entities/Position';
-import { MapModel } from './MapModel';
+import { MapActor } from './MapActor';
 
-export class NodeModel {
+export class NodeActor {
   private readonly id: MessageType<string>;
 
   public constructor(
-    private readonly map: MapModel,
+    private readonly map: MapActor,
     id: MaybeMessage<string>
   ) {
     this.id = Actual(id);
@@ -22,7 +22,7 @@ export class NodeModel {
   public newPosition(position: Position) {
     const node = Primitive(this.message());
     this.map.saveNode(
-      fromJS(node.primitiveWithException())
+      fromJS(node.primitiveWithException().data())
         .setIn(['position'], position)
         .toObject() as unknown as Node
     );

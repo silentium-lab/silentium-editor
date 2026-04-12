@@ -1,17 +1,17 @@
 import { Connected, Context, Late, Lazy, Value } from 'silentium';
 import { StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { MapModel } from '@/models/MapModel';
+import { MapActor } from '@/actors/MapActor';
 import { Tr } from '@/io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 
-export function Relation(map: MapModel) {
+export function Relation(map: MapActor) {
   const mode$ = Late<TheStates>('waiting');
   const activeNode = map.activeNode();
   const relation$ = StateRecord(mode$, activeNode.message(), ['choosing', 'next']);
   const rSub = relation$.then((relation: any) => {
-    activeNode.fromRelation(relation.choosing.id);
+    activeNode.fromRelation(relation.choosing.id());
   });
   const mode = Value(mode$);
   const nodeEditBlock$ = Context<[string, boolean]>('node-edit-block-reasons');

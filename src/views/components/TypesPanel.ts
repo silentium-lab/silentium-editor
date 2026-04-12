@@ -4,10 +4,10 @@ import { html } from 'silentium-ui';
 import { NodeTypeEntity } from '@/entities/NodeTypeEntity';
 import { ThePoint } from '@/entities/Point';
 import { Position } from '@/entities/Position';
-import { MapModel } from '@/models/MapModel';
+import { MapActor } from '@/actors/MapActor';
 import { TypeView } from '@/views/components/TypeView';
 
-export function TypesPanel(map: MapModel) {
+export function TypesPanel(map: MapActor) {
   const types$ = Applied(map.message(), (m) => m.types());
   const newNode$ = Late<[NodeTypeEntity, Position]>();
   const canvasPosition$ = Primitive(Context<ThePoint>('canvas-position'));

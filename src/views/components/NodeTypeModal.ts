@@ -13,12 +13,12 @@ import {
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { NodeType } from '@/entities/NodeType';
-import { MapModel } from '@/models/MapModel';
+import { MapActor } from '@/actors/MapActor';
 import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
 
-export function NodeTypeModal(map: MapModel) {
+export function NodeTypeModal(map: MapActor) {
   const typeId$ = Context<{ id: string }>('active-node-type-id');
   const localMap$ = Local(map.message());
   const activeType$ = Applied(All(typeId$, localMap$), ([typeId, localMap]) => {

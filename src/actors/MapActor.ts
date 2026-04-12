@@ -14,14 +14,14 @@ import { Map } from '@/entities/Map';
 import { Node } from '@/entities/Node';
 import { NodeType } from '@/entities/NodeType';
 import { Position } from '@/entities/Position';
-import { NodeModel } from './NodeModel';
-import { NodeTypeModel } from './NodeTypeModel';
+import { NodeActor } from './NodeActor';
+import { NodeTypeActor } from './NodeTypeActor';
 import { SettingsModel } from './SettingsModel';
 import { MapEntity } from '@/entities/MapEntity';
 import { NodeTypeEntity } from '@/entities/NodeTypeEntity';
 import { NodeEntity } from '@/entities/NodeEntity';
 
-export class MapModel {
+export class MapActor {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
   private readonly nodeBlockRecord$ = HashTable<Record<string, boolean>>(
     this.nodeEditBlockReasons$
@@ -52,7 +52,7 @@ export class MapModel {
   }
 
   public nodeType(id: string) {
-    return new NodeTypeModel(this, id);
+    return new NodeTypeActor(this, id);
   }
 
   public saveNodeType(data: NodeType) {
@@ -73,11 +73,11 @@ export class MapModel {
 
   public activeNode() {
     const activeId$ = Context<{ id: string }>('active-node-id');
-    return new NodeModel(this, Path(activeId$, 'id'));
+    return new NodeActor(this, Path(activeId$, 'id'));
   }
 
   public node(id: string) {
-    return new NodeModel(this, id);
+    return new NodeActor(this, id);
   }
 
   public saveNode(data: Node) {

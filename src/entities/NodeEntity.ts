@@ -9,11 +9,12 @@ export class NodeEntity {
     private nodeType: NodeTypeEntity
   ) { }
 
+  public id() {
+    return this.node.id;
+  }
+
   public data() {
-    return {
-      ...this.node,
-      additionalFields: this.additionalFields()
-    };
+    return this.node;
   }
 
   public type() {
@@ -23,7 +24,7 @@ export class NodeEntity {
   public template() {
     let markup = this.nodeType.template();
     if (this.node.additionalFields) {
-      Object.entries(this.additionalFields()).forEach(([key, value]) => {
+      Object.entries(this.node.additionalFields).forEach(([key, value]) => {
         markup = markup.replaceAll(`\${${key}}`, value);
       });
     }

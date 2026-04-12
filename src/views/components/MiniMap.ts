@@ -3,12 +3,12 @@ import { Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { ThePoint } from '@/entities/Point';
-import { MapModel } from '@/models/MapModel';
+import { MapActor } from '@/actors/MapActor';
 import { ElementGeometry } from '@/io/ElementGeometry';
 
 const scale = 130 / 3000;
 
-export function MiniMap(map: MapModel) {
+export function MiniMap(map: MapActor) {
   const canvasPosition$ = Context<ThePoint>('canvas-position');
   const canvasRect$ = Applied(ElementGeometry('.nodes-view'), rect => {
     return {
