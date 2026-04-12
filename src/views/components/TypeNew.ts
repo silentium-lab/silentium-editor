@@ -17,14 +17,14 @@ export function TypeNew(mapModel: MapActor) {
       t =>
         html`<div class="w-full">
           ${t.raw(
-          Mount(
-            BranchLazy(
-              opened$,
-              () => TypeNewModal(opened$, mapModel),
-              () => Of('<div></div>')
+            Mount(
+              BranchLazy(
+                opened$,
+                () => TypeNewModal(opened$, mapModel),
+                () => Of('<div></div>')
+              )
             )
-          )
-        )}
+          )}
           ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
         </div>`
     ),

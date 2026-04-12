@@ -36,15 +36,15 @@ export class MapActor {
   }
 
   public message() {
-    return Applied(this.map$, (map) => new MapEntity(map));
+    return Applied(this.map$, map => new MapEntity(map));
   }
 
   public size() {
-    return Applied(this.message(), (m) => m.size());
+    return Applied(this.message(), m => m.size());
   }
 
   public url() {
-    return Applied(this.message(), (m) => m.data().url)
+    return Applied(this.message(), m => m.data().url);
   }
 
   public nodeTypes() {
@@ -68,7 +68,7 @@ export class MapActor {
   }
 
   public nodes() {
-    return Applied(this.message(), (m) => m.nodes());
+    return Applied(this.message(), m => m.nodes());
   }
 
   public activeNode() {

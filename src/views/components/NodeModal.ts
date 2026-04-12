@@ -23,7 +23,7 @@ export function NodeModal(map: MapActor) {
   });
   const saved$ = Late<boolean>(false);
   const activeObject = map.activeNode();
-  const activeObject$ = Applied(activeObject.message(), (o) => o.data());
+  const activeObject$ = Applied(activeObject.message(), o => o.data());
   const saveDone$ = Late<object>();
   saveDone$.then(() => {
     opened$.use(false);
@@ -39,23 +39,23 @@ export function NodeModal(map: MapActor) {
               <div class="mb-2">
                 <b>
                   ${t.escaped(Tr('Creation date'))}:
-                  ${t.escaped(Getter(activeObject$, 'createdAt'))}
+                  ${t.escaped(Getter(activeObject.message(), 'createdAt'))}
                 </b>
               </div>
               <div class="mb-2">
                 <b>
                   ${t.escaped(Tr('Update date'))}:
-                  ${t.escaped(Getter(activeObject$, 'changedAt'))}
+                  ${t.escaped(Getter(activeObject.message(), 'changedAt'))}
                 </b>
               </div>
               <div class="mb-2">
                 ${t.raw(
-              BranchLazy(
-                opened$,
-                () => NodeForm(map, saved$, saveDone$),
-                () => Of('-')
-              )
-            )}
+                  BranchLazy(
+                    opened$,
+                    () => NodeForm(map, saved$, saveDone$),
+                    () => Of('-')
+                  )
+                )}
               </div>
             </div>`
         ),

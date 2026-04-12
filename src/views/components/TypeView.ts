@@ -7,7 +7,10 @@ import { Position } from '@/entities/Position';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
 
-export function TypeView(newType: SourceType<[NodeTypeEntity, Position]>, type: MessageType<NodeTypeEntity>) {
+export function TypeView(
+  newType: SourceType<[NodeTypeEntity, Position]>,
+  type: MessageType<NodeTypeEntity>
+) {
   const markup$ = Getter(type, 'template');
   const id$ = Id();
   const container$ = Element(ClassName(id$));

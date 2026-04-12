@@ -32,24 +32,25 @@ export function MiniMap(map: MapActor) {
             class="minimap-preview ${t.raw(id$)} opacity-75 bg-primary border-primary border-solid"
           ></div>
           ${t.raw(
-          Mount(
-            Applied(
-              map.message(),
-              map =>
-                `<div class="mini-elements">${map.nodes()
-                  .map(
-                    object =>
-                      html`<div
+            Mount(
+              Applied(
+                map.message(),
+                map =>
+                  `<div class="mini-elements">${map
+                    .nodes()
+                    .map(
+                      object =>
+                        html`<div
                           class="bg-red-500 absolute top-0 left-0 opacity-75"
-                          style="width: ${object.data().width * scale}px; height: ${object.data().height *
-                        scale}px;transform: translate(${object.data().position[0] * scale}px,${object.data()
-                          .position[1] * scale}px)"
+                          style="width: ${object.data().width * scale}px; height: ${object.data()
+                            .height * scale}px;transform: translate(${object.data().position[0] *
+                          scale}px,${object.data().position[1] * scale}px)"
                         ></div>`
-                  )
-                  .join('')}</div>`
+                    )
+                    .join('')}</div>`
+              )
             )
-          )
-        )}
+          )}
         </div>`
     ),
     mapPositionDeps$

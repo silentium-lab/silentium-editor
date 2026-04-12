@@ -1,4 +1,5 @@
 import {
+  Any,
   Applied,
   Connected,
   Filtered,
@@ -6,10 +7,11 @@ import {
   MessageType,
   Of,
   Primitive,
+  SourceComputed,
   SourceType,
   Value
 } from 'silentium';
-import { BranchLazy, Part, Path, Polling, Template } from 'silentium-components';
+import { BranchLazy, Getter, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { Node } from '@/entities/Node';
 import { NodeRelation } from '@/entities/NodeRelation';
@@ -38,6 +40,7 @@ export function NodeForm(
       done$.use({});
     }
   });
+  const additionalFields$ = Part<Record<string, string>>(local$, 'additionalFields');
   return Connected<string>(
     Template(
       t =>
@@ -76,7 +79,12 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Variables'))} </b>
               <span class="block">
-                ${t.raw(NodeVariables(Part(local$, 'additionalFields', {})))}
+                ${t.raw(NodeVariables(
+          SourceComputed<Record<string, string>>(
+            Getter(activeNode.message(), 'additionalFields'),
+            additionalFields$)
+        )
+        )}
               </span>
             </label>
           </div>

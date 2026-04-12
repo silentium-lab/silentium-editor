@@ -20,10 +20,10 @@ export function NodeVariables(vars$: MessageSourceType<Record<string, string>>) 
     t =>
       html`<div>
         ${t.raw(
-        Applied(Map(entries$, NodeVariable.bind(null, vars$)), arr =>
-          arr.length ? arr.join('') : '-'
-        )
-      )}
+          Applied(Map(entries$, NodeVariable.bind(null, vars$)), arr =>
+            arr.length ? arr.join('') : '-'
+          )
+        )}
       </div>`
   );
 }

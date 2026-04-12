@@ -1,4 +1,13 @@
-import { Applied, Computed, Connected, MessageSourceType, MessageType, Of, Primitive, Value } from 'silentium';
+import {
+  Applied,
+  Computed,
+  Connected,
+  MessageSourceType,
+  MessageType,
+  Of,
+  Primitive,
+  Value,
+} from 'silentium';
 import { BranchLazy, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
 import { EscapePressed } from '@/io/EscapePressed';
@@ -33,16 +42,16 @@ export function Modal(
       t =>
         html`<div
           class="${t.escaped(
-          Computed(opened => (opened ? 'fixed' : 'hidden'), opened$)
-        )} bg-black/50 inset-0 flex items-center justify-center p-4 z-50 ${t.escaped(bgId$)}"
+            Computed(opened => (opened ? 'fixed' : 'hidden'), opened$)
+          )} bg-black/50 inset-0 flex items-center justify-center p-4 z-50 ${t.escaped(bgId$)}"
         >
           <div
             class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col relative"
           >
             <button
               class="${t.escaped(
-          closeId$
-        )} top-2 right-2 absolute cursor-pointer text-gray-400 hover:text-gray-600"
+                closeId$
+              )} top-2 right-2 absolute cursor-pointer text-gray-400 hover:text-gray-600"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -55,8 +64,8 @@ export function Modal(
             </button>
             <div
               class="${t.escaped(
-          titleId$
-        )} px-6 py-4 border-b border-gray-400 flex justify-between items-center"
+                titleId$
+              )} px-6 py-4 border-b border-gray-400 flex justify-between items-center"
             >
               <h3 class="text-lg font-semibold text-gray-900">${t.escaped(title$)}</h3>
             </div>
@@ -64,20 +73,20 @@ export function Modal(
               ${t.raw(content$)}
             </div>
             ${t.raw(
-          BranchLazy(
-            Applied(actions$, Boolean),
-            () =>
-              Template(
-                t =>
-                  html`<div
+              BranchLazy(
+                Applied(actions$, Boolean),
+                () =>
+                  Template(
+                    t =>
+                      html`<div
                         class="px-6 py-4 border-t border-gray-400 flex justify-between items-center"
                       >
                         ${t.raw(actions$)}
                       </div>`
-              ),
-            () => Of('')
-          )
-        )}
+                  ),
+                () => Of('')
+              )
+            )}
           </div>
         </div>`
     ),

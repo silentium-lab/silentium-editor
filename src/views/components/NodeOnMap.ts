@@ -1,4 +1,13 @@
-import { All, Applied, Connected, Context, MessageType, Primitive, SourceType, Void } from 'silentium';
+import {
+  All,
+  Applied,
+  Connected,
+  Context,
+  MessageType,
+  Primitive,
+  SourceType,
+  Void,
+} from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
@@ -13,7 +22,7 @@ export function NodeOnMap(
   newNodePosition: SourceType<[Node, Position]>,
   nodeEntity$: MessageType<NodeEntity>
 ) {
-  const node$ = Applied(nodeEntity$, (n) => n.data());
+  const node$ = Applied(nodeEntity$, n => n.data());
   const left$ = Path(node$, 'position.0');
   const top$ = Path(node$, 'position.1');
   const z$ = Path(node$, 'zindex');
@@ -33,11 +42,11 @@ export function NodeOnMap(
       t =>
         html`<div
           class="node-view select-none absolute ${t.escaped(id$)} node-id-${t.escaped(
-          Path(node$, 'id')
-        )}"
+            Path(node$, 'id')
+          )}"
           style="left: ${t.escaped(left$)}px;top: ${t.escaped(top$)}px;z-index: ${t.escaped(z$)}"
         >
-          ${t.raw(Applied(nodeEntity$, (n) => n.template()))}
+          ${t.raw(Applied(nodeEntity$, n => n.template()))}
         </div>`
     ),
     container$,

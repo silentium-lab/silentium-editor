@@ -29,10 +29,10 @@ export class NodeActor {
   }
 
   public toRelation(toNodeId: string) {
-    const node = Primitive(Applied(this.message(), (n) => n.data()));
+    const node = Primitive(Applied(this.message(), n => n.data()));
     this.map.saveNode(
       fromJS(node.primitiveWithException())
-        .updateIn(['arrows'], (arr) =>
+        .updateIn(['arrows'], arr =>
           (arr as NodeRelation[]).push({
             id: toNodeId,
             label: '',
@@ -57,5 +57,14 @@ export class NodeActor {
   public update(v: Node) {
     this.map.saveNode(v);
     return this;
+  }
+
+  public updateAdditionalFields(additionalFields: Record<string, string>) {
+    const node = Primitive(Applied(this.message(), n => n.data()));
+    this.map.saveNode(
+      fromJS(node.primitiveWithException())
+        .setIn(['additionalFields'], additionalFields)
+        .toObject() as unknown as Node
+    );
   }
 }

@@ -8,7 +8,7 @@ import { MapActor } from '@/actors/MapActor';
 import { TypeView } from '@/views/components/TypeView';
 
 export function TypesPanel(map: MapActor) {
-  const types$ = Applied(map.message(), (m) => m.types());
+  const types$ = Applied(map.message(), m => m.types());
   const newNode$ = Late<[NodeTypeEntity, Position]>();
   const canvasPosition$ = Primitive(Context<ThePoint>('canvas-position'));
   newNode$.then(([type, position]) => {
@@ -22,11 +22,11 @@ export function TypesPanel(map: MapActor) {
       t => html`
         <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
           ${t.raw(
-        Computed(
-          arr => arr.join(''),
-          Map(types$, t => TypeView(newNode$, t))
-        )
-      )}
+            Computed(
+              arr => arr.join(''),
+              Map(types$, t => TypeView(newNode$, t))
+            )
+          )}
         </div>
       `
     ),

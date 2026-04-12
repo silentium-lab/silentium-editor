@@ -18,15 +18,15 @@ export function NodesView(map: MapActor) {
         html`<div
           class="relative background-grid z-10 mt-4 ml-4"
           style="width: ${t.escaped(Path(map.size(), 'width'))}px; height: ${t.escaped(
-          Path(map.size(), 'height')
-        )}px"
+            Path(map.size(), 'height')
+          )}px"
         >
           ${t.raw(
-          Applied(
-            Map(map.nodes(), item => NodeOnMap(newNodePosition$, item)),
-            v => v.join('')
-          )
-        )}
+            Applied(
+              Map(map.nodes(), item => NodeOnMap(newNodePosition$, item)),
+              v => v.join('')
+            )
+          )}
         </div>`
     ),
     newNodePosition$

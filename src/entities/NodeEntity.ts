@@ -35,9 +35,12 @@ export class NodeEntity {
   }
 
   public additionalFields(): Record<string, string> {
-    return Object.fromEntries(
-      Array.from(this.nodeType.template().matchAll(/\$\{(.+)\}/gi)).map(match => [match[1], ''])
+    const defaultFields = Object.fromEntries(
+      Array.from(this.nodeType.template().matchAll(/\$\{([a-zA-Z0-9]+)\}/gi)).map(match => [match[1], ''])
     );
+    return Object.fromEntries(Object.entries(defaultFields).map((entry) => {
+      return [entry[0], this.node.additionalFields?.[entry[0]] ?? (entry[1] || entry[0])];
+    }));
   }
 
   public createdAt() {
@@ -69,7 +72,8 @@ export class NodeEntity {
         createTimestamp: Date.now(),
         changeTimestamp: Date.now(),
         position,
-      }, type
+      },
+      type
     );
   }
 }

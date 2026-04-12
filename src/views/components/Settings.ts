@@ -14,14 +14,14 @@ export function Settings(map: MapActor) {
     t =>
       html`<div class="w-full">
         ${t.raw(
-        Mount(
-          Modal(
-            Tr('Settings'),
-            Template(t => html`<div>settings form</div>`),
-            opened$
+          Mount(
+            Modal(
+              Tr('Settings'),
+              Template(t => html`<div>settings form</div>`),
+              opened$
+            )
           )
-        )
-      )}
+        )}
         ${t.raw(Button(icon, 'btn w-full flex justify-center', opened$, '', true))}
       </div>`
   );

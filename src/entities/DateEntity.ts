@@ -1,5 +1,5 @@
 export class DateEntity {
-  public constructor(private d: Date) { }
+  public constructor(private d: Date) {}
 
   public readable() {
     return this.d.toLocaleDateString();
