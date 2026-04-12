@@ -1,8 +1,8 @@
 import { Connected, Context, Late, Lazy, Value } from 'silentium';
 import { StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { MapModel } from '../../flows/MapModel';
-import { Tr } from '../../io/Translation';
+import { MapModel } from '@/flows/MapModel';
+import { Tr } from '@/io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 

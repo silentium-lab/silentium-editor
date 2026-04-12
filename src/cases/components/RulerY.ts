@@ -1,7 +1,7 @@
 import { All, Connected, Context } from 'silentium';
 import { Task, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
-import { ThePoint } from '../../domain/Point';
+import { ThePoint } from '@/domain/Point';
 import { Element } from 'silentium-web-api';
 
 export function RulerY() {

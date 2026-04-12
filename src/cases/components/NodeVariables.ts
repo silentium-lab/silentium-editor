@@ -12,7 +12,7 @@ import {
 } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { html, Input } from 'silentium-ui';
-import { Tr } from '../../io/Translation';
+import { Tr } from '@/io/Translation';
 
 export function NodeVariables(vars$: MessageSourceType<Record<string, string>>) {
   const entries$ = Applied(vars$, v => Object.entries(v));

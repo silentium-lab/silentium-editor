@@ -1,6 +1,6 @@
 import { All, Connected, Context, Of } from 'silentium';
 import { ClassName, html, Id } from 'silentium-ui';
-import { ThePoint } from '../../domain/Point';
+import { ThePoint } from '@/domain/Point';
 import { Element } from 'silentium-web-api';
 import { Task, Template } from 'silentium-components';
 

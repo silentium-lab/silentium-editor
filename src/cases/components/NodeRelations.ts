@@ -1,8 +1,8 @@
 import { Applied, Late, Map, MessageSourceType, MessageType, Value } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { NodeRelation } from '../../domain/NodeRelation';
-import { Tr } from '../../io/Translation';
+import { NodeRelation } from '@/domain/NodeRelation';
+import { Tr } from '@/io/Translation';
 
 export function NodeRelations(arrows$: MessageSourceType<NodeRelation[]>) {
   const deleted$ = Late<string>();

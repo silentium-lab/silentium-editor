@@ -2,12 +2,12 @@ import { All, Applied, Connected, Context, MessageType, Primitive, SourceType, V
 import { Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Node } from '../../domain/Node';
-import { NodeEntity } from '../../domain/NodeEntity';
-import { Position } from '../../domain/Position';
-import { ClickWithoutDrag } from '../../io/ClickWithoutDrag';
-import { Draggable } from '../../io/Draggable';
-import { Line } from '../../io/Line';
+import { Node } from '@/domain/Node';
+import { NodeEntity } from '@/domain/NodeEntity';
+import { Position } from '@/domain/Position';
+import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
+import { Draggable } from '@/io/Draggable';
+import { Line } from '@/io/Line';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[Node, Position]>,

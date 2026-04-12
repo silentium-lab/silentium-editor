@@ -1,9 +1,9 @@
 import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { MapModel } from '../../flows/MapModel';
-import { Tr } from '../../io/Translation';
-import { DateReadable } from '../formats/DateReadable';
+import { MapModel } from '@/flows/MapModel';
+import { Tr } from '@/io/Translation';
+import { DateReadable } from '@/cases/formats/DateReadable';
 import { Modal } from './Modal';
 import { NodeForm } from './NodeForm';
 

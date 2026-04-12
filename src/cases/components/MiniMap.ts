@@ -2,9 +2,9 @@ import { All, Applied, Connected, Context } from 'silentium';
 import { Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { ThePoint } from '../../domain/Point';
-import { MapModel } from '../../flows/MapModel';
-import { ElementGeometry } from '../../io/ElementGeometry';
+import { ThePoint } from '@/domain/Point';
+import { MapModel } from '@/flows/MapModel';
+import { ElementGeometry } from '@/io/ElementGeometry';
 
 const scale = 130 / 3000;
 

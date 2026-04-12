@@ -1,7 +1,7 @@
 import { Applied, Computed, Connected, MessageSourceType, MessageType, Of, Primitive, Value } from 'silentium';
 import { BranchLazy, Template } from 'silentium-components';
 import { ClassName, Clicked, html, Id } from 'silentium-ui';
-import { EscapePressed } from '../../io/EscapePressed';
+import { EscapePressed } from '@/io/EscapePressed';
 
 export function Modal(
   title$: MessageType<string>,

@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable';
 import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { Node } from '../domain/Node';
-import { NodeRelation } from '../domain/NodeRelation';
-import { Position } from '../domain/Position';
+import { Node } from '@/domain/Node';
+import { NodeRelation } from '@/domain/NodeRelation';
+import { Position } from '@/domain/Position';
 import { MapModel } from './MapModel';
 
 export class NodeModel {

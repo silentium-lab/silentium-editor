@@ -4,7 +4,7 @@ import { Any, Applied, ContextChain, ContextOf, DestroyContainer, Late, Of } fro
 import { Polling, Router } from 'silentium-components';
 import { Render } from 'silentium-morphdom';
 import { Element } from 'silentium-web-api';
-import { PlatformName } from '../io/CapacitorPlatform';
+import { PlatformName } from '@/io/CapacitorPlatform';
 import { FilePickedFromFS } from './components/FilePickedFromFS';
 import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';

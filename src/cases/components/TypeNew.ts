@@ -1,8 +1,8 @@
 import { Connected, Late, MessageSourceType, Of } from 'silentium';
 import { BranchLazy, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { MapModel } from '../../flows/MapModel';
-import { Tr } from '../../io/Translation';
+import { MapModel } from '@/flows/MapModel';
+import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
 

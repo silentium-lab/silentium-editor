@@ -12,22 +12,22 @@ import {
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Map } from '../../domain/Map';
-import { MapModel } from '../../flows/MapModel';
-import { JSONSource } from '../../io/JSONSource';
-import { ScrollByDrag } from '../../io/ScrollByDrag';
-import { ArrowsArea } from '../components/ArrowsArea';
-import { MiniMap } from '../components/MiniMap';
-import { NavigationPanel } from '../components/NavigationPanel';
-import { NodeModal } from '../components/NodeModal';
-import { NodesView } from '../components/NodesView';
-import { NodeTypeModal } from '../components/NodeTypeModal';
-import { Relation } from '../components/Relation';
-import { RulerX } from '../components/RulerX';
-import { RulerY } from '../components/RulerY';
-import { Settings } from '../components/Settings';
-import { TypeNew } from '../components/TypeNew';
-import { TypesPanel } from '../components/TypesPanel';
+import { Map } from '@/domain/Map';
+import { MapModel } from '@/flows/MapModel';
+import { JSONSource } from '@/io/JSONSource';
+import { ScrollByDrag } from '@/io/ScrollByDrag';
+import { ArrowsArea } from '@/cases/components/ArrowsArea';
+import { MiniMap } from '@/cases/components/MiniMap';
+import { NavigationPanel } from '@/cases/components/NavigationPanel';
+import { NodeModal } from '@/cases/components/NodeModal';
+import { NodesView } from '@/cases/components/NodesView';
+import { NodeTypeModal } from '@/cases/components/NodeTypeModal';
+import { Relation } from '@/cases/components/Relation';
+import { RulerX } from '@/cases/components/RulerX';
+import { RulerY } from '@/cases/components/RulerY';
+import { Settings } from '@/cases/components/Settings';
+import { TypeNew } from '@/cases/components/TypeNew';
+import { TypesPanel } from '@/cases/components/TypesPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);
