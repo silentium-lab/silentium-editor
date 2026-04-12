@@ -12,13 +12,14 @@ import {
 import { HashTable, Path } from 'silentium-components';
 import { Map } from '../domain/Map';
 import { Node } from '../domain/Node';
-import { NodeNew } from '../domain/NodeNew';
 import { NodeType } from '../domain/NodeType';
 import { Position } from '../domain/Position';
 import { NodeModel } from './NodeModel';
 import { NodeTypeModel } from './NodeTypeModel';
 import { SettingsModel } from './SettingsModel';
 import { MapEntity } from '../domain/MapEntity';
+import { NodeTypeEntity } from '../domain/NodeTypeEntity';
+import { NodeEntity } from '../domain/NodeEntity';
 
 export class MapModel {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
@@ -91,8 +92,8 @@ export class MapModel {
     return this;
   }
 
-  public addNode(type: NodeType, position: Position) {
-    this.saveNode(NodeNew(type, position));
+  public addNode(type: NodeTypeEntity, position: Position) {
+    this.saveNode(NodeEntity.newNode(type, position).data());
     return this;
   }
 

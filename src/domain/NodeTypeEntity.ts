@@ -7,7 +7,18 @@ export class NodeTypeEntity {
   public constructor(private nodeType: NodeType) { }
 
   public data() {
-    return this.nodeType;
+    return {
+      ...this.nodeType,
+      markup: this.template()
+    };
+  }
+
+  public id() {
+    return this.nodeType.id;
+  }
+
+  public name() {
+    return this.nodeType.name;
   }
 
   public template() {
