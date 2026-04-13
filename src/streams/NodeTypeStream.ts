@@ -1,11 +1,11 @@
 import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { MapActor } from './MapStream';
+import { MapStream } from './MapStream';
 
 export class NodeTypeActor {
   private id: MessageType<string>;
 
   public constructor(
-    private map: MapActor,
+    private map: MapStream,
     id: MaybeMessage<string>
   ) {
     this.id = Actual(id);

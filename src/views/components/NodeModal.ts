@@ -1,12 +1,12 @@
 import { Tr } from '@/io/Translation';
-import { MapActor } from '@/streams/MapStream';
+import { MapStream } from '@/streams/MapStream';
 import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
 import { BranchLazy, Getter, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { Modal } from './Modal';
 import { NodeForm } from './NodeForm';
 
-export function NodeModal(map: MapActor) {
+export function NodeModal(map: MapStream) {
   const opened$ = Late(false);
   const activeNodeId$ = Context<{ id: string }>('active-node-id');
   const nodeEditBlock = Value(map.isNodeEditBlocked());

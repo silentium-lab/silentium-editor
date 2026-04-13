@@ -21,7 +21,7 @@ import { MapCell } from '@/cells/MapCell';
 import { NodeTypeCell } from '@/cells/NodeTypeCell';
 import { NodeCell } from '@/cells/NodeCell';
 
-export class MapActor {
+export class MapStream {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
   private readonly nodeBlockRecord$ = HashTable<Record<string, boolean>>(
     this.nodeEditBlockReasons$

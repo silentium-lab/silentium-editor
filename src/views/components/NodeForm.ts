@@ -15,13 +15,13 @@ import { BranchLazy, Getter, Part, Path, Polling, Template } from 'silentium-com
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { Node } from '@/cells/Node';
 import { NodeRelation } from '@/cells/NodeRelation';
-import { MapActor } from '@/streams/MapStream';
+import { MapStream } from '@/streams/MapStream';
 import { Tr } from '@/io/Translation';
 import { NodeRelations } from './NodeRelations';
 import { NodeVariables } from './NodeVariables';
 
 export function NodeForm(
-  map: MapActor,
+  map: MapStream,
   saved$: MessageType<boolean>,
   done$: SourceType<object>
 ) {

@@ -3,10 +3,10 @@ import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
 import { Node } from '@/cells/Node';
 import { Position } from '@/cells/Position';
-import { MapActor } from '@/streams/MapStream';
+import { MapStream } from '@/streams/MapStream';
 import { NodeOnMap } from './NodeOnMap';
 
-export function NodesView(map: MapActor) {
+export function NodesView(map: MapStream) {
   const newNodePosition$ = Late<[Node, Position]>();
   newNodePosition$.then(([node, position]) => {
     const objectModel = map.node(node.id);

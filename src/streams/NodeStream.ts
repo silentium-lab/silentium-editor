@@ -3,14 +3,14 @@ import { Actual, All, Applied, Filtered, MaybeMessage, MessageType, Primitive } 
 import { Node } from '@/cells/Node';
 import { NodeRelation } from '@/cells/NodeRelation';
 import { Position } from '@/cells/Position';
-import { MapActor } from './MapStream';
+import { MapStream } from './MapStream';
 import { NodeCell } from '@/cells/NodeCell';
 
 export class NodeActor {
   private readonly id: MessageType<string>;
 
   public constructor(
-    private readonly map: MapActor,
+    private readonly map: MapStream,
     id: MaybeMessage<string>
   ) {
     this.id = Actual(id);
