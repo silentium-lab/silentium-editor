@@ -11,16 +11,16 @@ import {
 import { Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Node } from '@/cells/Node';
-import { NodeCell } from '@/cells/NodeCell';
-import { Position } from '@/cells/Position';
+import { Node } from '@/types/Node';
+import { NodeModel } from '@/models/NodeModel';
+import { Position } from '@/types/Position';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
 import { Line } from '@/io/Line';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[Node, Position]>,
-  nodeEntity$: MessageType<NodeCell>
+  nodeEntity$: MessageType<NodeModel>
 ) {
   const node$ = Applied(nodeEntity$, n => n.data());
   const left$ = Path(node$, 'position.0');

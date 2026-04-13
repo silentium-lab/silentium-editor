@@ -1,12 +1,12 @@
 import { Applied, Connected, Late, Map } from 'silentium';
 import { Path, Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { Node } from '@/cells/Node';
-import { Position } from '@/cells/Position';
-import { MapStream } from '@/streams/MapStream';
+import { Node } from '@/types/Node';
+import { Position } from '@/types/Position';
+import { MapBehavior } from '@/behaviors/MapBehavior';
 import { NodeOnMap } from './NodeOnMap';
 
-export function NodesView(map: MapStream) {
+export function NodesView(map: MapBehavior) {
   const newNodePosition$ = Late<[Node, Position]>();
   newNodePosition$.then(([node, position]) => {
     const objectModel = map.node(node.id);

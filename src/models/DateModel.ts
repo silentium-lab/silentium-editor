@@ -1,4 +1,4 @@
-export class DateCell {
+export class DateModel {
   public constructor(private d: Date) { }
 
   public readable() {
@@ -6,6 +6,6 @@ export class DateCell {
   }
 
   public static fromTimestamp(ts: string | number) {
-    return new DateCell(new Date(ts));
+    return new DateModel(new Date(ts));
   }
 }

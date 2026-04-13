@@ -1,11 +1,11 @@
 import { Actual, All, Applied, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { MapStream } from './MapStream';
+import { MapBehavior } from './MapBehavior';
 
-export class NodeTypeActor {
+export class NodeTypeBehavior {
   private id: MessageType<string>;
 
   public constructor(
-    private map: MapStream,
+    private map: MapBehavior,
     id: MaybeMessage<string>
   ) {
     this.id = Actual(id);
@@ -17,7 +17,7 @@ export class NodeTypeActor {
 
   public delete() {
     const id = Primitive(this.id);
-    this.map.deleteNode(id.primitiveWithException());
+    this.map.deleteNodeType(id.primitiveWithException());
     return this;
   }
 }

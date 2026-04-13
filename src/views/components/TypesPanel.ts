@@ -1,15 +1,15 @@
 import { Applied, Computed, Connected, Context, Late, Map, Primitive } from 'silentium';
 import { Template } from 'silentium-components';
 import { html } from 'silentium-ui';
-import { NodeTypeCell } from '@/cells/NodeTypeCell';
-import { ThePoint } from '@/cells/Point';
-import { Position } from '@/cells/Position';
-import { MapStream } from '@/streams/MapStream';
+import { NodeTypeModel } from '@/models/NodeTypeModel';
+import { ThePoint } from '@/types/Point';
+import { Position } from '@/types/Position';
+import { MapBehavior } from '@/behaviors/MapBehavior';
 import { TypeView } from '@/views/components/TypeView';
 
-export function TypesPanel(map: MapStream) {
+export function TypesPanel(map: MapBehavior) {
   const types$ = Applied(map.message(), m => m.types());
-  const newNode$ = Late<[NodeTypeCell, Position]>();
+  const newNode$ = Late<[NodeTypeModel, Position]>();
   const canvasPosition$ = Primitive(Context<ThePoint>('canvas-position'));
   newNode$.then(([type, position]) => {
     map.addNode(type, [

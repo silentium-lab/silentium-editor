@@ -1,12 +1,12 @@
 import { Connected, Context, Late, Lazy, Value } from 'silentium';
 import { StateRecord, Switch, Task, Template } from 'silentium-components';
 import { Button, html } from 'silentium-ui';
-import { MapStream } from '@/streams/MapStream';
+import { MapBehavior } from '@/behaviors/MapBehavior';
 import { Tr } from '@/io/Translation';
 
 type TheStates = 'waiting' | 'choosing' | 'next';
 
-export function Relation(map: MapStream) {
+export function Relation(map: MapBehavior) {
   const mode$ = Late<TheStates>('waiting');
   const activeNode = map.activeNode();
   const relation$ = StateRecord(mode$, activeNode.message(), ['choosing', 'next']);

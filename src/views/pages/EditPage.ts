@@ -12,8 +12,8 @@ import {
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Map } from '@/cells/Map';
-import { MapStream } from '@/streams/MapStream';
+import { Map } from '@/types/Map';
+import { MapBehavior } from '@/behaviors/MapBehavior';
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { ArrowsArea } from '@/views/components/ArrowsArea';
@@ -38,7 +38,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
   );
   const mapName$ = Late('current');
   const map$ = Part<Map>(files$, mapName$);
-  const mapModel = new MapStream(map$);
+  const mapModel = new MapBehavior(map$);
 
   ContextOf('map').then(ContextChain(map$));
 

@@ -12,13 +12,13 @@ import {
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { NodeType } from '@/cells/NodeType';
-import { MapStream } from '@/streams/MapStream';
+import { NodeType } from '@/types/NodeType';
+import { MapBehavior } from '@/behaviors/MapBehavior';
 import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
 
-export function NodeTypeModal(map: MapStream) {
+export function NodeTypeModal(map: MapBehavior) {
   const typeId$ = Context<{ id: string }>('active-node-type-id');
   const localMap$ = Local(map.message());
   const activeType$ = Applied(All(typeId$, localMap$), ([typeId, localMap]) => {
@@ -35,7 +35,6 @@ export function NodeTypeModal(map: MapStream) {
     saved$.use(false);
   });
   const deleted$ = Late();
-  deleted$.then(console.log);
   const deletion = Polling(Of(Primitive(typeId$)), deleted$).then(typeId => {
     const type = map.nodeType(typeId.primitiveWithException().id);
     type.delete();

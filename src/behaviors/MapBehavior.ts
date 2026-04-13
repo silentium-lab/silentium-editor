@@ -10,18 +10,18 @@ import {
   PrimitiveImpl,
 } from 'silentium';
 import { HashTable, Path } from 'silentium-components';
-import { Map } from '@/cells/Map';
-import { Node } from '@/cells/Node';
-import { NodeType } from '@/cells/NodeType';
-import { Position } from '@/cells/Position';
-import { NodeActor } from './NodeStream';
-import { NodeTypeActor } from './NodeTypeStream';
-import { SettingsModel } from './SettingsStream';
-import { MapCell } from '@/cells/MapCell';
-import { NodeTypeCell } from '@/cells/NodeTypeCell';
-import { NodeCell } from '@/cells/NodeCell';
+import { Map } from '@/types/Map';
+import { Node } from '@/types/Node';
+import { NodeType } from '@/types/NodeType';
+import { Position } from '@/types/Position';
+import { NodeBehavior } from './NodeBehavior';
+import { NodeTypeBehavior } from './NodeTypeBehavior';
+import { SettingsBehavior } from './SettingsBehavior';
+import { MapModel } from '@/models/MapModel';
+import { NodeTypeModel } from '@/models/NodeTypeModel';
+import { NodeModel } from '@/models/NodeModel';
 
-export class MapStream {
+export class MapBehavior {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
   private readonly nodeBlockRecord$ = HashTable<Record<string, boolean>>(
     this.nodeEditBlockReasons$
@@ -36,7 +36,7 @@ export class MapStream {
   }
 
   public message() {
-    return Applied(this.map$, map => new MapCell(map));
+    return Applied(this.map$, map => new MapModel(map));
   }
 
   public size() {
@@ -52,7 +52,7 @@ export class MapStream {
   }
 
   public nodeType(id: string) {
-    return new NodeTypeActor(this, id);
+    return new NodeTypeBehavior(this, id);
   }
 
   public saveNodeType(data: NodeType) {
@@ -73,11 +73,11 @@ export class MapStream {
 
   public activeNode() {
     const activeId$ = Context<{ id: string }>('active-node-id');
-    return new NodeActor(this, Path(activeId$, 'id'));
+    return new NodeBehavior(this, Path(activeId$, 'id'));
   }
 
   public node(id: string) {
-    return new NodeActor(this, id);
+    return new NodeBehavior(this, id);
   }
 
   public saveNode(data: Node) {
@@ -92,13 +92,13 @@ export class MapStream {
     return this;
   }
 
-  public addNode(type: NodeTypeCell, position: Position) {
-    this.saveNode(NodeCell.newNode(type, position).data());
+  public addNode(type: NodeTypeModel, position: Position) {
+    this.saveNode(NodeModel.newNode(type, position).data());
     return this;
   }
 
-  public settings(): SettingsModel {
-    return new SettingsModel(this);
+  public settings(): SettingsBehavior {
+    return new SettingsBehavior(this);
   }
 
   private objectEditBlockInit() {

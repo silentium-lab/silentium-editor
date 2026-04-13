@@ -1,23 +1,23 @@
 import { fromJS } from 'immutable';
 import { Actual, All, Applied, Filtered, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { Node } from '@/cells/Node';
-import { NodeRelation } from '@/cells/NodeRelation';
-import { Position } from '@/cells/Position';
-import { MapStream } from './MapStream';
-import { NodeCell } from '@/cells/NodeCell';
+import { Node } from '@/types/Node';
+import { NodeRelation } from '@/types/NodeRelation';
+import { Position } from '@/types/Position';
+import { MapBehavior } from './MapBehavior';
+import { NodeModel } from '@/models/NodeModel';
 
-export class NodeActor {
+export class NodeBehavior {
   private readonly id: MessageType<string>;
 
   public constructor(
-    private readonly map: MapStream,
+    private readonly map: MapBehavior,
     id: MaybeMessage<string>
   ) {
     this.id = Actual(id);
   }
 
   public message() {
-    return Filtered(Applied(All(this.map.message(), this.id), ([map, id]) => map.hasNode(id) ? map.nodeById(id) : false), Boolean) as MessageType<NodeCell>;
+    return Filtered(Applied(All(this.map.message(), this.id), ([map, id]) => map.hasNode(id) ? map.nodeById(id) : false), Boolean) as MessageType<NodeModel>;
   }
 
   public newPosition(position: Position) {

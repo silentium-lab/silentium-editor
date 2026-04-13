@@ -1,7 +1,7 @@
 import { Connected, DestroyContainer, Late, MessageType, SourceType } from 'silentium';
 import Draggabilly from 'draggabilly';
-import { Position } from '@/cells/Position';
-import { PositionMultiplied } from '@/cells/PositionMultiplied';
+import { Position } from '@/types/Position';
+import { PositionMultiplied } from '@/models/PositionMultiplied';
 
 const defaultGridMultiplier = 15;
 
@@ -16,7 +16,7 @@ export function Draggable(
 ) {
   const dc = DestroyContainer();
   const dragEnd$ = Late<Position>();
-  const dragEndHandler = pointer => {
+  const dragEndHandler = (pointer: any) => {
     let target = pointer.target;
     if (parentSelector) {
       target = pointer.target.closest(parentSelector);

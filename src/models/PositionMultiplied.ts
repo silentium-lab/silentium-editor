@@ -1,4 +1,4 @@
-import { Position } from './Position';
+import { Position } from '../types/Position';
 
 /**
  * Represents a position that is a multiple of a given number.

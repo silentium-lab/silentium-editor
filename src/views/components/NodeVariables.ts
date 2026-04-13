@@ -18,12 +18,12 @@ export function NodeVariables(vars$: MessageSourceType<Record<string, string>>) 
   const entries$ = Applied(vars$, v => Object.entries(v));
   return Template(
     t =>
-      html`<div>
+      html`<div class="pl-4">
         ${t.raw(
-          Applied(Map(entries$, NodeVariable.bind(null, vars$)), arr =>
-            arr.length ? arr.join('') : '-'
-          )
-        )}
+        Applied(Map(entries$, NodeVariable.bind(null, vars$)), arr =>
+          arr.length ? arr.join('') : '-'
+        )
+      )}
       </div>`
   );
 }
