@@ -122,7 +122,7 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Object type'))} </b>
               <span class="block">
-                ${t.raw(Select(Part<string>(local$, 'type'), typesList$))}
+                ${t.raw(Select(SourceComputed(Getter(activeNode.message(), 'typeId'), Part<string>(local$, 'type')), typesList$))}
               </span>
             </label>
           </div>

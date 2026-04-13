@@ -21,6 +21,10 @@ export class NodeModel {
     return this.nodeType;
   }
 
+  public typeId() {
+    return this.nodeType.id();
+  }
+
   public template() {
     let markup = this.nodeType.template();
     if (this.node.additionalFields) {
