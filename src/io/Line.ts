@@ -1,12 +1,12 @@
 import LinkerLine from 'linkerline';
-import { All, DestroyContainer, Message, MessageType } from 'silentium';
+import { All, Connected, DestroyContainer, Message, MessageType } from 'silentium';
 import { Node } from '@/types/Node';
 import { Element } from 'silentium-web-api';
 
 export function Line(node$: MessageType<Node>) {
   const arrowsArea$ = Element('.arrows-area');
   const dc = DestroyContainer();
-  return Message((resolve, reject) => {
+  return Connected(Message((resolve, reject) => {
     All(node$, arrowsArea$)
       .catch(reject)
       .then(([node, arrowsArea]) => {
@@ -33,9 +33,5 @@ export function Line(node$: MessageType<Node>) {
           });
         }
       });
-    return () => {
-      dc.destroy();
-      arrowsArea$.destroy();
-    };
-  });
+  }), dc, arrowsArea$);
 }
