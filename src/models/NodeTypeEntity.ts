@@ -1,10 +1,10 @@
-import { NodeType } from '../types/NodeType';
+import { TheNodeType } from '../types/NodeType';
 
 const notFoundTemplateMarkup =
   '<div style="background:red;padding:10px;color:white">Template Not Found! id="$id"</div>';
 
-export class NodeTypeModel {
-  public constructor(private nodeType: NodeType) { }
+export class NodeTypeEntity {
+  public constructor(private nodeType: TheNodeType) {}
 
   public data() {
     return {

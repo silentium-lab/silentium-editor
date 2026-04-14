@@ -1,9 +1,9 @@
-import { Map } from '../types/Map';
-import { NodeModel } from './NodeModel';
-import { NodeTypeModel } from './NodeTypeModel';
+import { TheMap } from '../types/Map';
+import { NodeModel } from './NodeEntity';
+import { NodeTypeEntity } from './NodeTypeEntity';
 
-export class MapModel {
-  public constructor(private map: Map) { }
+export class MapEntity {
+  public constructor(private map: TheMap) {}
 
   public data() {
     return this.map;
@@ -16,14 +16,11 @@ export class MapModel {
   }
 
   public types() {
-    return Object.values(this.map.types).map(type => new NodeTypeModel(type));
+    return Object.values(this.map.types).map(type => new NodeTypeEntity(type));
   }
 
   public nodeById(id: string) {
     const node = this.map.objects[id] ?? Object.values(this.map.objects).find(t => t.id === id);
-    if (node === undefined) {
-      console.log(id);
-    }
     return new NodeModel(node, this.typeById(node.type));
   }
 
@@ -34,7 +31,7 @@ export class MapModel {
   public typeById(id: string) {
     const type =
       this.map.types[id] ?? Object.values(this.map.types).find(t => t.id === id || t.name === id);
-    return new NodeTypeModel(type);
+    return new NodeTypeEntity(type);
   }
 
   public size() {

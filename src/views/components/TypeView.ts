@@ -2,14 +2,14 @@ import { All, Connected, Context, Late, MessageType, Primitive, SourceType } fro
 import { Getter, Task, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { NodeTypeModel } from '@/models/NodeTypeModel';
-import { Position } from '@/types/Position';
+import { NodeTypeEntity } from '@/models/NodeTypeEntity';
+import { ThePosition } from '@/types/Position';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
 
 export function TypeView(
-  newType: SourceType<[NodeTypeModel, Position]>,
-  type: MessageType<NodeTypeModel>
+  newType: SourceType<[NodeTypeEntity, ThePosition]>,
+  type: MessageType<NodeTypeEntity>
 ) {
   const markup$ = Getter(type, 'template');
   const id$ = Id();

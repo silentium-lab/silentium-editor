@@ -1,9 +1,9 @@
-import { Connected, DestroyContainer, Late, MessageType, SourceType } from 'silentium';
+import { PositionEntity } from '@/models/PositionEntity';
+import { ThePosition } from '@/types/Position';
 import Draggabilly from 'draggabilly';
-import { Position } from '@/types/Position';
-import { PositionMultiplied } from '@/models/PositionMultiplied';
+import { Connected, DestroyContainer, Late, MessageType } from 'silentium';
 
-const defaultGridMultiplier = 15;
+const defaultGridMultiple = 15;
 
 /**
  * The ability to drag elements
@@ -15,21 +15,20 @@ export function Draggable(
   parentSelector: string = ''
 ) {
   const dc = DestroyContainer();
-  const dragEnd$ = Late<Position>();
+  const dragEnd$ = Late<ThePosition>();
   const dragEndHandler = (pointer: any) => {
     let target = pointer.target;
     if (parentSelector) {
       target = pointer.target.closest(parentSelector);
     }
-    const position: Position = [target?.offsetLeft ?? 0, target?.offsetTop ?? 0];
-    const positionMultiplied = PositionMultiplied(defaultGridMultiplier, position);
-    dragEnd$.use(positionMultiplied);
+    const position: ThePosition = [target?.offsetLeft ?? 0, target?.offsetTop ?? 0];
+    dragEnd$.use(new PositionEntity(position).nearestMultipleOf(defaultGridMultiple).data());
   };
   const sub = el$.then(el => {
     dc.destroy();
     const dragging = new Draggabilly(el, {
       containment: true,
-      grid: [defaultGridMultiplier, defaultGridMultiplier],
+      grid: [defaultGridMultiple, defaultGridMultiple],
       ...options,
     });
     dragging.on('dragEnd', dragEndHandler);
@@ -45,5 +44,5 @@ export function Draggable(
     });
     return dc.destructor;
   });
-  return Connected<Position>(dragEnd$, sub);
+  return Connected<ThePosition>(dragEnd$, sub);
 }

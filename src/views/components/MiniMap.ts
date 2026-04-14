@@ -3,12 +3,12 @@ import { Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { ThePoint } from '@/types/Point';
-import { MapBehavior } from '@/behaviors/MapBehavior';
 import { ElementGeometry } from '@/io/ElementGeometry';
+import { MapStream } from '@/models/MapStream';
 
 const scale = 130 / 3000;
 
-export function MiniMap(map: MapBehavior) {
+export function MiniMap(map: MapStream) {
   const canvasPosition$ = Context<ThePoint>('canvas-position');
   const canvasRect$ = Applied(ElementGeometry('.nodes-view'), rect => {
     return {
@@ -32,25 +32,25 @@ export function MiniMap(map: MapBehavior) {
             class="minimap-preview ${t.raw(id$)} opacity-75 bg-primary border-primary border-solid"
           ></div>
           ${t.raw(
-          Mount(
-            Applied(
-              map.message(),
-              map =>
-                `<div class="mini-elements">${map
-                  .nodes()
-                  .map(
-                    object =>
-                      html`<div
+            Mount(
+              Applied(
+                map.message(),
+                map =>
+                  `<div class="mini-elements">${map
+                    .nodes()
+                    .map(
+                      object =>
+                        html`<div
                           class="bg-red-500 absolute top-0 left-0 opacity-75"
                           style="width: ${object.data().width * scale}px; height: ${object.data()
-                          .height * scale}px;transform: translate(${object.data().position[0] *
+                            .height * scale}px;transform: translate(${object.data().position[0] *
                           scale}px,${object.data().position[1] * scale}px)"
                         ></div>`
-                  )
-                  .join('')}</div>`
+                    )
+                    .join('')}</div>`
+              )
             )
-          )
-        )}
+          )}
         </div>`
     ),
     mapPositionDeps$

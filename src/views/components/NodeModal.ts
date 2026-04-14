@@ -1,12 +1,12 @@
 import { Tr } from '@/io/Translation';
-import { MapBehavior } from '@/behaviors/MapBehavior';
 import { Applied, Connected, Context, Late, Of, Primitive, Value } from 'silentium';
 import { BranchLazy, Getter, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
 import { Modal } from './Modal';
 import { NodeForm } from './NodeForm';
+import { MapStream } from '@/models/MapStream';
 
-export function NodeModal(map: MapBehavior) {
+export function NodeModal(map: MapStream) {
   const opened$ = Late(false);
   const activeNodeId$ = Context<{ id: string }>('active-node-id');
   const nodeEditBlock = Value(map.isNodeEditBlocked());
@@ -50,12 +50,12 @@ export function NodeModal(map: MapBehavior) {
               </div>
               <div class="mb-2">
                 ${t.raw(
-              BranchLazy(
-                opened$,
-                () => NodeForm(map, saved$, saveDone$),
-                () => Of('-')
-              )
-            )}
+                  BranchLazy(
+                    opened$,
+                    () => NodeForm(map, saved$, saveDone$),
+                    () => Of('-')
+                  )
+                )}
               </div>
             </div>`
         ),

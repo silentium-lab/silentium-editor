@@ -10,33 +10,33 @@ import {
   PrimitiveImpl,
 } from 'silentium';
 import { HashTable, Path } from 'silentium-components';
-import { Map } from '@/types/Map';
-import { Node } from '@/types/Node';
-import { NodeType } from '@/types/NodeType';
-import { Position } from '@/types/Position';
-import { NodeBehavior } from './NodeBehavior';
-import { NodeTypeBehavior } from './NodeTypeBehavior';
-import { SettingsBehavior } from './SettingsBehavior';
-import { MapModel } from '@/models/MapModel';
-import { NodeTypeModel } from '@/models/NodeTypeModel';
-import { NodeModel } from '@/models/NodeModel';
+import { TheMap } from '@/types/Map';
+import { TheNode } from '@/types/Node';
+import { TheNodeType } from '@/types/NodeType';
+import { ThePosition } from '@/types/Position';
+import { NodeStream } from './NodeStream';
+import { NodeTypeStream } from './NodeTypeStream';
+import { SettingsStream } from './SettingsStream';
+import { MapEntity } from '@/models/MapEntity';
+import { NodeTypeEntity } from '@/models/NodeTypeEntity';
+import { NodeModel } from '@/models/NodeEntity';
 
-export class MapBehavior {
+export class MapStream {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
   private readonly nodeBlockRecord$ = HashTable<Record<string, boolean>>(
     this.nodeEditBlockReasons$
   );
-  private readonly map: PrimitiveImpl<Map>;
+  private readonly map: PrimitiveImpl<TheMap>;
   private readonly TYPES_KEY = 'types';
   private readonly NODES_KEY = 'objects';
 
-  public constructor(private map$: MessageSourceType<Map>) {
+  public constructor(private map$: MessageSourceType<TheMap>) {
     this.objectEditBlockInit();
     this.map = Primitive(map$);
   }
 
   public message() {
-    return Applied(this.map$, map => new MapModel(map));
+    return Applied(this.map$, map => new MapEntity(map));
   }
 
   public size() {
@@ -52,18 +52,18 @@ export class MapBehavior {
   }
 
   public nodeType(id: string) {
-    return new NodeTypeBehavior(this, id);
+    return new NodeTypeStream(this, id);
   }
 
-  public saveNodeType(data: NodeType) {
+  public saveNodeType(data: TheNodeType) {
     const state = fromJS(this.map.primitiveWithException());
-    this.map$.use(state.setIn([this.TYPES_KEY, data.id], data).toObject() as unknown as Map);
+    this.map$.use(state.setIn([this.TYPES_KEY, data.id], data).toObject() as unknown as TheMap);
     return this;
   }
 
   public deleteNodeType(id: string) {
     const state = fromJS(this.map.primitiveWithException());
-    this.map$.use(state.deleteIn([this.TYPES_KEY, id]).toObject() as unknown as Map);
+    this.map$.use(state.deleteIn([this.TYPES_KEY, id]).toObject() as unknown as TheMap);
     return this;
   }
 
@@ -73,32 +73,32 @@ export class MapBehavior {
 
   public activeNode() {
     const activeId$ = Context<{ id: string }>('active-node-id');
-    return new NodeBehavior(this, Path(activeId$, 'id'));
+    return new NodeStream(this, Path(activeId$, 'id'));
   }
 
   public node(id: string) {
-    return new NodeBehavior(this, id);
+    return new NodeStream(this, id);
   }
 
-  public saveNode(data: Node) {
+  public saveNode(data: TheNode) {
     const state = fromJS(this.map.primitiveWithException());
-    this.map$.use(state.setIn([this.NODES_KEY, data.id], data).toObject() as unknown as Map);
+    this.map$.use(state.setIn([this.NODES_KEY, data.id], data).toObject() as unknown as TheMap);
     return this;
   }
 
   public deleteNode(id: string) {
     const state = fromJS(this.map.primitiveWithException());
-    this.map$.use(state.deleteIn([this.NODES_KEY, id]).toObject() as unknown as Map);
+    this.map$.use(state.deleteIn([this.NODES_KEY, id]).toObject() as unknown as TheMap);
     return this;
   }
 
-  public addNode(type: NodeTypeModel, position: Position) {
+  public addNode(type: NodeTypeEntity, position: ThePosition) {
     this.saveNode(NodeModel.newNode(type, position).data());
     return this;
   }
 
-  public settings(): SettingsBehavior {
-    return new SettingsBehavior(this);
+  public settings(): SettingsStream {
+    return new SettingsStream(this);
   }
 
   private objectEditBlockInit() {

@@ -1,5 +1,8 @@
+import { Tr } from '@/io/Translation';
+import { MapStream } from '@/models/MapStream';
+import { TheNode } from '@/types/Node';
+import { TheNodeRelation } from '@/types/NodeRelation';
 import {
-  Any,
   Applied,
   Connected,
   Filtered,
@@ -9,24 +12,16 @@ import {
   Primitive,
   SourceComputed,
   SourceType,
-  Value
+  Value,
 } from 'silentium';
 import { BranchLazy, Getter, Part, Path, Polling, Template } from 'silentium-components';
 import { Checkbox, html, Input, Select } from 'silentium-ui';
-import { Node } from '@/types/Node';
-import { NodeRelation } from '@/types/NodeRelation';
-import { MapBehavior } from '@/behaviors/MapBehavior';
-import { Tr } from '@/io/Translation';
 import { NodeRelations } from './NodeRelations';
 import { NodeVariables } from './NodeVariables';
 
-export function NodeForm(
-  map: MapBehavior,
-  saved$: MessageType<boolean>,
-  done$: SourceType<object>
-) {
+export function NodeForm(map: MapStream, saved$: MessageType<boolean>, done$: SourceType<object>) {
   const url = Primitive(map.url());
-  const local$ = Late<Node>();
+  const local$ = Late<TheNode>();
   const activeNode = map.activeNode();
   const sub = activeNode.message().then(node => {
     local$.use({ ...node.data(), outlink: node.data().outlink || url.primitiveWithException() });
@@ -53,22 +48,26 @@ export function NodeForm(
             </label>
           </div>
           ${t.raw(
-          BranchLazy(
-            Path(local$, 'linked'),
-            () =>
-              Template(
-                t =>
-                  html`<div id="link" class="mb-2">
+            BranchLazy(
+              Path(local$, 'linked'),
+              () =>
+                Template(
+                  t =>
+                    html`<div id="link" class="mb-2">
                       <label>
                         <span class="block">
-                          ${t.raw(Input(Part<string>(local$, 'outlink', url.primitiveWithException() ?? '')))}
+                          ${t.raw(
+                            Input(
+                              Part<string>(local$, 'outlink', url.primitiveWithException() ?? '')
+                            )
+                          )}
                         </span>
                       </label>
                     </div>`
-              ),
-            () => Of('')
-          )
-        )}
+                ),
+              () => Of('')
+            )
+          )}
           <div id="name" class="mb-2">
             <label>
               <b> ${t.escaped(Tr('Name top'))} </b>
@@ -79,12 +78,14 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Variables'))} </b>
               <span class="block">
-                ${t.raw(NodeVariables(
-          SourceComputed<Record<string, string>>(
-            Getter(activeNode.message(), 'additionalFields'),
-            additionalFields$)
-        )
-        )}
+                ${t.raw(
+                  NodeVariables(
+                    SourceComputed<Record<string, string>>(
+                      Getter(activeNode.message(), 'additionalFields'),
+                      additionalFields$
+                    )
+                  )
+                )}
               </span>
             </label>
           </div>
@@ -122,7 +123,15 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Object type'))} </b>
               <span class="block">
-                ${t.raw(Select(SourceComputed(Getter(activeNode.message(), 'typeId'), Part<string>(local$, 'type')), typesList$))}
+                ${t.raw(
+                  Select(
+                    SourceComputed(
+                      Getter(activeNode.message(), 'typeId'),
+                      Part<string>(local$, 'type')
+                    ),
+                    typesList$
+                  )
+                )}
               </span>
             </label>
           </div>
@@ -130,7 +139,7 @@ export function NodeForm(
             <label>
               <b> ${t.escaped(Tr('Relations'))} </b>
               <span class="block">
-                ${t.raw(NodeRelations(Part<NodeRelation[]>(local$, 'arrows')))}
+                ${t.raw(NodeRelations(Part<TheNodeRelation[]>(local$, 'arrows')))}
               </span>
             </label>
           </div>

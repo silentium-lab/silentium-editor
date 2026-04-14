@@ -16,8 +16,8 @@ export function RulerX() {
       t =>
         html`<div
           class="${t.raw(
-          id$
-        )} absolute flex top-0 left-0 w-[3000px] ml-4 z-20 h-4 border-b bg-base text-right text-border text-sm px-2"
+            id$
+          )} absolute flex top-0 left-0 w-[3000px] ml-4 z-20 h-4 border-b bg-base text-right text-border text-sm px-2"
           style="transform: translate(0px, 0px);"
         >
           <span class="flex-1 text-body-dark">300px</span>

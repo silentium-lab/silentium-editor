@@ -1,18 +1,18 @@
 import { describe, expect, test } from 'vitest';
-import { NodeModel } from './NodeModel';
-import { NodeTypeModel } from './NodeTypeModel';
+import { NodeModel } from './NodeEntity';
+import { NodeTypeEntity } from './NodeTypeEntity';
 
-describe('NodeCell.test', () => {
+describe('NodeEntity.test', () => {
   test('template', () => {
     const e = new NodeModel(
       <any>{ width: '100px' },
-      new NodeTypeModel(<any>{ svg: '<b>${width}</b>' })
+      new NodeTypeEntity(<any>{ svg: '<b>${width}</b>' })
     );
     expect(e.template()).toBe('<b>100px</b>');
   });
 
   test('additionalFields from template', () => {
-    const e = new NodeModel(<any>{}, new NodeTypeModel(<any>{ svg: '<b>${width}</b>' }));
+    const e = new NodeModel(<any>{}, new NodeTypeEntity(<any>{ svg: '<b>${width}</b>' }));
     expect(e.additionalFields()).toStrictEqual({
       width: '',
     });

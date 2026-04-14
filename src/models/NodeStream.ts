@@ -1,31 +1,36 @@
 import { fromJS } from 'immutable';
 import { Actual, All, Applied, Filtered, MaybeMessage, MessageType, Primitive } from 'silentium';
-import { Node } from '@/types/Node';
-import { NodeRelation } from '@/types/NodeRelation';
-import { Position } from '@/types/Position';
-import { MapBehavior } from './MapBehavior';
-import { NodeModel } from '@/models/NodeModel';
+import { TheNode } from '@/types/Node';
+import { TheNodeRelation } from '@/types/NodeRelation';
+import { ThePosition } from '@/types/Position';
+import { MapStream } from './MapStream';
+import { NodeModel } from '@/models/NodeEntity';
 
-export class NodeBehavior {
+export class NodeStream {
   private readonly id: MessageType<string>;
 
   public constructor(
-    private readonly map: MapBehavior,
+    private readonly map: MapStream,
     id: MaybeMessage<string>
   ) {
     this.id = Actual(id);
   }
 
   public message() {
-    return Filtered(Applied(All(this.map.message(), this.id), ([map, id]) => map.hasNode(id) ? map.nodeById(id) : false), Boolean) as MessageType<NodeModel>;
+    return Filtered(
+      Applied(All(this.map.message(), this.id), ([map, id]) =>
+        map.hasNode(id) ? map.nodeById(id) : false
+      ),
+      Boolean
+    ) as MessageType<NodeModel>;
   }
 
-  public newPosition(position: Position) {
+  public newPosition(position: ThePosition) {
     const node = Primitive(this.message());
     this.map.saveNode(
       fromJS(node.primitiveWithException().data())
         .setIn(['position'], position)
-        .toObject() as unknown as Node
+        .toObject() as unknown as TheNode
     );
   }
 
@@ -34,12 +39,12 @@ export class NodeBehavior {
     this.map.saveNode(
       fromJS(node.primitiveWithException())
         .updateIn(['arrows'], arr =>
-          (arr as NodeRelation[]).push({
+          (arr as TheNodeRelation[]).push({
             id: toNodeId,
             label: '',
           })
         )
-        .toObject() as unknown as Node
+        .toObject() as unknown as TheNode
     );
   }
 
@@ -55,7 +60,7 @@ export class NodeBehavior {
     return this;
   }
 
-  public update(v: Node) {
+  public update(v: TheNode) {
     this.map.saveNode(v);
     return this;
   }
@@ -65,7 +70,7 @@ export class NodeBehavior {
     this.map.saveNode(
       fromJS(node.primitiveWithException())
         .setIn(['additionalFields'], additionalFields)
-        .toObject() as unknown as Node
+        .toObject() as unknown as TheNode
     );
   }
 }

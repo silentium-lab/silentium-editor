@@ -12,8 +12,7 @@ import {
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import { Map } from '@/types/Map';
-import { MapBehavior } from '@/behaviors/MapBehavior';
+import { TheMap } from '@/types/Map';
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { ArrowsArea } from '@/views/components/ArrowsArea';
@@ -28,6 +27,7 @@ import { RulerY } from '@/views/components/RulerY';
 import { Settings } from '@/views/components/Settings';
 import { TypeNew } from '@/views/components/TypeNew';
 import { TypesPanel } from '@/views/components/TypesPanel';
+import { MapStream } from '@/models/MapStream';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);
@@ -37,8 +37,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
     SourceComputed(Filtered<string>(localContent$, Boolean), content$)
   );
   const mapName$ = Late('current');
-  const map$ = Part<Map>(files$, mapName$);
-  const mapModel = new MapBehavior(map$);
+  const map$ = Part<TheMap>(files$, mapName$);
+  const mapModel = new MapStream(map$);
 
   ContextOf('map').then(ContextChain(map$));
 
@@ -70,8 +70,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div
             class="${t.escaped(
-          canvasId$
-        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+              canvasId$
+            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel)))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">

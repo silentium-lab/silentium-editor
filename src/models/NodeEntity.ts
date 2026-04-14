@@ -1,13 +1,13 @@
-import { DateModel } from '@/models/DateModel';
-import { Node } from '../types/Node';
-import { NodeTypeModel } from './NodeTypeModel';
-import { Position } from '../types/Position';
+import { DateEntity } from '@/models/DateEntity';
+import { TheNode } from '../types/Node';
+import { NodeTypeEntity } from './NodeTypeEntity';
+import { ThePosition } from '../types/Position';
 
 export class NodeModel {
   public constructor(
-    private node: Node,
-    private nodeType: NodeTypeModel
-  ) { }
+    private node: TheNode,
+    private nodeType: NodeTypeEntity
+  ) {}
 
   public id() {
     return this.node.id;
@@ -40,22 +40,27 @@ export class NodeModel {
 
   public additionalFields(): Record<string, string> {
     const defaultFields = Object.fromEntries(
-      Array.from(this.nodeType.template().matchAll(/\$\{([a-zA-Z0-9]+)\}/gi)).map(match => [match[1], ''])
+      Array.from(this.nodeType.template().matchAll(/\$\{([a-zA-Z0-9]+)\}/gi)).map(match => [
+        match[1],
+        '',
+      ])
     );
-    return Object.fromEntries(Object.entries(defaultFields).map((entry) => {
-      return [entry[0], this.node.additionalFields?.[entry[0]] ?? (entry[1] || entry[0])];
-    }));
+    return Object.fromEntries(
+      Object.entries(defaultFields).map(entry => {
+        return [entry[0], this.node.additionalFields?.[entry[0]] ?? (entry[1] || entry[0])];
+      })
+    );
   }
 
   public createdAt() {
-    return DateModel.fromTimestamp(this.node.createTimestamp).readable();
+    return DateEntity.fromTimestamp(this.node.createTimestamp).readable();
   }
 
   public changedAt() {
-    return DateModel.fromTimestamp(this.node.changeTimestamp).readable();
+    return DateEntity.fromTimestamp(this.node.changeTimestamp).readable();
   }
 
-  public static newNode(type: NodeTypeModel, position: Position) {
+  public static newNode(type: NodeTypeEntity, position: ThePosition) {
     return new NodeModel(
       {
         additionalName: '',

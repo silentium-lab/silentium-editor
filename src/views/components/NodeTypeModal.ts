@@ -1,3 +1,6 @@
+import { Tr } from '@/io/Translation';
+import { MapStream } from '@/models/MapStream';
+import { TheNodeType } from '@/types/NodeType';
 import {
   All,
   Any,
@@ -12,13 +15,10 @@ import {
 } from 'silentium';
 import { BranchLazy, Path, Polling, Template } from 'silentium-components';
 import { Button, html, Mount } from 'silentium-ui';
-import { NodeType } from '@/types/NodeType';
-import { MapBehavior } from '@/behaviors/MapBehavior';
-import { Tr } from '@/io/Translation';
 import { Modal } from './Modal';
 import { TypeForm } from './TypeForm';
 
-export function NodeTypeModal(map: MapBehavior) {
+export function NodeTypeModal(map: MapStream) {
   const typeId$ = Context<{ id: string }>('active-node-type-id');
   const localMap$ = Local(map.message());
   const activeType$ = Applied(All(typeId$, localMap$), ([typeId, localMap]) => {
@@ -28,7 +28,7 @@ export function NodeTypeModal(map: MapBehavior) {
   typeId$.then(() => {
     opened$.use(true);
   });
-  const type$ = Late<NodeType>();
+  const type$ = Late<TheNodeType>();
   type$.then(type => {
     map.saveNodeType(type);
     opened$.use(false);
@@ -50,12 +50,12 @@ export function NodeTypeModal(map: MapBehavior) {
             html`<div>
               <div>
                 ${t.raw(
-              BranchLazy(
-                opened$,
-                () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
-                () => Of('-')
-              )
-            )}
+                  BranchLazy(
+                    opened$,
+                    () => TypeForm(SourceComputed(Any(type$, activeType$), type$), saved$),
+                    () => Of('-')
+                  )
+                )}
               </div>
             </div>`
         ),
