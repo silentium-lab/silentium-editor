@@ -71,9 +71,12 @@ export class MapStream {
     return Applied(this.message(), m => m.nodes());
   }
 
+  public activeNodeEvent() {
+    return Context<{ id: string }>('active-node-id');
+  }
+
   public activeNode() {
-    const activeId$ = Context<{ id: string }>('active-node-id');
-    return new NodeStream(this, Path(activeId$, 'id'));
+    return new NodeStream(this, Path(this.activeNodeEvent(), 'id'));
   }
 
   public node(id: string) {
