@@ -7,7 +7,7 @@ export class NodeModel {
   public constructor(
     private node: TheNode,
     private nodeType: NodeTypeEntity
-  ) {}
+  ) { }
 
   public id() {
     return this.node.id;
@@ -23,6 +23,14 @@ export class NodeModel {
 
   public typeId() {
     return this.nodeType.id();
+  }
+
+  public topName() {
+    return this.node.additionalName;
+  }
+
+  public bottomName() {
+    return this.node.name;
   }
 
   public template() {

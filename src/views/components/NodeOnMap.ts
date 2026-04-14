@@ -8,7 +8,7 @@ import {
   SourceType,
   Void,
 } from 'silentium';
-import { Path, Template } from 'silentium-components';
+import { Getter, Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheNode } from '@/types/Node';
@@ -41,12 +41,18 @@ export function NodeOnMap(
     Template(
       t =>
         html`<div
-          class="node-view select-none absolute ${t.escaped(id$)} node-id-${t.escaped(
-            Path(node$, 'id')
-          )}"
+          class="node-view flex flex-col items-center text-sm select-none absolute ${t.escaped(id$)} node-id-${t.escaped(
+          Path(node$, 'id')
+        )}"
           style="left: ${t.escaped(left$)}px;top: ${t.escaped(top$)}px;z-index: ${t.escaped(z$)}"
         >
+          <span>
+            ${t.raw(Getter(nodeEntity$, 'topName'))}
+          </span>
           ${t.raw(Applied(nodeEntity$, n => n.template()))}
+          <span>
+            ${t.raw(Getter(nodeEntity$, 'bottomName'))}
+          </span>
         </div>`
     ),
     container$,
