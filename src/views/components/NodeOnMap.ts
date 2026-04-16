@@ -17,6 +17,7 @@ import { ThePosition } from '@/types/Position';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
 import { Line } from '@/io/Line';
+import { NodeTopName } from '@/views/components/NodeTopName';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[TheNode, ThePosition]>,
@@ -27,12 +28,14 @@ export function NodeOnMap(
   const top$ = Path(node$, 'position.1');
   const z$ = Path(node$, 'zindex');
   const id$ = Id();
+  const clickId$ = Id();
   const container$ = Element(ClassName(id$));
+  const clickContainer$ = Element(ClassName(clickId$));
   const draggable$ = Draggable(container$, {}, undefined, '.node-view');
   newNodePosition.chain(All(node$, draggable$));
   const line$ = Line(node$).then(Void());
   const node = Primitive(node$);
-  const clicked$ = ClickWithoutDrag(container$);
+  const clicked$ = ClickWithoutDrag(clickContainer$);
   const activeNodeId$ = Context('active-node-id');
   clicked$.then(e => {
     activeNodeId$.use({ id: node.primitiveWithException().id });
@@ -47,15 +50,18 @@ export function NodeOnMap(
           style="left: ${t.escaped(left$)}px;top: ${t.escaped(top$)}px;z-index: ${t.escaped(z$)}"
         >
           <span>
-            ${t.raw(Getter(nodeEntity$, 'topName'))}
+            ${t.raw(Applied(nodeEntity$, NodeTopName))}
           </span>
-          ${t.raw(Applied(nodeEntity$, n => n.template()))}
+          <div class="${t.escaped(clickId$)}">
+            ${t.raw(Applied(nodeEntity$, n => n.template()))}
+          </div>
           <span>
             ${t.raw(Getter(nodeEntity$, 'bottomName'))}
           </span>
         </div>`
     ),
     container$,
+    clickContainer$,
     draggable$,
     line$,
     clicked$

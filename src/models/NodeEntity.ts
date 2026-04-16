@@ -21,6 +21,14 @@ export class NodeModel {
     return this.nodeType;
   }
 
+  public url() {
+    return this.node.linked ? this.node.outlink : null;
+  }
+
+  public hasUrl() {
+    return this.node.linked;
+  }
+
   public typeId() {
     return this.nodeType.id();
   }
