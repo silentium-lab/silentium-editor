@@ -3,7 +3,7 @@ import { NodeModel } from './NodeEntity';
 import { NodeTypeEntity } from './NodeTypeEntity';
 
 export class MapEntity {
-  public constructor(private map: TheMap) {}
+  public constructor(private map: TheMap) { }
 
   public data() {
     return this.map;
@@ -39,5 +39,23 @@ export class MapEntity {
       height: 3000,
       width: 3000,
     };
+  }
+
+  public static emptyMap(url: string, parentMap: TheMap) {
+    return new MapEntity({
+      document: url,
+      url,
+      parent: parentMap.url,
+      progress: 0,
+      parentNames: {},
+      types: {},
+      objects: {},
+      position: [0, 0],
+      namedSearches: [],
+      settings: {
+        colored: true,
+        title: "",
+      }
+    })
   }
 }

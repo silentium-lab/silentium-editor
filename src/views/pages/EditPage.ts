@@ -1,20 +1,8 @@
-import {
-  Connected,
-  ContextChain,
-  ContextOf,
-  Filtered,
-  Late,
-  Local,
-  MessageSourceType,
-  MessageType,
-  SourceComputed,
-} from 'silentium';
-import { Part, Task, Template } from 'silentium-components';
-import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
-import { Element } from 'silentium-web-api';
-import { TheMap } from '@/types/Map';
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
+import { MapEntity } from '@/models/MapEntity';
+import { MapStream } from '@/models/MapStream';
+import { TheMap } from '@/types/Map';
 import { ArrowsArea } from '@/views/components/ArrowsArea';
 import { MiniMap } from '@/views/components/MiniMap';
 import { NavigationPanel } from '@/views/components/NavigationPanel';
@@ -27,17 +15,39 @@ import { RulerY } from '@/views/components/RulerY';
 import { Settings } from '@/views/components/Settings';
 import { TypeNew } from '@/views/components/TypeNew';
 import { TypesPanel } from '@/views/components/TypesPanel';
-import { MapStream } from '@/models/MapStream';
+import {
+  All,
+  Applied,
+  Connected,
+  ContextChain,
+  ContextOf,
+  Filtered,
+  Late,
+  Local,
+  MessageSourceType,
+  MessageType,
+  SourceComputed
+} from 'silentium';
+import { Part, Task, Template } from 'silentium-components';
+import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
+import { Element } from 'silentium-web-api';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
-  const files$ = JSONSource<object>(
+  const files$ = JSONSource<Record<string, any>>(
     SourceComputed(Filtered<string>(localContent$, Boolean), content$)
   );
   const mapName$ = Late('current');
-  const map$ = Part<TheMap>(files$, mapName$);
+  ContextOf('active-map-name').then(ContextChain(mapName$));
+  const mapPart = Part<TheMap>(files$, mapName$);
+  const map$ = SourceComputed<TheMap>(Applied(All(files$, mapName$), ([files, mapName]) => {
+    if (files[mapName] !== undefined) {
+      return files[mapName];
+    }
+    return MapEntity.emptyMap(mapName, files['current']).data();
+  }), mapPart);
   const mapModel = new MapStream(map$);
 
   ContextOf('map').then(ContextChain(map$));
@@ -70,8 +80,8 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           </div>
           <div
             class="${t.escaped(
-              canvasId$
-            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+          canvasId$
+        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel)))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">

@@ -1,17 +1,19 @@
+import { ClickWithoutDrag } from "@/io/ClickWithoutDrag";
 import { NodeModel } from "@/models/NodeEntity";
-import { Connected } from "silentium";
+import { Connected, Context } from "silentium";
 import { Template } from "silentium-components";
-import { ClassName, Clicked, html, Id } from "silentium-ui";
+import { ClassName, html, Id } from "silentium-ui";
+import { Element } from "silentium-web-api";
 
 export function NodeTopName(node: NodeModel) {
   const id$ = Id();
-  const clicked$ = Clicked(ClassName(id$));
-  const sub = clicked$.then(() => {
-    if (node.url()) {
-      console.log('open', node.url());
-    }
-  })
-  return Connected(Template(t => html`<span class="${t.escaped(id$)} ${node.hasUrl() ? 'underline' : ''}">
+  const el$ = Element(ClassName(id$));
+  const mapName$ = Context('active-map-name');
+  const clicked$ = ClickWithoutDrag(el$);
+  clicked$.then(() => {
+    mapName$.use(node.url());
+  });
+  return Connected(Template(t => html`<span class="${t.escaped(id$)} ${node.hasUrl() ? 'underline cursor-pointer' : ''}">
     ${node.topName()}
-  </span>`), clicked$, sub);
+  </span>`), id$, el$, clicked$, mapName$);
 }
