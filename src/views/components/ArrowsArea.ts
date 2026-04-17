@@ -1,7 +1,7 @@
+import { ThePoint } from '@/types/Point';
 import { All, Connected, Local, MessageType } from 'silentium';
 import { Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
-import { ThePoint } from '@/types/Point';
 import { Element } from 'silentium-web-api';
 
 export function ArrowsArea(dragPosition$: MessageType<ThePoint>) {
@@ -11,6 +11,7 @@ export function ArrowsArea(dragPosition$: MessageType<ThePoint>) {
   All(container$, localDragPosition$).then(([el, position]) => {
     el.style.transform = `translate(${-position.x}px, ${-position.y}px)`;
   });
+  console.log('draw area');
   return Connected<string>(
     Template(
       t =>

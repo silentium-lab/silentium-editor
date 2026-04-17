@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
-import { NodeModel } from './NodeEntity';
+import { NodeEntity } from './NodeEntity';
 import { NodeTypeEntity } from './NodeTypeEntity';
 
 describe('NodeEntity.test', () => {
   test('template', () => {
-    const e = new NodeModel(
+    const e = new NodeEntity(
       <any>{ width: '100px' },
       new NodeTypeEntity(<any>{ svg: '<b>${width}</b>' })
     );
@@ -12,7 +12,7 @@ describe('NodeEntity.test', () => {
   });
 
   test('additionalFields from template', () => {
-    const e = new NodeModel(<any>{}, new NodeTypeEntity(<any>{ svg: '<b>${width}</b>' }));
+    const e = new NodeEntity(<any>{}, new NodeTypeEntity(<any>{ svg: '<b>${width}</b>' }));
     expect(e.additionalFields()).toStrictEqual({
       width: '',
     });

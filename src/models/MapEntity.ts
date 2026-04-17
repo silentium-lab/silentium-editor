@@ -1,5 +1,5 @@
 import { TheMap } from '../types/Map';
-import { NodeModel } from './NodeEntity';
+import { NodeEntity } from './NodeEntity';
 import { NodeTypeEntity } from './NodeTypeEntity';
 
 export class MapEntity {
@@ -11,8 +11,12 @@ export class MapEntity {
 
   public nodes() {
     return Object.values(this.map.objects).map(
-      node => new NodeModel(node, this.typeById(node.type))
+      node => new NodeEntity(node, this.typeById(node.type))
     );
+  }
+
+  public hasParent() {
+    return !!this.map.parent;
   }
 
   public types() {
@@ -21,7 +25,7 @@ export class MapEntity {
 
   public nodeById(id: string) {
     const node = this.map.objects[id] ?? Object.values(this.map.objects).find(t => t.id === id);
-    return new NodeModel(node, this.typeById(node.type));
+    return new NodeEntity(node, this.typeById(node.type));
   }
 
   public hasNode(id: string) {
@@ -39,6 +43,10 @@ export class MapEntity {
       height: 3000,
       width: 3000,
     };
+  }
+
+  public parent() {
+    return this.map.parent.replace(/^\//, '');
   }
 
   public static emptyMap(url: string, parentMap: TheMap) {

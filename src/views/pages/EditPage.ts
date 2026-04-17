@@ -18,6 +18,7 @@ import { TypesPanel } from '@/views/components/TypesPanel';
 import {
   All,
   Applied,
+  Computed,
   Connected,
   ContextChain,
   ContextOf,
@@ -64,7 +65,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
         >
           <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
-            ${t.raw(NavigationPanel())}
+            ${t.raw(Mount(Computed(NavigationPanel, mapModel.message())))}
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             ${t.raw(Mount(TypesPanel(mapModel)))}
@@ -89,7 +90,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
               ${t.raw(RulerX())} ${t.raw(RulerY())}
             </div>
           </div>
-          ${t.raw(NodeModal(mapModel))} ${t.raw(Mount(Task(ArrowsArea(dragPosition$))))}
+          ${t.raw(NodeModal(mapModel))} ${t.raw(Mount(Task(ArrowsArea(dragPosition$), 300)))}
           ${t.raw(NodeTypeModal(mapModel))}
         </div>`
     ),

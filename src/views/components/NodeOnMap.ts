@@ -12,7 +12,7 @@ import { Getter, Path, Template } from 'silentium-components';
 import { ClassName, html, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { TheNode } from '@/types/Node';
-import { NodeModel } from '@/models/NodeEntity';
+import { NodeEntity } from '@/models/NodeEntity';
 import { ThePosition } from '@/types/Position';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
@@ -21,7 +21,7 @@ import { NodeTopName } from '@/views/components/NodeTopName';
 
 export function NodeOnMap(
   newNodePosition: SourceType<[TheNode, ThePosition]>,
-  nodeEntity$: MessageType<NodeModel>
+  nodeEntity$: MessageType<NodeEntity>
 ) {
   const node$ = Applied(nodeEntity$, n => n.data());
   const left$ = Path(node$, 'position.0');

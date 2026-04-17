@@ -4,7 +4,7 @@ import { TheNode } from '@/types/Node';
 import { TheNodeRelation } from '@/types/NodeRelation';
 import { ThePosition } from '@/types/Position';
 import { MapStream } from './MapStream';
-import { NodeModel } from '@/models/NodeEntity';
+import { NodeEntity } from '@/models/NodeEntity';
 
 export class NodeStream {
   private readonly id: MessageType<string>;
@@ -22,7 +22,7 @@ export class NodeStream {
         map.hasNode(id) ? map.nodeById(id) : false
       ),
       Boolean
-    ) as MessageType<NodeModel>;
+    ) as MessageType<NodeEntity>;
   }
 
   public newPosition(position: ThePosition) {

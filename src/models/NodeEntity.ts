@@ -2,12 +2,18 @@ import { DateEntity } from '@/models/DateEntity';
 import { TheNode } from '../types/Node';
 import { NodeTypeEntity } from './NodeTypeEntity';
 import { ThePosition } from '../types/Position';
+import { IdentifiedType } from 'silentium';
+import hash from 'object-hash';
 
-export class NodeModel {
+export class NodeEntity implements IdentifiedType {
   public constructor(
     private node: TheNode,
     private nodeType: NodeTypeEntity
   ) { }
+
+  public identityKey(): string {
+    return hash(this.node);
+  }
 
   public id() {
     return this.node.id;
@@ -77,7 +83,7 @@ export class NodeModel {
   }
 
   public static newNode(type: NodeTypeEntity, position: ThePosition) {
-    return new NodeModel(
+    return new NodeEntity(
       {
         additionalName: '',
         arrows: [],

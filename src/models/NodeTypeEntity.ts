@@ -1,16 +1,22 @@
+import { IdentifiedType } from 'silentium';
 import { TheNodeType } from '../types/NodeType';
+import hash from 'object-hash';
 
 const notFoundTemplateMarkup =
   '<div style="background:red;padding:10px;color:white">Template Not Found! id="$id"</div>';
 
-export class NodeTypeEntity {
-  public constructor(private nodeType: TheNodeType) {}
+export class NodeTypeEntity implements IdentifiedType {
+  public constructor(private nodeType: TheNodeType) { }
 
   public data() {
     return {
       ...this.nodeType,
       markup: this.template(),
     };
+  }
+
+  public identityKey(): string {
+    return hash(this.nodeType);
   }
 
   public id() {

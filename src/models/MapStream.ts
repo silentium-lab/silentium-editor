@@ -19,7 +19,7 @@ import { NodeTypeStream } from './NodeTypeStream';
 import { SettingsStream } from './SettingsStream';
 import { MapEntity } from '@/models/MapEntity';
 import { NodeTypeEntity } from '@/models/NodeTypeEntity';
-import { NodeModel } from '@/models/NodeEntity';
+import { NodeEntity } from '@/models/NodeEntity';
 
 export class MapStream {
   private readonly nodeEditBlockReasons$ = Late<[string, boolean]>();
@@ -96,7 +96,7 @@ export class MapStream {
   }
 
   public addNode(type: NodeTypeEntity, position: ThePosition) {
-    this.saveNode(NodeModel.newNode(type, position).data());
+    this.saveNode(NodeEntity.newNode(type, position).data());
     return this;
   }
 
