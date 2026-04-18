@@ -32,6 +32,7 @@ import {
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
+import '@/views/components/NavigationPanel';
 
 export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
   const localContent$ = Local(content$);
@@ -65,7 +66,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
           class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
         >
           <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
-            ${t.raw(Mount(Computed(NavigationPanel, mapModel.message())))}
+            <navigation-panel-lit></navigation-panel-lit>
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             ${t.raw(Mount(TypesPanel(mapModel)))}
