@@ -13,9 +13,3 @@ export class NodeVariablesLit extends LitElement {
     return html`<div class="node-variables-lit">NodeVariablesLit</div>`;
   }
 }
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'node-variables-lit': NodeVariablesLit;
-  }
-}
