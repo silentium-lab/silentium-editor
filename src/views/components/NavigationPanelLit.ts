@@ -6,14 +6,24 @@ import { MapEntity } from '@/models/MapEntity';
 
 @customElement('navigation-panel-lit')
 export class NavigationPanelLit extends LitElement {
-  createRenderRoot() {
+  public createRenderRoot() {
     return this;
   }
 
   @property({ type: Object })
-  map: MapEntity | null = null;
+  public map: MapEntity | null = null;
 
-  render() {
+  private onBack = () => {
+    const mapName$ = Context('active-map-name');
+    mapName$.use(this.map!.parent());
+  }
+
+  private onClose = () => {
+    const appClosed$ = Context('app-closed');
+    appClosed$.use(Date.now());
+  }
+
+  public render() {
     const showBack = !!(this.map && this.map.hasParent());
     return html`
       <div class="flex w-full justify-between">
@@ -22,22 +32,10 @@ export class NavigationPanelLit extends LitElement {
           <strong>SilentiumEditor</strong>
         </div>
         ${showBack
-        ? html`<button class="ml-auto mr-2 underline" @click="${() => {
-          const mapName$ = Context('active-map-name');
-          mapName$.use(this.map!.parent());
-        }}">Назад</button>`
+        ? html`<button class="ml-auto mr-2 underline" @click="${this.onBack}">Назад</button>`
         : html``}
-        <button class="btn" @click="${() => {
-        const appClosed$ = Context('app-closed');
-        appClosed$.use(Date.now());
-      }}">&times;</button>
+        <button class="btn cursor-pointer" @click="${this.onClose}">&times;</button>
       </div>
     `;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'navigation-panel-lit': NavigationPanelLit;
   }
 }

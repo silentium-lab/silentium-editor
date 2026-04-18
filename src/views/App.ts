@@ -1,13 +1,13 @@
+import { PlatformName } from '@/io/CapacitorPlatform';
 import { partial } from 'lodash-es';
 import { compose } from 'lodash/fp';
 import { Any, Applied, ContextChain, ContextOf, DestroyContainer, Late, Of } from 'silentium';
 import { Polling, Router } from 'silentium-components';
 import { Render } from 'silentium-morphdom';
 import { Element } from 'silentium-web-api';
-import { PlatformName } from '@/io/CapacitorPlatform';
 import { FilePickedFromFS } from './components/FilePickedFromFS';
-import { EditPage } from './pages/EditPage';
 import { MainPage } from './pages/MainPage';
+import '@/views/pages/EditPageLit';
 
 /**
  * The main application entrypoint
@@ -16,6 +16,7 @@ export function App() {
   const closed$ = Late();
   ContextOf('app-closed').then(ContextChain(closed$));
   const content$ = Late('');
+  ContextOf('active-content').then(ContextChain(content$));
   const platform$ = PlatformName();
   const openFile$ = Late();
   const dc = DestroyContainer();
@@ -42,7 +43,7 @@ export function App() {
       },
       {
         condition: c => c === 'true',
-        message: partial(EditPage, content$),
+        message: () => '<edit-page-lit></edit-page-lit>',
       },
     ],
     () => 'NotFound!'
