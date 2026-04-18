@@ -11,7 +11,7 @@ export class NavigationPanelLit extends LitElement {
   }
 
   @property({ type: Object })
-  public map: MapEntity | null = null;
+  public map!: MapEntity;
 
   private onBack = () => {
     const mapName$ = Context('active-map-name');

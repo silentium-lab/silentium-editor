@@ -10,11 +10,15 @@ import { Part } from 'silentium-components';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import '@/views/components/NavigationPanelLit';
+import '@/views/components/TypesPanelLit';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {
   @state()
   public map!: MapEntity;
+
+  @state()
+  public mapStream: MapStream;
 
   public constructor() {
     super();
@@ -34,8 +38,8 @@ export class EditPageLit extends LitElement {
       }
       return MapEntity.emptyMap(mapName, files['current']).data();
     }), mapPart);
-    const mapModel = new MapStream(map$);
-    mapModel.message().then((map) => {
+    this.mapStream = new MapStream(map$);
+    this.mapStream.message().then((map) => {
       this.map = map;
     })
 
@@ -58,7 +62,7 @@ export class EditPageLit extends LitElement {
         >
           <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
             <navigation-panel-lit .map="${this.map}"></navigation-panel-lit>
-            <types-panel-lit></types-panel-lit>
+            <types-panel-lit .map="${this.mapStream}"></types-panel-lit>
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             <types-panel-lit></types-panel-lit>
