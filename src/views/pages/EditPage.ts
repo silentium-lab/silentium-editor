@@ -6,6 +6,16 @@ import { TheMap } from '@/types/Map';
 import { ArrowsArea } from '@/views/components/ArrowsArea';
 import { MiniMap } from '@/views/components/MiniMap';
 import { NavigationPanel } from '@/views/components/NavigationPanel';
+import '@/views/components/TypesPanelLit';
+import '@/views/components/MiniMapLit';
+import '@/views/components/NodesViewLit';
+import '@/views/components/NodeModalLit';
+import '@/views/components/TypeViewLit';
+import '@/views/components/SettingsLit';
+import '@/views/components/NodeTopNameLit';
+import '@/views/components/NodeVariablesLit';
+import '@/views/components/NavigationPanelLit';
+import { TypesPanelLit } from '@/views/components/TypesPanelLit';
 import { NodeModal } from '@/views/components/NodeModal';
 import { NodesView } from '@/views/components/NodesView';
 import { NodeTypeModal } from '@/views/components/NodeTypeModal';
@@ -20,6 +30,7 @@ import {
   Applied,
   Computed,
   Connected,
+  Context,
   ContextChain,
   ContextOf,
   Filtered,
@@ -34,7 +45,8 @@ import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import '@/views/components/NavigationPanel';
 
-export function EditPage(content$: MessageSourceType<string>): MessageType<string> {
+export function EditPage(): MessageType<string> {
+  const content$ = Context<string>('active-content');
   const localContent$ = Local(content$);
   ContextOf('active-node-id').then(ContextChain(Late()));
   ContextOf('active-node-type-id').then(ContextChain(Late()));
@@ -67,6 +79,7 @@ export function EditPage(content$: MessageSourceType<string>): MessageType<strin
         >
           <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
             <navigation-panel-lit></navigation-panel-lit>
+            <types-panel-lit></types-panel-lit>
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
             ${t.raw(Mount(TypesPanel(mapModel)))}
