@@ -9,6 +9,7 @@ import { Task } from 'silentium-components';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { v4 } from 'uuid';
+import '@/views/components/ModalLit';
 
 @customElement('type-view-lit')
 export class TypeViewLit extends LitElement {
