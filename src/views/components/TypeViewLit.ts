@@ -52,7 +52,7 @@ export class TypeViewLit extends LitElement {
   private theType!: NodeTypeEntity;
 
   render() {
-    this.theId.use(v4());
+    this.theId.use('type-view-' + v4());
     const template = this.theType.template();
     return html`<article class="select-none">
           <h2 class="mb-2">${this.theType.name()}</h2>

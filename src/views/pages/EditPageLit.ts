@@ -62,10 +62,9 @@ export class EditPageLit extends LitElement {
         >
           <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
             <navigation-panel-lit .map="${this.map}"></navigation-panel-lit>
-            <types-panel-lit .map="${this.mapStream}"></types-panel-lit>
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
-            <types-panel-lit></types-panel-lit>
+            <types-panel-lit .map="${this.mapStream}"></types-panel-lit>
             <div class="flex gap-2 px-2 mt-auto">
               <type-new-lit></type-new-lit>
               <settings-lit></settings-lit>
