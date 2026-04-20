@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('modal-lit')
@@ -13,14 +13,28 @@ export class ModalLit extends LitElement {
     return this;
   }
 
+  private emitClose() {
+    this.dispatchEvent(new CustomEvent('close'))
+  }
+
+  private preventClick(e: Event) {
+    e.stopPropagation();
+  }
+
+  @property({ attribute: false }) public content?: TemplateResult;
+  @property({ attribute: false }) public actions?: TemplateResult;
+
   public render() {
     return html`<div
-          class="bg-black/50 inset-0 ${this.opened ? 'flex' : 'none'} items-center justify-center p-4 z-50"
+          class="bg-black/50 inset-0 ${this.opened ? 'flex' : 'hidden'} fixed top-0 left-0 right-0 bottom-0 items-center justify-center p-4 z-50"
+          @click="${this.emitClose}"
         >
           <div
+            @click="${this.preventClick}"
             class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col relative"
           >
             <button
+              @click="${this.emitClose}"
               class="top-2 right-2 absolute cursor-pointer text-gray-400 hover:text-gray-600"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,12 +52,12 @@ export class ModalLit extends LitElement {
               <h3 class="text-lg font-semibold text-gray-900">${this.title}</h3>
             </div>
             <div class="px-6 py-4 overflow-y-auto flex-1">
-              <slot></slot>
+              ${this.content}
             </div>
             <div
                 class="px-6 py-4 border-t border-gray-400 flex justify-between items-center"
               >
-                <slot name="actions"></slot>
+                ${this.actions}
               </div>
           </div>
         </div>`;

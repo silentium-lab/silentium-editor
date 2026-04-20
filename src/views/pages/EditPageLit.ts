@@ -11,6 +11,7 @@ import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import '@/views/components/NavigationPanelLit';
 import '@/views/components/TypesPanelLit';
+import '@/views/components/NodeTypeModalLit';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {

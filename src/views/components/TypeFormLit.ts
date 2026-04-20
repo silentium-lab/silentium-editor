@@ -2,11 +2,10 @@ import { Tr } from "@/io/Translation";
 import { TheNodeType } from "@/types/NodeType";
 import { Behave } from "@/views/controllers/Behave";
 import { Observe } from "@/views/controllers/Observe";
-import { LitElement } from "lit";
+import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { MessageSourceType } from "silentium";
 import { Part } from "silentium-components";
-import { html } from "silentium-ui";
 
 @customElement('type-form-lit')
 export class TypeFormLit extends LitElement {

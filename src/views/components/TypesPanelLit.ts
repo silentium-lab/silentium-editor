@@ -5,6 +5,7 @@ import '@/views/components/TypeViewLit';
 import { NodeTypeEntity } from '@/models/NodeTypeEntity';
 import { Context, DestroyContainer, Primitive } from 'silentium';
 import { ThePoint } from '@/types/Point';
+import { Observe } from '@/views/controllers/Observe';
 
 @customElement('types-panel-lit')
 export class TypesPanelLit extends LitElement {
@@ -31,11 +32,11 @@ export class TypesPanelLit extends LitElement {
     return this;
   }
 
-  private canvasPosition$ = Primitive(Context<ThePoint>('canvas-position'));
+  private canvasPosition$ = Observe(this, Context<ThePoint>('canvas-position'));
   private onNewNode = (e: any) => {
     this.map.addNode(e.detail.type, [
-      e.detail.position[0] + this.canvasPosition$.primitiveWithException().x - 200,
-      e.detail.position[1] + this.canvasPosition$.primitiveWithException().y + 40,
+      e.detail.position[0] + this.canvasPosition$.value.x - 200,
+      e.detail.position[1] + this.canvasPosition$.value.y + 40,
     ]);
   }
 

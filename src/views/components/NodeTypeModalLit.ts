@@ -5,6 +5,8 @@ import { Observe } from '@/views/controllers/Observe';
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { Context, Late, Primitive } from 'silentium';
+import '@/views/components/TypeFormLit';
+import '@/views/components/ModalLit';
 
 @customElement('node-type-modal-lit')
 export class NodeTypeModalLit extends LitElement {
@@ -22,6 +24,13 @@ export class NodeTypeModalLit extends LitElement {
     delete: Observe(this, Tr('Delete')),
   } as const;
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.typeId$.source().then(() => {
+      this.opened = true;
+    })
+  }
+
   createRenderRoot() {
     return this;
   }
@@ -38,13 +47,17 @@ export class NodeTypeModalLit extends LitElement {
     this.opened = false;
   }
 
+  private onClose() {
+    this.opened = false;
+  }
+
   render() {
-    return html`<modal-lit .opened="${this.opened}">
-      <type-form-lit .typeLocal$="${this.type$}"></type-form-lit>
-      <div slot="actions" class="flex gap-2">
-        <button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
-        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">${this.labels.delete.value}</button>
-      </div>
+    return html`<modal-lit
+      .opened="${this.opened}" @close="${this.onClose}"
+      .content="${html`<type-form-lit .typeLocal$="${this.type$}"></type-form-lit>`}"
+      .actions="${html`<button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
+        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">${this.labels.delete.value}</button>`}"
+     >
     </modal-lit>`;
   }
 }

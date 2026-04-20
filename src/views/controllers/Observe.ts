@@ -16,6 +16,10 @@ export class ObserveImpl<T> {
     this.host.addController(this);
   }
 
+  public source() {
+    return this.source$;
+  }
+
   public hostConnected() {
     this.sub = this.source$.then((value) => {
       this.value = value;

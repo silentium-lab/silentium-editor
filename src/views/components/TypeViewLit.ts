@@ -4,7 +4,7 @@ import { NodeTypeEntity } from '@/models/NodeTypeEntity';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { Context, Late } from 'silentium';
+import { Context, DestroyContainer, Late } from 'silentium';
 import { Task } from 'silentium-components';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
@@ -14,6 +14,7 @@ import '@/views/components/ModalLit';
 @customElement('type-view-lit')
 export class TypeViewLit extends LitElement {
   private theId = Late<string>();
+  private dc = DestroyContainer();
 
   public constructor() {
     super();
@@ -27,6 +28,7 @@ export class TypeViewLit extends LitElement {
       draggablePosition$,
       '.node-view'
     );
+    this.dc.add(draggable$);
     Task(draggable$).then(() => {
       draggablePosition$.use([0, 0]);
     });
@@ -43,11 +45,17 @@ export class TypeViewLit extends LitElement {
     const activeNodeTypeId$ = Context('active-node-type-id');
     const clicked$ = ClickWithoutDrag(container$);
     clicked$.then(() => {
-      activeNodeTypeId$.use({ id: this.theType.id });
+      activeNodeTypeId$.use({ id: this.theType.id() });
     });
+    this.dc.add(clicked$);
   }
 
   public createRenderRoot() { return this; }
+
+  disconnectedCallback() {
+    this.dc.destroy();
+    super.disconnectedCallback();
+  }
 
   @property({ type: Object })
   private theType!: NodeTypeEntity;
