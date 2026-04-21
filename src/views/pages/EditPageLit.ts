@@ -89,7 +89,7 @@ export class EditPageLit extends LitElement {
           </div>
           <node-modal-lit></node-modal-lit>
           <arrows-area-lit></arrows-area-lit>
-          <node-type-modal-lit></node-type-modal-lit>
+          <node-type-modal-lit .map="${this.mapStream}"></node-type-modal-lit>
         </div>`;
   }
 }

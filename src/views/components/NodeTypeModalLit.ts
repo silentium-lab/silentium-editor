@@ -1,12 +1,12 @@
 import { Tr } from '@/io/Translation';
 import { MapStream } from '@/models/MapStream';
 import { TheNodeType } from '@/types/NodeType';
+import '@/views/components/ModalLit';
+import '@/views/components/TypeFormLit';
 import { Observe } from '@/views/controllers/Observe';
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { Context, Late, Primitive } from 'silentium';
-import '@/views/components/TypeFormLit';
-import '@/views/components/ModalLit';
+import { All, Applied, Context } from 'silentium';
 
 @customElement('node-type-modal-lit')
 export class NodeTypeModalLit extends LitElement {
@@ -16,10 +16,13 @@ export class NodeTypeModalLit extends LitElement {
   @state()
   private opened = false;
 
-  private type$ = Late<TheNodeType>();
+  @state()
+  private type?: TheNodeType;
+
   private typeId$ = Observe(this, Context<{ id: string }>('active-node-type-id'));
 
   private labels = {
+    objectType: Observe(this, Tr('Object type')),
     save: Observe(this, Tr('Save')),
     delete: Observe(this, Tr('Delete')),
   } as const;
@@ -28,6 +31,11 @@ export class NodeTypeModalLit extends LitElement {
     super.connectedCallback();
     this.typeId$.source().then(() => {
       this.opened = true;
+    });
+    Applied(All(this.typeId$.source(), this.map.message()), ([typeId, localMap]) => {
+      return localMap.typeById(typeId.id).data();
+    }).then(t => {
+      this.type = t;
     })
   }
 
@@ -42,9 +50,15 @@ export class NodeTypeModalLit extends LitElement {
   }
 
   private onSave() {
-    const type = Primitive(this.type$);
-    this.map.saveNodeType(type.primitiveWithException());
+    if (!this.type) {
+      return;
+    }
+    this.map.saveNodeType(this.type);
     this.opened = false;
+  }
+
+  private onChange(ev: CustomEvent) {
+    this.type = ev.detail;
   }
 
   private onClose() {
@@ -53,10 +67,11 @@ export class NodeTypeModalLit extends LitElement {
 
   render() {
     return html`<modal-lit
-      .opened="${this.opened}" @close="${this.onClose}"
-      .content="${html`<type-form-lit .typeLocal$="${this.type$}"></type-form-lit>`}"
-      .actions="${html`<button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
-        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">${this.labels.delete.value}</button>`}"
+      .title="${this.labels.objectType.value + ' #' + this.type?.id}"
+      .opened = "${this.opened}" @close = "${this.onClose}"
+        .content = "${this.type && html`<type-form-lit .type="${this.type}" @change="${this.onChange}"></type-form-lit>`}"
+          .actions = "${html`<button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
+    <button class= "btn bg-danger text-base" @click = "${this.onDelete.bind(this)}" > ${this.labels.delete.value} </button>`}"
      >
     </modal-lit>`;
   }

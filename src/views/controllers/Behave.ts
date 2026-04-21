@@ -15,6 +15,7 @@ export class BehaveImpl<T> {
 
   public constructor(private host: LitElement, private source$: MessageSourceType<T>) {
     this.host.addController(this);
+    this.use = this.use.bind(this);
   }
 
   public hostConnected() {
