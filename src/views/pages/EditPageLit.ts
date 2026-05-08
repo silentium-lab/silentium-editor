@@ -17,8 +17,6 @@ import '@/views/components/NodeTypeModalLit';
 export class EditPageLit extends LitElement {
   @state()
   public map!: MapEntity;
-
-  @state()
   public mapStream: MapStream;
 
   public constructor() {
@@ -89,7 +87,7 @@ export class EditPageLit extends LitElement {
           </div>
           <node-modal-lit></node-modal-lit>
           <arrows-area-lit></arrows-area-lit>
-          <node-type-modal-lit .map="${this.mapStream}"></node-type-modal-lit>
+          <node-type-modal-lit .mapStream="${this.mapStream}"></node-type-modal-lit>
         </div>`;
   }
 }

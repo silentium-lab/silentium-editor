@@ -10,8 +10,7 @@ import { All, Applied, Context } from 'silentium';
 
 @customElement('node-type-modal-lit')
 export class NodeTypeModalLit extends LitElement {
-  @property({ type: Object })
-  private map!: MapStream;
+  private mapStream!: MapStream;
 
   @state()
   private opened = false;
@@ -27,12 +26,20 @@ export class NodeTypeModalLit extends LitElement {
     delete: Observe(this, Tr('Delete')),
   } as const;
 
+  constructor() {
+    super();
+    this.onChange = this.onChange.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onSave = this.onSave.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.typeId$.source().then(() => {
       this.opened = true;
     });
-    Applied(All(this.typeId$.source(), this.map.message()), ([typeId, localMap]) => {
+    Applied(All(this.typeId$.source(), this.mapStream.message()), ([typeId, localMap]) => {
       return localMap.typeById(typeId.id).data();
     }).then(t => {
       this.type = t;
@@ -44,7 +51,7 @@ export class NodeTypeModalLit extends LitElement {
   }
 
   private onDelete() {
-    const type = this.map.nodeType(this.typeId$.value.id);
+    const type = this.mapStream.nodeType(this.typeId$.value.id);
     type.delete();
     this.opened = false;
   }
@@ -53,7 +60,7 @@ export class NodeTypeModalLit extends LitElement {
     if (!this.type) {
       return;
     }
-    this.map.saveNodeType(this.type);
+    this.mapStream.saveNodeType(this.type);
     this.opened = false;
   }
 
@@ -69,8 +76,8 @@ export class NodeTypeModalLit extends LitElement {
     return html`<modal-lit
       .title="${this.labels.objectType.value + ' #' + this.type?.id}"
       .opened = "${this.opened}" @close = "${this.onClose}"
-        .content = "${this.type && html`<type-form-lit .type="${this.type}" @change="${this.onChange}"></type-form-lit>`}"
-          .actions = "${html`<button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
+      .content = "${this.type && html`<type-form-lit .type="${this.type}" @change="${this.onChange}"></type-form-lit>`}"
+      .actions = "${html`<button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
     <button class= "btn bg-danger text-base" @click = "${this.onDelete.bind(this)}" > ${this.labels.delete.value} </button>`}"
      >
     </modal-lit>`;
