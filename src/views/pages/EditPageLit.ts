@@ -12,12 +12,17 @@ import { Element } from 'silentium-web-api';
 import '@/views/components/NavigationPanelLit';
 import '@/views/components/TypesPanelLit';
 import '@/views/components/NodeTypeModalLit';
+import { provide } from '@lit/context';
+import { mapContext } from '@/contexts/mapContext';
+import { ContextProvider } from '@lit/context';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {
   @state()
   public map!: MapEntity;
   public mapStream: MapStream;
+
+  private mapProvider = new ContextProvider(this, { context: mapContext });
 
   public constructor() {
     super();
@@ -38,6 +43,7 @@ export class EditPageLit extends LitElement {
       return MapEntity.emptyMap(mapName, files['current']).data();
     }), mapPart);
     this.mapStream = new MapStream(map$);
+    provide({ context: mapContext })
     this.mapStream.message().then((map) => {
       this.map = map;
     })
