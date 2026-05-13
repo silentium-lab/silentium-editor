@@ -6,11 +6,11 @@ import { NodeTypeEntity } from '@/models/NodeTypeEntity';
 import { Context, DestroyContainer, Primitive } from 'silentium';
 import { ThePoint } from '@/types/Point';
 import { Observe } from '@/views/controllers/Observe';
+import { Store } from '@/views/controllers/Store';
+import { $store } from '@/store';
 
 @customElement('types-panel-lit')
 export class TypesPanelLit extends LitElement {
-  @property({ type: Object })
-  public map!: MapStream;
 
   @state()
   private types: NodeTypeEntity[] = [];
@@ -32,11 +32,12 @@ export class TypesPanelLit extends LitElement {
     return this;
   }
 
-  private canvasPosition$ = Observe(this, Context<ThePoint>('canvas-position'));
+  private map = new Store(this, $store);
+
   private onNewNode = (e: any) => {
     this.map.addNode(e.detail.type, [
-      e.detail.position[0] + this.canvasPosition$.value.x - 200,
-      e.detail.position[1] + this.canvasPosition$.value.y + 40,
+      e.detail.position[0] + this.map.value.scrollPosition[0] - 200,
+      e.detail.position[1] + this.map.value.scrollPosition[1] + 40,
     ]);
   }
 

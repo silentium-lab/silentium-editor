@@ -1,58 +1,56 @@
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { MapEntity } from '@/models/MapEntity';
-import { MapStream } from '@/models/MapStream';
+import { $store, dispatch } from '@/store';
 import { TheMap } from '@/types/Map';
+import '@/views/components/NavigationPanelLit';
+import '@/views/components/NodeTypeModalLit';
+import '@/views/components/TypesPanelLit';
 import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { All, Applied, Context, ContextChain, ContextOf, Filtered, Late, Local, SourceComputed, Void } from 'silentium';
+import { Context, ContextChain, ContextOf, Filtered, Late, Local, SourceComputed, Void } from 'silentium';
 import { Part } from 'silentium-components';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
-import '@/views/components/NavigationPanelLit';
-import '@/views/components/TypesPanelLit';
-import '@/views/components/NodeTypeModalLit';
-import { provide } from '@lit/context';
-import { mapContext } from '@/contexts/mapContext';
-import { ContextProvider } from '@lit/context';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {
   @state()
   public map!: MapEntity;
-  public mapStream: MapStream;
-
-  private mapProvider = new ContextProvider(this, { context: mapContext });
 
   public constructor() {
     super();
     const content$ = Context<string>('active-content');
     const localContent$ = Local(content$);
-    ContextOf('active-node-id').then(ContextChain(Late()));
-    ContextOf('active-node-type-id').then(ContextChain(Late()));
     const files$ = JSONSource<Record<string, any>>(
       SourceComputed(Filtered<string>(localContent$, Boolean), content$)
     );
     const mapName$ = Late('current');
     ContextOf('active-map-name').then(ContextChain(mapName$));
     const mapPart = Part<TheMap>(files$, mapName$);
-    const map$ = SourceComputed<TheMap>(Applied(All(files$, mapName$), ([files, mapName]) => {
-      if (files[mapName] !== undefined) {
-        return files[mapName];
-      }
-      return MapEntity.emptyMap(mapName, files['current']).data();
-    }), mapPart);
-    this.mapStream = new MapStream(map$);
-    provide({ context: mapContext })
-    this.mapStream.message().then((map) => {
-      this.map = map;
-    })
+    mapPart.then((map) => {
+        dispatch((state) => {
+            return {
+                ...state,
+                map,
+            };
+        });
+    });
 
-    ContextOf('map').then(ContextChain(map$));
+    $store.subscribe((state) => {
+        mapPart.use(state.map);
+    })
 
     const canvasId$ = Id();
     const dragPosition$ = Late({ x: 0, y: 0 });
-    ContextOf('canvas-position').then(ContextChain(dragPosition$));
+    dragPosition$.then((position) => {
+        dispatch((state) => {
+            return {
+                ...state,
+                scrollPosition: position,
+            };
+        });
+    });
     const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)), dragPosition$);
     scrollable$.then(Void());
   }
@@ -66,10 +64,10 @@ export class EditPageLit extends LitElement {
           class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
         >
           <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
-            <navigation-panel-lit .map="${this.map}"></navigation-panel-lit>
+            <navigation-panel-lit></navigation-panel-lit>
           </div>
           <div class="flex flex-col w-40 relative z-10 bg-secondary">
-            <types-panel-lit .map="${this.mapStream}"></types-panel-lit>
+            <types-panel-lit></types-panel-lit>
             <div class="flex gap-2 px-2 mt-auto">
               <type-new-lit></type-new-lit>
               <settings-lit></settings-lit>
@@ -93,7 +91,7 @@ export class EditPageLit extends LitElement {
           </div>
           <node-modal-lit></node-modal-lit>
           <arrows-area-lit></arrows-area-lit>
-          <node-type-modal-lit .mapStream="${this.mapStream}"></node-type-modal-lit>
+          <node-type-modal-lit></node-type-modal-lit>
         </div>`;
   }
 }
