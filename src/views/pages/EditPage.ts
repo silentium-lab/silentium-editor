@@ -38,7 +38,7 @@ import {
   Local,
   MessageSourceType,
   MessageType,
-  SourceComputed
+  SourceComputed,
 } from 'silentium';
 import { Part, Task, Template } from 'silentium-components';
 import { ClassName, html, Id, Mount, MountPoint } from 'silentium-ui';
@@ -56,12 +56,15 @@ export function EditPage(): MessageType<string> {
   const mapName$ = Late('current');
   ContextOf('active-map-name').then(ContextChain(mapName$));
   const mapPart = Part<TheMap>(files$, mapName$);
-  const map$ = SourceComputed<TheMap>(Applied(All(files$, mapName$), ([files, mapName]) => {
-    if (files[mapName] !== undefined) {
-      return files[mapName];
-    }
-    return MapEntity.emptyMap(mapName, files['current']).data();
-  }), mapPart);
+  const map$ = SourceComputed<TheMap>(
+    Applied(All(files$, mapName$), ([files, mapName]) => {
+      if (files[mapName] !== undefined) {
+        return files[mapName];
+      }
+      return MapEntity.emptyMap(mapName, files['current']).data();
+    }),
+    mapPart
+  );
   const mapModel = new MapStream(map$);
 
   ContextOf('map').then(ContextChain(map$));
@@ -95,8 +98,8 @@ export function EditPage(): MessageType<string> {
           </div>
           <div
             class="${t.escaped(
-          canvasId$
-        )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+              canvasId$
+            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel)))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">

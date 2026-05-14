@@ -1,23 +1,28 @@
 import { JSONSource } from '@/io/JSONSource';
 import { ScrollByDrag } from '@/io/ScrollByDrag';
-import { MapEntity } from '@/models/MapEntity';
-import { $store, dispatch } from '@/store';
+import { $appStore, $mapStore, mapDispatch } from '@/store';
 import { TheMap } from '@/types/Map';
 import '@/views/components/NavigationPanelLit';
 import '@/views/components/NodeTypeModalLit';
 import '@/views/components/TypesPanelLit';
 import { LitElement, html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { Context, ContextChain, ContextOf, Filtered, Late, Local, SourceComputed, Void } from 'silentium';
+import { customElement } from 'lit/decorators.js';
+import {
+  Context,
+  ContextChain,
+  ContextOf,
+  Filtered,
+  Late,
+  Local,
+  SourceComputed,
+  Void,
+} from 'silentium';
 import { Part } from 'silentium-components';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {
-  @state()
-  public map!: MapEntity;
-
   public constructor() {
     super();
     const content$ = Context<string>('active-content');
@@ -28,28 +33,26 @@ export class EditPageLit extends LitElement {
     const mapName$ = Late('current');
     ContextOf('active-map-name').then(ContextChain(mapName$));
     const mapPart = Part<TheMap>(files$, mapName$);
-    mapPart.then((map) => {
-        dispatch((state) => {
-            return {
-                ...state,
-                map,
-            };
-        });
+    mapPart.then(map => {
+      mapDispatch(state => {
+        return {
+          ...state,
+          map,
+        };
+      });
     });
 
-    $store.subscribe((state) => {
-        mapPart.use(state.map);
-    })
+    $mapStore.subscribe(state => {
+      mapPart.use(state);
+    });
 
     const canvasId$ = Id();
     const dragPosition$ = Late({ x: 0, y: 0 });
-    dragPosition$.then((position) => {
-        dispatch((state) => {
-            return {
-                ...state,
-                scrollPosition: position,
-            };
-        });
+    dragPosition$.then(position => {
+      $appStore.set({
+        ...$appStore.get(),
+        position: [position.x, position.y],
+      });
     });
     const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)), dragPosition$);
     scrollable$.then(Void());
@@ -61,37 +64,35 @@ export class EditPageLit extends LitElement {
 
   public render() {
     return html`<div
-          class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
-        >
-          <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
-            <navigation-panel-lit></navigation-panel-lit>
-          </div>
-          <div class="flex flex-col w-40 relative z-10 bg-secondary">
-            <types-panel-lit></types-panel-lit>
-            <div class="flex gap-2 px-2 mt-auto">
-              <type-new-lit></type-new-lit>
-              <settings-lit></settings-lit>
-            </div>
-            <relation-lit></relation-lit>
-          </div>
-          <div
-            class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
-          >
-            <mini-map-lit></mini-map-lit>
-          </div>
-          <div
-            class="nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
-          >
-            <nodes-view-lit></nodes-view-lit>
-            <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
-              <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
-              <ruller-x-lit></ruller-x-lit>
-              <ruller-y-lit></ruller-y-lit>
-            </div>
-          </div>
-          <node-modal-lit></node-modal-lit>
-          <arrows-area-lit></arrows-area-lit>
-          <node-type-modal-lit></node-type-modal-lit>
-        </div>`;
+      class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
+    >
+      <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
+        <navigation-panel-lit></navigation-panel-lit>
+      </div>
+      <div class="flex flex-col w-40 relative z-10 bg-secondary">
+        <types-panel-lit></types-panel-lit>
+        <div class="flex gap-2 px-2 mt-auto">
+          <type-new-lit></type-new-lit>
+          <settings-lit></settings-lit>
+        </div>
+        <relation-lit></relation-lit>
+      </div>
+      <div
+        class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
+      >
+        <mini-map-lit></mini-map-lit>
+      </div>
+      <div class="nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
+        <nodes-view-lit></nodes-view-lit>
+        <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
+          <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
+          <ruller-x-lit></ruller-x-lit>
+          <ruller-y-lit></ruller-y-lit>
+        </div>
+      </div>
+      <node-modal-lit></node-modal-lit>
+      <arrows-area-lit></arrows-area-lit>
+      <node-type-modal-lit></node-type-modal-lit>
+    </div>`;
   }
 }

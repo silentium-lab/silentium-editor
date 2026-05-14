@@ -4,7 +4,9 @@ import { MapEntity } from '@/models/MapEntity';
 
 @customElement('nodes-view-lit')
 export class NodesViewLit extends LitElement {
-  createRenderRoot() { return this; }
+  createRenderRoot() {
+    return this;
+  }
   @property({ type: Object }) map: MapEntity | null = null;
   render() {
     return html`<div class="nodes-view-lit">NodesViewLit</div>`;

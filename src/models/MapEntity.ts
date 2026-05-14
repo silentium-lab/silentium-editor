@@ -3,7 +3,7 @@ import { NodeEntity } from './NodeEntity';
 import { NodeTypeEntity } from './NodeTypeEntity';
 
 export class MapEntity {
-  public constructor(private map: TheMap) { }
+  public constructor(private map: TheMap) {}
 
   public data() {
     return this.map;
@@ -62,8 +62,8 @@ export class MapEntity {
       namedSearches: [],
       settings: {
         colored: true,
-        title: "",
-      }
-    })
+        title: '',
+      },
+    });
   }
 }

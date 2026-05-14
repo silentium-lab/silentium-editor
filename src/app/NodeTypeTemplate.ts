@@ -1,4 +1,4 @@
-import { TheNodeType } from "@/types/NodeType";
+import { TheNodeType } from '@/types/NodeType';
 
 const notFoundTemplateMarkup =
   '<div style="background:red;padding:10px;color:white">Template Not Found! id="$id"</div>';

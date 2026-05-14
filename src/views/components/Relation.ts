@@ -31,40 +31,40 @@ export function Relation(map: MapStream) {
       t =>
         html`<div class="mt-auto p-2">
           ${t.raw(
-          Switch(mode$, [
-            [
-              'waiting',
-              Lazy(() =>
-                Button(Tr('Choose object'), 'btn w-full cursor-pointer', mode$, '', 'choosing')
-              ),
-            ],
-            [
-              'choosing',
-              // TODO why Lazy required?
-              Lazy(() =>
-                Button(
-                  Tr('Cancel'),
-                  'btn w-full cursor-pointer bg-danger text-base',
-                  mode$,
-                  '',
-                  'waiting'
-                )
-              ),
-            ],
-            [
-              'next',
-              Lazy(() =>
-                Button(
-                  Tr('Next or cancel'),
-                  'btn w-full cursor-pointer bg-danger text-base',
-                  mode$,
-                  '',
-                  'waiting'
-                )
-              ),
-            ],
-          ])
-        )}
+            Switch(mode$, [
+              [
+                'waiting',
+                Lazy(() =>
+                  Button(Tr('Choose object'), 'btn w-full cursor-pointer', mode$, '', 'choosing')
+                ),
+              ],
+              [
+                'choosing',
+                // TODO why Lazy required?
+                Lazy(() =>
+                  Button(
+                    Tr('Cancel'),
+                    'btn w-full cursor-pointer bg-danger text-base',
+                    mode$,
+                    '',
+                    'waiting'
+                  )
+                ),
+              ],
+              [
+                'next',
+                Lazy(() =>
+                  Button(
+                    Tr('Next or cancel'),
+                    'btn w-full cursor-pointer bg-danger text-base',
+                    mode$,
+                    '',
+                    'waiting'
+                  )
+                ),
+              ],
+            ])
+          )}
         </div>`
     ),
     relation$,

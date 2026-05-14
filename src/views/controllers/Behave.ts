@@ -1,5 +1,5 @@
-import { LitElement } from "lit";
-import { Destroyable, MessageSourceType, MessageType } from "silentium";
+import { LitElement } from 'lit';
+import { Destroyable, MessageSourceType, MessageType } from 'silentium';
 
 /**
  * Наблюдаемое свойство из MessageSourceType
@@ -13,13 +13,16 @@ export class BehaveImpl<T> {
   private sub?: MessageType;
   public value?: T;
 
-  public constructor(private host: LitElement, private source$: MessageSourceType<T>) {
+  public constructor(
+    private host: LitElement,
+    private source$: MessageSourceType<T>
+  ) {
     this.host.addController(this);
     this.use = this.use.bind(this);
   }
 
   public hostConnected() {
-    this.sub = this.source$.then((value) => {
+    this.sub = this.source$.then(value => {
       this.value = value;
       this.host.requestUpdate();
     });

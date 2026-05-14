@@ -9,7 +9,7 @@ export class NodeEntity implements IdentifiedType {
   public constructor(
     private node: TheNode,
     private nodeType: NodeTypeEntity
-  ) { }
+  ) {}
 
   public identityKey(): string {
     return hash(this.node);

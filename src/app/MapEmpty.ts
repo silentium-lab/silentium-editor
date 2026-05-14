@@ -1,4 +1,4 @@
-import { TheMap } from "@/types/Map";
+import { TheMap } from '@/types/Map';
 
 export function EmptyMap(): TheMap {
   return {
@@ -13,7 +13,7 @@ export function EmptyMap(): TheMap {
     namedSearches: [],
     settings: {
       colored: true,
-      title: "",
-    }
-  }
+      title: '',
+    },
+  };
 }

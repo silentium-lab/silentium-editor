@@ -4,7 +4,9 @@ import { MapEntity } from '@/models/MapEntity';
 
 @customElement('node-variables-lit')
 export class NodeVariablesLit extends LitElement {
-  createRenderRoot() { return this; }
+  createRenderRoot() {
+    return this;
+  }
 
   @property({ type: Object })
   map: MapEntity | null = null;

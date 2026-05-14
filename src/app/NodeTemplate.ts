@@ -1,6 +1,6 @@
-import { NodeTypeTemplate } from "@/app/NodeTypeTemplate";
-import { TheNode } from "@/types/Node";
-import { TheNodeType } from "@/types/NodeType";
+import { NodeTypeTemplate } from '@/app/NodeTypeTemplate';
+import { TheNode } from '@/types/Node';
+import { TheNodeType } from '@/types/NodeType';
 
 export function NodeTemplate(node: TheNode, nodeType: TheNodeType) {
   let markup = NodeTypeTemplate(nodeType);

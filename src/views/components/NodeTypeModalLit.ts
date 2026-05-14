@@ -43,7 +43,7 @@ export class NodeTypeModalLit extends LitElement {
       return localMap.typeById(typeId.id).data();
     }).then(t => {
       this.type = t;
-    })
+    });
   }
 
   createRenderRoot() {
@@ -75,11 +75,17 @@ export class NodeTypeModalLit extends LitElement {
   render() {
     return html`<modal-lit
       .title="${this.labels.objectType.value + ' #' + this.type?.id}"
-      .opened = "${this.opened}" @close = "${this.onClose}"
-      .content = "${this.type && html`<type-form-lit .type="${this.type}" @change="${this.onChange}"></type-form-lit>`}"
-      .actions = "${html`<button class="btn" @click="${this.onSave}">${this.labels.save.value}</button>
-    <button class= "btn bg-danger text-base" @click = "${this.onDelete.bind(this)}" > ${this.labels.delete.value} </button>`}"
-     >
+      .opened="${this.opened}"
+      @close="${this.onClose}"
+      .content="${this.type &&
+      html`<type-form-lit .type="${this.type}" @change="${this.onChange}"></type-form-lit>`}"
+      .actions="${html`<button class="btn" @click="${this.onSave}">
+          ${this.labels.save.value}
+        </button>
+        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
+          ${this.labels.delete.value}
+        </button>`}"
+    >
     </modal-lit>`;
   }
 }

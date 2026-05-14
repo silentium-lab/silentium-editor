@@ -16,12 +16,12 @@ export class NavigationPanelLit extends LitElement {
   private onBack = () => {
     const mapName$ = Context('active-map-name');
     mapName$.use(this.map!.parent());
-  }
+  };
 
   private onClose = () => {
     const appClosed$ = Context('app-closed');
     appClosed$.use(Date.now());
-  }
+  };
 
   public render() {
     const showBack = !!(this.map && this.map.hasParent());
@@ -32,8 +32,8 @@ export class NavigationPanelLit extends LitElement {
           <strong>SilentiumEditor</strong>
         </div>
         ${showBack
-        ? html`<button class="ml-auto mr-2 underline" @click="${this.onBack}">Назад</button>`
-        : html``}
+          ? html`<button class="ml-auto mr-2 underline" @click="${this.onBack}">Назад</button>`
+          : html``}
         <button class="btn cursor-pointer" @click="${this.onClose}">&times;</button>
       </div>
     `;

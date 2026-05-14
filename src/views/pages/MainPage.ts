@@ -12,12 +12,8 @@ export function MainPage(openFile$: MessageSourceType) {
         <div class="w-40 mx-auto">
           <div class="mb-2 text-center w-full">${t.raw(Tr('Choose the file to edit'))}</div>
           <div class="mb-2">${t.raw(Button(Tr('Open file'), 'btn w-full', openFile$))}</div>
-          <div class="mb-2">
-            ${t.raw(Button('English', 'btn w-full', lang$, '', 'en'))}
-          </div>
-          <div class="mb-2">
-            ${t.raw(Button('Русский', 'btn w-full', lang$, '', 'ru'))}
-          </div>
+          <div class="mb-2">${t.raw(Button('English', 'btn w-full', lang$, '', 'en'))}</div>
+          <div class="mb-2">${t.raw(Button('Русский', 'btn w-full', lang$, '', 'ru'))}</div>
         </div>
       </div>`
   );

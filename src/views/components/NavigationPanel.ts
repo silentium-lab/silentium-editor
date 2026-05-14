@@ -29,6 +29,6 @@ export function NavigationPanel(map: MapEntity) {
         </div>`
     ),
     closed$,
-    back$,
+    back$
   );
 }

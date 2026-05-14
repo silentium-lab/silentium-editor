@@ -32,15 +32,17 @@ export class TypeViewLit extends LitElement {
     Task(draggable$).then(() => {
       draggablePosition$.use([0, 0]);
     });
-    draggable$.then((pos) => {
-      this.dispatchEvent(new CustomEvent('new-node', {
-        detail: {
-          position: pos,
-          type: this.theType
-        },
-        bubbles: true,
-        composed: true
-      }))
+    draggable$.then(pos => {
+      this.dispatchEvent(
+        new CustomEvent('new-node', {
+          detail: {
+            position: pos,
+            type: this.theType,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
     });
     const activeNodeTypeId$ = Context('active-node-type-id');
     const clicked$ = ClickWithoutDrag(container$);
@@ -50,7 +52,9 @@ export class TypeViewLit extends LitElement {
     this.dc.add(clicked$);
   }
 
-  public createRenderRoot() { return this; }
+  public createRenderRoot() {
+    return this;
+  }
 
   disconnectedCallback() {
     this.dc.destroy();
@@ -64,11 +68,13 @@ export class TypeViewLit extends LitElement {
     this.theId.use('type-view-' + v4());
     const template = this.theType.template();
     return html`<article class="select-none">
-          <h2 class="mb-2">${this.theType.name()}</h2>
-          <div class="relative">
-            <div class="${this.theId.value().primitive()} node-view select-none z-90">${unsafeHTML(template)}</div>
-            <div class="absolute top-0 left-0 z-1 w-full select-none">${unsafeHTML(template)}</div>
-          </div>
-        </article>`;
+      <h2 class="mb-2">${this.theType.name()}</h2>
+      <div class="relative">
+        <div class="${this.theId.value().primitive()} node-view select-none z-90">
+          ${unsafeHTML(template)}
+        </div>
+        <div class="absolute top-0 left-0 z-1 w-full select-none">${unsafeHTML(template)}</div>
+      </div>
+    </article>`;
   }
 }
