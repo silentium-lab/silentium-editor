@@ -18,8 +18,6 @@ export class NodeTypeModalLit extends LitElement {
   @state()
   private type?: TheNodeType;
 
-  private typeId$ = Observe(this, Context<{ id: string }>('active-node-type-id'));
-
   private labels = {
     objectType: Observe(this, Tr('Object type')),
     save: Observe(this, Tr('Save')),
@@ -36,14 +34,6 @@ export class NodeTypeModalLit extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.typeId$.source().then(() => {
-      this.opened = true;
-    });
-    Applied(All(this.typeId$.source(), this.mapStream.message()), ([typeId, localMap]) => {
-      return localMap.typeById(typeId.id).data();
-    }).then(t => {
-      this.type = t;
-    });
   }
 
   createRenderRoot() {
@@ -51,8 +41,6 @@ export class NodeTypeModalLit extends LitElement {
   }
 
   private onDelete() {
-    const type = this.mapStream.nodeType(this.typeId$.value.id);
-    type.delete();
     this.opened = false;
   }
 

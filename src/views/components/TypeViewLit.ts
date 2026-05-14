@@ -1,15 +1,16 @@
+import { NodeTypeTemplate } from '@/app/NodeTypeTemplate';
 import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
-import { NodeTypeEntity } from '@/models/NodeTypeEntity';
+import { TheNodeType } from '@/types/NodeType';
+import '@/views/components/ModalLit';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { Context, DestroyContainer, Late } from 'silentium';
+import { DestroyContainer, Late } from 'silentium';
 import { Task } from 'silentium-components';
-import { ClassName, Id } from 'silentium-ui';
+import { ClassName } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { v4 } from 'uuid';
-import '@/views/components/ModalLit';
 
 @customElement('type-view-lit')
 export class TypeViewLit extends LitElement {
@@ -37,18 +38,14 @@ export class TypeViewLit extends LitElement {
         new CustomEvent('new-node', {
           detail: {
             position: pos,
-            type: this.theType,
+            type: this.type,
           },
           bubbles: true,
           composed: true,
         })
       );
     });
-    const activeNodeTypeId$ = Context('active-node-type-id');
     const clicked$ = ClickWithoutDrag(container$);
-    clicked$.then(() => {
-      activeNodeTypeId$.use({ id: this.theType.id() });
-    });
     this.dc.add(clicked$);
   }
 
@@ -56,19 +53,14 @@ export class TypeViewLit extends LitElement {
     return this;
   }
 
-  disconnectedCallback() {
-    this.dc.destroy();
-    super.disconnectedCallback();
-  }
-
   @property({ type: Object })
-  private theType!: NodeTypeEntity;
+  private type!: TheNodeType;
 
   render() {
     this.theId.use('type-view-' + v4());
-    const template = this.theType.template();
+    const template = NodeTypeTemplate(this.type);
     return html`<article class="select-none">
-      <h2 class="mb-2">${this.theType.name()}</h2>
+      <h2 class="mb-2">${this.type.name}</h2>
       <div class="relative">
         <div class="${this.theId.value().primitive()} node-view select-none z-90">
           ${unsafeHTML(template)}

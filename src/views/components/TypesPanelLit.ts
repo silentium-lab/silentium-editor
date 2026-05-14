@@ -26,7 +26,7 @@ export class TypesPanelLit extends LitElement {
     return html` <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
       ${types.map(
         type =>
-          html`<type-view-lit .theType="${type}" @new-node="${this.onNewNode}"></type-view-lit>`
+          html`<type-view-lit .type="${type}" @new-node="${this.onNewNode}"></type-view-lit>`
       )}
     </div>`;
   }

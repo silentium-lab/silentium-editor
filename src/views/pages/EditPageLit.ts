@@ -35,10 +35,7 @@ export class EditPageLit extends LitElement {
     const mapPart = Part<TheMap>(files$, mapName$);
     mapPart.then(map => {
       mapDispatch(state => {
-        return {
-          ...state,
-          map,
-        };
+        return map;
       });
     });
 
