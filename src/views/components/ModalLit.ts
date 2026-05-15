@@ -28,7 +28,7 @@ export class ModalLit extends LitElement {
     return html`<div
       class="bg-black/50 inset-0 ${this.opened
         ? 'flex'
-        : 'hidden'} fixed top-0 left-0 right-0 bottom-0 items-center justify-center p-4 z-50"
+        : 'hidden'} fixed top-0 left-0 right-0 bottom-0 items-center justify-center p-4 z-100"
       @click="${this.emitClose}"
     >
       <div

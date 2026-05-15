@@ -4,18 +4,22 @@ import { Draggable } from '@/io/Draggable';
 import { TheNodeType } from '@/types/NodeType';
 import '@/views/components/ModalLit';
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { DestroyContainer, Late } from 'silentium';
 import { Task } from 'silentium-components';
 import { ClassName } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { v4 } from 'uuid';
+import '@/views/components/NodeTypeModalLit';
 
 @customElement('type-view-lit')
 export class TypeViewLit extends LitElement {
   private theId = Late<string>();
   private dc = DestroyContainer();
+
+  @state()
+  private opened = false;
 
   public constructor() {
     super();
@@ -46,6 +50,9 @@ export class TypeViewLit extends LitElement {
       );
     });
     const clicked$ = ClickWithoutDrag(container$);
+    clicked$.then(() => {
+      this.opened = true;
+    })
     this.dc.add(clicked$);
   }
 
@@ -55,6 +62,10 @@ export class TypeViewLit extends LitElement {
 
   @property({ type: Object })
   private type!: TheNodeType;
+
+  public onClose() {
+    this.opened = false;
+  }
 
   render() {
     this.theId.use('type-view-' + v4());
@@ -67,6 +78,7 @@ export class TypeViewLit extends LitElement {
         </div>
         <div class="absolute top-0 left-0 z-1 w-full select-none">${unsafeHTML(template)}</div>
       </div>
+      <node-type-modal-lit .type="${this.type}" .opened="${this.opened}" @close="${this.onClose}"></node-type-modal-lit>
     </article>`;
   }
 }

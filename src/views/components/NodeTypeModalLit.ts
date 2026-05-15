@@ -1,21 +1,20 @@
+import { SaveNodeType } from '@/app/NodeTypeSave';
 import { Tr } from '@/io/Translation';
 import { MapStream } from '@/models/MapStream';
+import { mapDispatch } from '@/store';
 import { TheNodeType } from '@/types/NodeType';
 import '@/views/components/ModalLit';
 import '@/views/components/TypeFormLit';
 import { Observe } from '@/views/controllers/Observe';
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { All, Applied, Context } from 'silentium';
 
 @customElement('node-type-modal-lit')
 export class NodeTypeModalLit extends LitElement {
-  private mapStream!: MapStream;
-
-  @state()
+  @property({ type: Boolean })
   private opened = false;
 
-  @state()
+  @property({ type: Object })
   private type?: TheNodeType;
 
   private labels = {
@@ -32,24 +31,21 @@ export class NodeTypeModalLit extends LitElement {
     this.onDelete = this.onDelete.bind(this);
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
   createRenderRoot() {
     return this;
   }
 
   private onDelete() {
-    this.opened = false;
+    this.onClose();
   }
 
   private onSave() {
     if (!this.type) {
       return;
     }
-    this.mapStream.saveNodeType(this.type);
-    this.opened = false;
+    mapDispatch(SaveNodeType(this.type)).then(() => {
+      this.onClose();
+    });
   }
 
   private onChange(ev: CustomEvent) {
@@ -58,6 +54,12 @@ export class NodeTypeModalLit extends LitElement {
 
   private onClose() {
     this.opened = false;
+    this.dispatchEvent(
+      new CustomEvent('close', {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   render() {

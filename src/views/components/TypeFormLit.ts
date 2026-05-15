@@ -4,6 +4,7 @@ import { Observe } from '@/views/controllers/Observe';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@/views/components/InputLit';
+import '@/views/components/TextareaLit';
 
 @customElement('type-form-lit')
 export class TypeFormLit extends LitElement {
@@ -29,7 +30,15 @@ export class TypeFormLit extends LitElement {
   }
 
   private handle = (pair: CustomEvent) => {
-    console.log(pair.detail);
+    this.type = {
+      ...this.type,
+      [pair.detail[0]]: pair.detail[1]
+    }
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        detail: this.type,
+      })
+    );
   };
 
   public render() {
@@ -46,13 +55,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.code.value} </b>
           <div>
-            <textarea
-              class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24"
-              name="markup"
-              @input="${this.use('markup')}"
-            >
-${this.type.markup}</textarea
-            >
+            <textarea-lit .val="${this.type.markup}" field="markup" @change="${this.handle}"></textarea-lit>
           </div>
         </label>
       </div>
@@ -60,12 +63,7 @@ ${this.type.markup}</textarea
         <label>
           <b> ${this.labels.width.value} </b>
           <div>
-            <input
-              type="text"
-              name="with"
-              .value="${this.type.width}"
-              @input="${this.use('width')}"
-            />
+            <input-lit .val="${this.type.width}" field="width" @change="${this.handle}"></input-lit>
           </div>
         </label>
       </div>
@@ -73,12 +71,7 @@ ${this.type.markup}</textarea
         <label>
           <b> ${this.labels.height.value} </b>
           <div>
-            <input
-              type="text"
-              name="height"
-              .value="${this.type.height}"
-              @input="${this.use('height')}"
-            />
+            <input-lit .val="${this.type.height}" field="height" @change="${this.handle}"></input-lit>
           </div>
         </label>
       </div>
