@@ -8,6 +8,10 @@ import '@/views/components/TextareaLit';
 
 @customElement('type-form-lit')
 export class TypeFormLit extends LitElement {
+  public createRenderRoot() {
+    return this;
+  }
+
   @property({ type: Object })
   private type!: TheNodeType;
 
@@ -17,17 +21,6 @@ export class TypeFormLit extends LitElement {
     width: Observe(this, Tr('Width')),
     height: Observe(this, Tr('Height')),
   } as const;
-
-  private use<K extends keyof TheNodeType>(fieldName: K) {
-    return (value: InputEvent) => {
-      this.type[fieldName] = value.target?.value as TheNodeType[K];
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: this.type,
-        })
-      );
-    };
-  }
 
   private handle = (pair: CustomEvent) => {
     this.type = {

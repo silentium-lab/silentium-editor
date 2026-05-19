@@ -3,6 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('textarea-lit')
 export class TextareaLit extends LitElement {
+  public createRenderRoot() {
+    return this;
+  }
+
   @property({ type: String })
   private val!: string;
 
@@ -22,8 +26,6 @@ export class TextareaLit extends LitElement {
               class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24"
       name="${this.field}"
       @input="${this.use}"
-            >
-              ${this.val}
-            </textarea>`;
+            >${this.val}</textarea>`;
   }
 }

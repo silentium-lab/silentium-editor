@@ -3,6 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('input-lit')
 export class InputLit extends LitElement {
+  public createRenderRoot() {
+    return this;
+  }
+
   @property({ type: String })
   private val!: string;
 
@@ -20,6 +24,7 @@ export class InputLit extends LitElement {
   public render() {
     return html`<input
       type="text"
+      class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full"
       name="${this.field}"
       .value="${this.val}"
       @input="${this.use}"
