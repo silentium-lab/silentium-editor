@@ -1,4 +1,4 @@
-import { SaveNodeType } from '@/app/NodeTypeSave';
+import { NodeTypeSave } from '@/app/NodeTypeSave';
 import { Tr } from '@/io/Translation';
 import { MapStream } from '@/models/MapStream';
 import { mapDispatch } from '@/store';
@@ -43,7 +43,7 @@ export class NodeTypeModalLit extends LitElement {
     if (!this.type) {
       return;
     }
-    mapDispatch(SaveNodeType(this.type)).then(() => {
+    mapDispatch(NodeTypeSave(this.type)).then(() => {
       this.onClose();
     });
   }

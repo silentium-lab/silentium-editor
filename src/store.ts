@@ -1,8 +1,8 @@
-import { EmptyMap } from '@/app/MapEmpty';
+import { MapEmpty } from '@/app/MapEmpty';
 import { atom } from 'nanostores';
 import { Actions } from 'silentium-loop';
 
-export const $mapStore = atom(EmptyMap());
+export const $mapStore = atom(MapEmpty());
 
 export const mapDispatch = Actions((fn: any) => $mapStore.set(fn($mapStore.get())), []);
 

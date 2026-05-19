@@ -1,6 +1,6 @@
 import { TheMap } from '@/types/Map';
 
-export function EmptyMap(): TheMap {
+export function MapEmpty(): TheMap {
   return {
     document: 'current',
     url: 'current',

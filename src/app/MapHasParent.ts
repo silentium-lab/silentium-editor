@@ -1,5 +1,5 @@
 import { TheMap } from '@/types/Map';
 
-export function HasParent(map: TheMap): boolean {
+export function MapHasParent(map: TheMap): boolean {
   return map.parent !== '';
 }
