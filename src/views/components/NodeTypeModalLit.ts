@@ -1,3 +1,4 @@
+import { EntityType, PersistedEntity } from '@/app/EntityType';
 import { NodeTypeDelete } from '@/app/NodeTypeDelete';
 import { NodeTypeSave } from '@/app/NodeTypeSave';
 import { Tr } from '@/io/Translation';
@@ -17,6 +18,9 @@ export class NodeTypeModalLit extends LitElement {
 
   @property({ type: Object })
   private type!: TheNodeType;
+
+  @property({type: Object})
+  private entity: EntityType = PersistedEntity();
 
   private labels = {
     objectType: Observe(this, Tr('Object type')),
@@ -73,9 +77,10 @@ export class NodeTypeModalLit extends LitElement {
       .actions="${html`<button class="btn" @click="${this.onSave}">
           ${this.labels.save.value}
         </button>
-        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
+        ${this.entity.state !== 'new' && html`<button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
           ${this.labels.delete.value}
-        </button>`}"
+        </button>` || ''}
+        `}"
     >
     </modal-lit>`;
   }

@@ -26,6 +26,7 @@ export class TextareaLit extends LitElement {
               class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24"
       name="${this.field}"
       @input="${this.use}"
-            >${this.val}</textarea>`;
+      .value="${this.val}"
+            ></textarea>`;
   }
 }

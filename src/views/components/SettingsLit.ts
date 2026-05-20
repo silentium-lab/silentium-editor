@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { MapEntity } from '@/models/MapEntity';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
@@ -20,9 +20,12 @@ export class SettingsLit extends LitElement {
   @property({ type: Object })
   map: MapEntity | null = null;
 
+  @state()
+  opened = false;
+
   render() {
     return html`<div class="w-full">
-        <button class="btn w-full flex justify-center">
+        <button class="btn w-full cursor-pointer flex justify-center" @click="${() => this.opened = true}">
             ${unsafeHTML(icon)}
         </button>
     </div>`;
