@@ -15,7 +15,7 @@ export class InputLit extends LitElement {
 
   private use = (value: InputEvent) => {
     this.dispatchEvent(
-      new CustomEvent('change', {
+      new CustomEvent('pair-updated', {
         detail: [this.field, value.target?.value],
       })
     );

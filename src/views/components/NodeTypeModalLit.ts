@@ -69,7 +69,7 @@ export class NodeTypeModalLit extends LitElement {
       .opened="${this.opened}"
       @close="${this.onClose}"
       .content="${this.type &&
-      html`<type-form-lit .type="${this.type}" @change="${this.onChange}"></type-form-lit>`}"
+      html`<type-form-lit .type="${this.type}" @custom-change="${this.onChange}"></type-form-lit>`}"
       .actions="${html`<button class="btn" @click="${this.onSave}">
           ${this.labels.save.value}
         </button>

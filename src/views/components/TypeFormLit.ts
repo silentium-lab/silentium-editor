@@ -26,7 +26,7 @@ export class TypeFormLit extends LitElement {
   private handle = (pair: CustomEvent) => {
     invariant(pair.detail !== undefined, 'TypeFormLit: pair comes with undefined detail!')
     this.dispatchEvent(
-        new CustomEvent('change', {
+        new CustomEvent('custom-change', {
             detail: {
         ...this.type,
         [pair.detail[0]]: pair.detail[1]
@@ -41,7 +41,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.name.value} </b>
           <div class="block">
-            <input-lit .val="${this.type.name}" field="name" @change="${this.handle}"></input-lit>
+            <input-lit .val="${this.type.name}" field="name" @pair-updated="${this.handle}"></input-lit>
           </div>
         </label>
       </div>
@@ -49,7 +49,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.code.value} </b>
           <div>
-            <textarea-lit .val="${this.type.markup}" field="markup" @change="${this.handle}"></textarea-lit>
+            <textarea-lit .val="${this.type.markup}" field="markup" @pair-updated="${this.handle}"></textarea-lit>
           </div>
         </label>
       </div>
@@ -57,7 +57,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.width.value} </b>
           <div>
-            <input-lit .val="${this.type.width}" field="width" @change="${this.handle}"></input-lit>
+            <input-lit .val="${this.type.width}" field="width" @pair-updated="${this.handle}"></input-lit>
           </div>
         </label>
       </div>
@@ -65,7 +65,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.height.value} </b>
           <div>
-            <input-lit .val="${this.type.height}" field="height" @change="${this.handle}"></input-lit>
+            <input-lit .val="${this.type.height}" field="height" @pair-updated="${this.handle}"></input-lit>
           </div>
         </label>
       </div>
