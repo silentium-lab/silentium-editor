@@ -1,5 +1,6 @@
 import { NodeCreate } from '@/app/NodeCreate';
 import { $appStore, $mapStore, mapDispatch } from '@/store';
+import { NodeTypeNormalized } from '@/views/components/NodeTypeNormalized';
 import '@/views/components/TypeViewLit';
 import { Store } from '@/views/controllers/Store';
 import { LitElement, html } from 'lit';
@@ -26,7 +27,7 @@ export class TypesPanelLit extends LitElement {
     return html` <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
       ${types.map(
         type =>
-          html`<type-view-lit .type="${type}" @new-node="${this.onNewNode}"></type-view-lit>`
+          html`<type-view-lit .type="${NodeTypeNormalized(type)}" @new-node="${this.onNewNode}"></type-view-lit>`
       )}
     </div>`;
   }

@@ -5,6 +5,7 @@ import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@/views/components/InputLit';
 import '@/views/components/TextareaLit';
+import invariant from 'ts-invariant';
 
 @customElement('type-form-lit')
 export class TypeFormLit extends LitElement {
@@ -23,13 +24,13 @@ export class TypeFormLit extends LitElement {
   } as const;
 
   private handle = (pair: CustomEvent) => {
-    this.type = {
-      ...this.type,
-      [pair.detail[0]]: pair.detail[1]
-    }
+    invariant(pair.detail !== undefined, 'TypeFormLit: pair comes with undefined detail!')
     this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: this.type,
+        new CustomEvent('change', {
+            detail: {
+        ...this.type,
+        [pair.detail[0]]: pair.detail[1]
+        },
       })
     );
   };

@@ -42,6 +42,7 @@
     "silentium-morphdom": "^0.0.27",
     "silentium-ui": "^0.0.19",
     "silentium-web-api": "^0.0.41",
+    "ts-invariant": "^0.10.3",
     "zone.js": "^0.16.0"
   },
   "overrides": {

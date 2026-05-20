@@ -1,13 +1,13 @@
 import { NodeTypeSave } from '@/app/NodeTypeSave';
 import { Tr } from '@/io/Translation';
-import { MapStream } from '@/models/MapStream';
 import { mapDispatch } from '@/store';
 import { TheNodeType } from '@/types/NodeType';
 import '@/views/components/ModalLit';
 import '@/views/components/TypeFormLit';
 import { Observe } from '@/views/controllers/Observe';
 import { LitElement, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
+import invariant from 'ts-invariant';
 
 @customElement('node-type-modal-lit')
 export class NodeTypeModalLit extends LitElement {
@@ -48,8 +48,9 @@ export class NodeTypeModalLit extends LitElement {
     });
   }
 
-  private onChange(ev: CustomEvent) {
-    this.type = ev.detail;
+  private onChange(event: CustomEvent) {
+    invariant(event.detail !== undefined, 'NodeTypeModalLit: onChange hook receives event.details with undefined');
+    this.type = event.detail;
   }
 
   private onClose() {
