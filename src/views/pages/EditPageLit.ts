@@ -5,6 +5,9 @@ import { TheMap } from '@/types/Map';
 import '@/views/components/NavigationPanelLit';
 import '@/views/components/NodeTypeModalLit';
 import '@/views/components/TypesPanelLit';
+import '@/views/components/TypeNewLit';
+import '@/views/components/SettingsLit';
+import '@/views/components/RelationLit';
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import {

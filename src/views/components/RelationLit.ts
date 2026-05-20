@@ -11,6 +11,11 @@ export class RelationLit extends LitElement {
   @property({ type: Object })
   map: MapEntity | null = null;
 
+  public connectedCallback() {
+    super.connectedCallback();
+    this.classList.add('p-2');
+  }
+
   render() {
     return html`<div>TypeNewLit</div>`;
   }
