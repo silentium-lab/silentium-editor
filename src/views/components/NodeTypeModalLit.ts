@@ -1,3 +1,4 @@
+import { NodeTypeDelete } from '@/app/NodeTypeDelete';
 import { NodeTypeSave } from '@/app/NodeTypeSave';
 import { Tr } from '@/io/Translation';
 import { mapDispatch } from '@/store';
@@ -15,7 +16,7 @@ export class NodeTypeModalLit extends LitElement {
   private opened = false;
 
   @property({ type: Object })
-  private type?: TheNodeType;
+  private type!: TheNodeType;
 
   private labels = {
     objectType: Observe(this, Tr('Object type')),
@@ -36,13 +37,12 @@ export class NodeTypeModalLit extends LitElement {
   }
 
   private onDelete() {
-    this.onClose();
+    mapDispatch(NodeTypeDelete(this.type)).then(() => {
+      this.onClose();
+    });
   }
 
   private onSave() {
-    if (!this.type) {
-      return;
-    }
     mapDispatch(NodeTypeSave(this.type)).then(() => {
       this.onClose();
     });
