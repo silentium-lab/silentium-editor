@@ -1,20 +1,40 @@
 import { LitElement, TemplateResult, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { DestroyContainer, MessageType } from 'silentium';
 
 @customElement('modal-lit')
 export class ModalLit extends LitElement {
   @property({ type: String })
   public title!: string;
 
-  @property({ type: Boolean })
-  public opened!: boolean;
+  @state()
+  public opened: boolean = false;
+
+  @property({ type: Object })
+  public openEvent!: MessageType;
+
+  @property({ type: Object })
+  public closeEvent!: MessageType;
+
+  private dc = DestroyContainer();
+
+  public connectedCallback() {
+    super.connectedCallback();
+    this.dc.add(this.openEvent.then(() => {
+      this.opened = true;
+    }));
+    this.dc.add(this.closeEvent.then(() => {
+      this.opened = false;
+    }));
+  }
+
+  public disconnectedCallback() {
+    super.disconnectedCallback();
+    this.dc.destroy();
+  }
 
   public createRenderRoot() {
     return this;
-  }
-
-  private emitClose() {
-    this.dispatchEvent(new CustomEvent('close'));
   }
 
   private preventClick(e: Event) {
@@ -24,19 +44,23 @@ export class ModalLit extends LitElement {
   @property({ attribute: false }) public content?: TemplateResult;
   @property({ attribute: false }) public actions?: TemplateResult;
 
+  private close() {
+    this.opened = false;
+  }
+
   public render() {
     return html`<div
       class="bg-black/50 inset-0 ${this.opened
         ? 'flex'
         : 'hidden'} fixed top-0 left-0 right-0 bottom-0 items-center justify-center p-4 z-100"
-      @click="${this.emitClose}"
+      @click="${this.close}"
     >
       <div
         @click="${this.preventClick}"
         class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col relative"
       >
         <button
-          @click="${this.emitClose}"
+          @click="${this.close}"
           class="top-2 right-2 absolute cursor-pointer text-gray-400 hover:text-gray-600"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

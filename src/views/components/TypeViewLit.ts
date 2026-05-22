@@ -3,6 +3,7 @@ import { ClickWithoutDrag } from '@/io/ClickWithoutDrag';
 import { Draggable } from '@/io/Draggable';
 import { TheNodeType } from '@/types/NodeType';
 import '@/views/components/ModalLit';
+import '@/views/components/TypeFormLit';
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -11,25 +12,29 @@ import { Task } from 'silentium-components';
 import { ClassName } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { v4 } from 'uuid';
-import '@/views/components/NodeTypeModalLit';
 import { Observe } from '@/views/controllers/Observe';
 import { Tr } from '@/io/Translation';
 import { mapDispatch } from '@/store';
 import { NodeTypeSave } from '@/app/NodeTypeSave';
+import { EventSetter } from '@/app/EventSetter';
+import { NodeTypeDelete } from '@/app/NodeTypeDelete';
 
 @customElement('type-view-lit')
 export class TypeViewLit extends LitElement {
   private theId = Late<string>();
   private dc = DestroyContainer();
 
-  @state()
-  private opened = false;
-
   private labels = {
     objectType: Observe(this, Tr('Object type')),
     save: Observe(this, Tr('Save')),
     delete: Observe(this, Tr('Delete')),
   } as const;
+
+  private modalOpenEvent = Late();
+  private modalCloseEvent = Late();
+
+  @state()
+  private editType!: TheNodeType;
 
   public constructor() {
     super();
@@ -61,7 +66,8 @@ export class TypeViewLit extends LitElement {
     });
     const clicked$ = ClickWithoutDrag(container$);
     clicked$.then(() => {
-      this.opened = true;
+      this.editType = { ...this.type };
+      this.modalOpenEvent.use({});
     })
     this.dc.add(clicked$);
   }
@@ -73,15 +79,19 @@ export class TypeViewLit extends LitElement {
   @property({ type: Object })
   private type!: TheNodeType;
 
-  public onClose() {
-    this.opened = false;
-  }
-
-  private onSave() {
-    mapDispatch(NodeTypeSave(this.type)).then(() => {
-    this.onClose();
+  onSave = () => {
+    mapDispatch(NodeTypeSave(this.editType)).then(() => {
+      this.modalCloseEvent.use({});
     });
   }
+
+  onDelete = () => {
+    mapDispatch(NodeTypeDelete(this.type)).then(() => {
+      this.modalCloseEvent.use({});
+    });
+  }
+
+  typeSetter = EventSetter((v) => this.editType = v);
 
   render() {
     this.theId.use('type-view-' + v4());
@@ -96,10 +106,9 @@ export class TypeViewLit extends LitElement {
       </div>
       <modal-lit
       .title="${this.labels.objectType.value + ' #' + this.type?.id}"
-      .opened="${this.opened}"
-      @close="${this.onClose}"
-      .content="${this.type &&
-      html`<type-form-lit .type="${this.type}" @custom-change="${this.onChange}"></type-form-lit>`}"
+      .openEvent="${this.modalOpenEvent}"
+      .closeEvent="${this.modalCloseEvent}"
+      .content="${this.editType && html`<type-form-lit .type="${this.editType}" @custom-change="${this.typeSetter}"></type-form-lit>`}"
       .actions="${html`<button class="btn" @click="${this.onSave}">
           ${this.labels.save.value}
         </button>

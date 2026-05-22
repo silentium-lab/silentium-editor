@@ -3,7 +3,6 @@ import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { $appStore, $mapStore, mapDispatch } from '@/store';
 import { TheMap } from '@/types/Map';
 import '@/views/components/NavigationPanelLit';
-import '@/views/components/NodeTypeModalLit';
 import '@/views/components/TypesPanelLit';
 import '@/views/components/TypeNewLit';
 import '@/views/components/SettingsLit';
@@ -92,7 +91,6 @@ export class EditPageLit extends LitElement {
       </div>
       <node-modal-lit></node-modal-lit>
       <arrows-area-lit></arrows-area-lit>
-      <node-type-modal-lit></node-type-modal-lit>
     </div>`;
   }
 }
