@@ -12,6 +12,10 @@ import { ClassName } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
 import { v4 } from 'uuid';
 import '@/views/components/NodeTypeModalLit';
+import { Observe } from '@/views/controllers/Observe';
+import { Tr } from '@/io/Translation';
+import { mapDispatch } from '@/store';
+import { NodeTypeSave } from '@/app/NodeTypeSave';
 
 @customElement('type-view-lit')
 export class TypeViewLit extends LitElement {
@@ -20,6 +24,12 @@ export class TypeViewLit extends LitElement {
 
   @state()
   private opened = false;
+
+  private labels = {
+    objectType: Observe(this, Tr('Object type')),
+    save: Observe(this, Tr('Save')),
+    delete: Observe(this, Tr('Delete')),
+  } as const;
 
   public constructor() {
     super();
@@ -67,6 +77,12 @@ export class TypeViewLit extends LitElement {
     this.opened = false;
   }
 
+  private onSave() {
+    mapDispatch(NodeTypeSave(this.type)).then(() => {
+    this.onClose();
+    });
+  }
+
   render() {
     this.theId.use('type-view-' + v4());
     const template = NodeTypeTemplate(this.type);
@@ -78,7 +94,21 @@ export class TypeViewLit extends LitElement {
         </div>
         <div class="absolute top-0 left-0 z-1 w-full select-none">${unsafeHTML(template)}</div>
       </div>
-      <node-type-modal-lit .type="${this.type}" .opened="${this.opened}" @close="${this.onClose}"></node-type-modal-lit>
+      <modal-lit
+      .title="${this.labels.objectType.value + ' #' + this.type?.id}"
+      .opened="${this.opened}"
+      @close="${this.onClose}"
+      .content="${this.type &&
+      html`<type-form-lit .type="${this.type}" @custom-change="${this.onChange}"></type-form-lit>`}"
+      .actions="${html`<button class="btn" @click="${this.onSave}">
+          ${this.labels.save.value}
+        </button>
+        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
+          ${this.labels.delete.value}
+        </button>
+        `}"
+    >
+    </modal-lit>
     </article>`;
   }
 }
