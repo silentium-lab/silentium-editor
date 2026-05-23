@@ -65,10 +65,10 @@ export class EditPageLit extends LitElement {
     return html`<div
       class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
     >
-      <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
+      <div class="col-span-2 p-2 bg-secondary overflow-hidden">
         <navigation-panel-lit></navigation-panel-lit>
       </div>
-      <div class="flex flex-col w-40 relative z-10 bg-secondary">
+      <div class="flex flex-col w-40 relative bg-secondary">
         <types-panel-lit></types-panel-lit>
         <div class="flex gap-2 px-2 mt-auto">
           <type-new-lit></type-new-lit>
@@ -77,7 +77,7 @@ export class EditPageLit extends LitElement {
         <relation-lit></relation-lit>
       </div>
       <div
-        class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
+        class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-10 bg-base select-none"
       >
         <mini-map-lit></mini-map-lit>
       </div>

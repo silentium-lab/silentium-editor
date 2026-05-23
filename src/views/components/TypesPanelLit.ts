@@ -24,11 +24,11 @@ export class TypesPanelLit extends LitElement {
 
   public render() {
     const types = Object.values(this.map.value.types);
-    return html` <div class="types-panel flex flex-col gap-4 relative px-2 z-10">
+    return html` <div class="types-panel flex flex-col gap-4 relative px-2">
       ${types.map(
-        type =>
-          html`<type-view-lit .type="${NodeTypeNormalized(type)}" @new-node="${this.onNewNode}"></type-view-lit>`
-      )}
+      type =>
+        html`<type-view-lit .type="${NodeTypeNormalized(type)}" @new-node="${this.onNewNode}"></type-view-lit>`
+    )}
     </div>`;
   }
 }

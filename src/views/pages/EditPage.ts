@@ -80,11 +80,11 @@ export function EditPage(): MessageType<string> {
         html`<div
           class="bg-base-inverse grid grid-rows-[50px_1fr] grid-cols-[200px_1fr] overflow-hidden h-screen"
         >
-          <div class="col-span-2 p-2 bg-secondary z-10 overflow-hidden">
+          <div class="col-span-2 p-2 bg-secondary overflow-hidden">
             <navigation-panel-lit></navigation-panel-lit>
             <types-panel-lit></types-panel-lit>
           </div>
-          <div class="flex flex-col w-40 relative z-10 bg-secondary">
+          <div class="flex flex-col w-40 relative bg-secondary">
             ${t.raw(Mount(TypesPanel(mapModel)))}
             <div class="flex gap-2 px-2 mt-auto">
               ${t.raw(TypeNew(mapModel))}${t.raw(Settings(mapModel))}
@@ -92,14 +92,12 @@ export function EditPage(): MessageType<string> {
             <div class="${t.raw(MountPoint(Relation(mapModel)))}"></div>
           </div>
           <div
-            class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-50 bg-base select-none"
+            class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-20 bg-base select-none"
           >
             ${t.raw(Mount(MiniMap(mapModel)))}
           </div>
           <div
-            class="${t.escaped(
-              canvasId$
-            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+            class="${t.escaped(canvasId$)} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel)))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
