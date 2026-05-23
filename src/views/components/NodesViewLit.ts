@@ -1,20 +1,26 @@
+import { MapSize } from '@/app/MapSize';
+import { $mapStore } from '@/store';
+import '@/views/components/NodeOnMapLit';
+import { Store } from '@/views/controllers/Store';
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { MapEntity } from '@/models/MapEntity';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('nodes-view-lit')
 export class NodesViewLit extends LitElement {
+  private map = new Store(this, $mapStore);
+  private size = MapSize();
+
   createRenderRoot() {
     return this;
   }
-  @property({ type: Object }) map: MapEntity | null = null;
-  render() {
-    return html`<div class="nodes-view-lit">NodesViewLit</div>`;
-  }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'nodes-view-lit': NodesViewLit;
+  render() {
+    const objects = Object.values(this.map.value.objects);
+    return html`<div
+          class="relative background-grid z-10 mt-4 ml-4"
+          style="width: ${this.size.width}px; height: ${this.size.height}px"
+        >
+          ${objects.map(object => html`<node-on-modal-lit .node="${object}"></node-on-modal-lit>`)}
+        </div>`;
   }
 }
