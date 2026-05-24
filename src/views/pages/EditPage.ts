@@ -92,7 +92,7 @@ export function EditPage(): MessageType<string> {
             <div class="${t.raw(MountPoint(Relation(mapModel)))}"></div>
           </div>
           <div
-            class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-20 bg-base select-none"
+            class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-40 bg-base select-none"
           >
             ${t.raw(Mount(MiniMap(mapModel)))}
           </div>

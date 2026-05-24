@@ -3,19 +3,21 @@ import { ScrollByDrag } from '@/io/ScrollByDrag';
 import { $appStore, $mapStore, mapDispatch } from '@/store';
 import { TheMap } from '@/types/Map';
 import '@/views/components/NavigationPanelLit';
-import '@/views/components/TypesPanelLit';
-import '@/views/components/TypeNewLit';
-import '@/views/components/SettingsLit';
-import '@/views/components/RelationLit';
 import '@/views/components/NodesViewLit';
+import '@/views/components/RelationLit';
 import '@/views/components/RullerXLit';
 import '@/views/components/RullerYLit';
+import '@/views/components/SettingsLit';
+import '@/views/components/TypeNewLit';
+import '@/views/components/TypesPanelLit';
+import { Observe } from '@/views/controllers/Observe';
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import {
   Context,
   ContextChain,
   ContextOf,
+  DestroyContainer,
   Filtered,
   Late,
   Local,
@@ -28,6 +30,9 @@ import { Element } from 'silentium-web-api';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {
+  canvasId = Observe(this, Id());
+  dc = DestroyContainer();
+
   public constructor() {
     super();
     const content$ = Context<string>('active-content');
@@ -48,7 +53,6 @@ export class EditPageLit extends LitElement {
       mapPart.use(state);
     });
 
-    const canvasId$ = Id();
     const dragPosition$ = Late({ x: 0, y: 0 });
     dragPosition$.then(position => {
       $appStore.set({
@@ -56,12 +60,19 @@ export class EditPageLit extends LitElement {
         position: [position.x, position.y],
       });
     });
-    const scrollable$ = ScrollByDrag(Element(ClassName(canvasId$)), dragPosition$);
+    const canvasEl$ = Element(ClassName(this.canvasId.source()));
+    const scrollable$ = ScrollByDrag(canvasEl$, dragPosition$);
     scrollable$.then(Void());
+    this.dc.add(scrollable$);
   }
 
   public createRenderRoot() {
     return this;
+  }
+
+  public disconnectedCallback() {
+    super.disconnectedCallback();
+    this.dc.destroy();
   }
 
   public render() {
@@ -80,11 +91,11 @@ export class EditPageLit extends LitElement {
         <relation-lit></relation-lit>
       </div>
       <div
-        class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-10 bg-base select-none"
+        class="absolute pointer-events-none bottom-2 right-2 w-26 h-26 border z-30 bg-base select-none"
       >
         <mini-map-lit></mini-map-lit>
       </div>
-      <div class="nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
+      <div class="${this.canvasId.value} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
         <nodes-view-lit></nodes-view-lit>
         <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
