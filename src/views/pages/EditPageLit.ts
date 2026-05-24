@@ -95,8 +95,10 @@ export class EditPageLit extends LitElement {
       >
         <mini-map-lit></mini-map-lit>
       </div>
-      <div class="${this.canvasId.value} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
-        <nodes-view-lit></nodes-view-lit>
+      <div class="${this.canvasId.value} overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
+        <div class="nodes-view">
+          <nodes-view-lit></nodes-view-lit>
+        </div>
         <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
           <ruller-x-lit></ruller-x-lit>
