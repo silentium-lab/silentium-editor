@@ -7,6 +7,9 @@ import '@/views/components/TypesPanelLit';
 import '@/views/components/TypeNewLit';
 import '@/views/components/SettingsLit';
 import '@/views/components/RelationLit';
+import '@/views/components/NodesViewLit';
+import '@/views/components/RullerXLit';
+import '@/views/components/RullerYLit';
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import {
@@ -83,7 +86,7 @@ export class EditPageLit extends LitElement {
       </div>
       <div class="nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
         <nodes-view-lit></nodes-view-lit>
-        <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
           <ruller-x-lit></ruller-x-lit>
           <ruller-y-lit></ruller-y-lit>

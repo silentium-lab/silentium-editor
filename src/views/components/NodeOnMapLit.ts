@@ -6,6 +6,7 @@ import { TheNode } from "@/types/Node";
 import { Store } from "@/views/controllers/Store";
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 @customElement('node-on-modal-lit')
 export class NodeOnMapLit extends LitElement {
@@ -26,7 +27,7 @@ export class NodeOnMapLit extends LitElement {
         >
           <span> ${NodeTopName(this.node)} </span>
           <div>
-            ${NodeTemplate(this.node, type)}
+            ${unsafeHTML(NodeTemplate(this.node, type))}
           </div>
           <span> ${NodeBottomName(this.node)} </span>
         </div>`;
