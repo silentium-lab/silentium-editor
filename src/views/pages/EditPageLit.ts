@@ -10,6 +10,7 @@ import '@/views/components/RullerYLit';
 import '@/views/components/SettingsLit';
 import '@/views/components/TypeNewLit';
 import '@/views/components/TypesPanelLit';
+import '@/views/components/ArrowsAreaLit';
 import { Observe } from '@/views/controllers/Observe';
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
@@ -27,11 +28,13 @@ import {
 import { Part } from 'silentium-components';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
+import { Behave } from '@/views/controllers/Behave';
 
 @customElement('edit-page-lit')
 export class EditPageLit extends LitElement {
   canvasId = Observe(this, Id());
   dc = DestroyContainer();
+  dragPosition = Behave(this, Late({ x: 0, y: 0 }));
 
   public constructor() {
     super();
@@ -53,15 +56,14 @@ export class EditPageLit extends LitElement {
       mapPart.use(state);
     });
 
-    const dragPosition$ = Late({ x: 0, y: 0 });
-    dragPosition$.then(position => {
+    this.dragPosition.source().then(position => {
       $appStore.set({
         ...$appStore.get(),
         position: [position.x, position.y],
       });
     });
     const canvasEl$ = Element(ClassName(this.canvasId.source()));
-    const scrollable$ = ScrollByDrag(canvasEl$, dragPosition$);
+    const scrollable$ = ScrollByDrag(canvasEl$, this.dragPosition.source());
     scrollable$.then(Void());
     this.dc.add(scrollable$);
   }
@@ -98,6 +100,7 @@ export class EditPageLit extends LitElement {
       <div class="${this.canvasId.value} overflow-hidden bg-base-inverse relative min-w-0 min-h-0">
         <div class="nodes-view">
           <nodes-view-lit></nodes-view-lit>
+          <arrows-area-lit .dragPosition="${this.dragPosition.value}"></arrows-area-lit>
         </div>
         <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
@@ -106,7 +109,6 @@ export class EditPageLit extends LitElement {
         </div>
       </div>
       <node-modal-lit></node-modal-lit>
-      <arrows-area-lit></arrows-area-lit>
     </div>`;
   }
 }

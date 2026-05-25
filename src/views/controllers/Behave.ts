@@ -28,6 +28,10 @@ export class BehaveImpl<T> {
     });
   }
 
+  public source() {
+    return this.source$;
+  }
+
   public use(value: T) {
     this.source$.use(value);
   }

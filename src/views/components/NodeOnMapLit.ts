@@ -3,6 +3,7 @@ import { NodeMove } from "@/app/NodeMove";
 import { NodeTemplate } from "@/app/NodeTemplate";
 import { NodeTopName } from "@/app/NodeTopName";
 import { Draggable } from "@/io/Draggable";
+import { Line } from "@/io/Line";
 import { $mapStore, mapDispatch } from "@/store";
 import { TheNode } from "@/types/Node";
 import { Observe } from "@/views/controllers/Observe";
@@ -10,13 +11,14 @@ import { Store } from "@/views/controllers/Store";
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { DestroyContainer } from "silentium";
+import { DestroyContainer, Of, Void } from "silentium";
 import { ClassName, Id } from "silentium-ui";
 import { Element } from "silentium-web-api";
 
 @customElement('node-on-modal-lit')
 export class NodeOnMapLit extends LitElement {
   dc = DestroyContainer();
+  lineDc = DestroyContainer();
   elementId = Observe(this, Id());
 
   createRenderRoot() {
@@ -47,6 +49,9 @@ export class NodeOnMapLit extends LitElement {
   }
 
   render() {
+    this.lineDc.destroy();
+    const line$ = Line(Of(this.node)).then(Void());
+    this.lineDc.add(line$);
     const type = this.map.value.types[this.node.type];
     this.style.zIndex = this.node.zindex.toString();
     if (!this.style.left && !this.style.top) {
@@ -54,10 +59,9 @@ export class NodeOnMapLit extends LitElement {
     } else {
       this.style.transform = `translate(0px, 0px)`
     }
-    console.log(this.node.position);
     return html`<div>
           <span> ${NodeTopName(this.node)} </span>
-          <div>
+          <div class="node-id-${this.node.id}">
             ${unsafeHTML(NodeTemplate(this.node, type))}
           </div>
           <span> ${NodeBottomName(this.node)} </span>
