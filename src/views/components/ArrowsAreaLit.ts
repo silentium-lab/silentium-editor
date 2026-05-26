@@ -16,6 +16,6 @@ export class ArrowsAreaLit extends LitElement {
   }
 
   render() {
-    return html`<div class="arrows-area z-30"></div>`;
+    return html`<div class="arrows-area z-10"></div>`;
   }
 }

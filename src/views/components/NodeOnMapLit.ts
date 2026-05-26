@@ -32,7 +32,7 @@ export class NodeOnMapLit extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute('class', `node-view flex flex-col items-center text-sm select-none absolute node-id-${this.node.id}`);
+    this.setAttribute('class', `node-view flex flex-col items-center z-20 text-sm select-none absolute node-id-${this.node.id}`);
     this.classList.add(this.elementId.value);
     const container$ = Element(ClassName(this.elementId.source()));
     this.dc.add(container$);
@@ -50,10 +50,12 @@ export class NodeOnMapLit extends LitElement {
 
   render() {
     this.lineDc.destroy();
-    const line$ = Line(Of(this.node)).then(Void());
-    this.lineDc.add(line$);
+    queueMicrotask(() => {
+      const line$ = Line(Of(this.node)).then(Void());
+      this.lineDc.add(line$);
+    });
     const type = this.map.value.types[this.node.type];
-    this.style.zIndex = this.node.zindex.toString();
+    this.style.zIndex = (20 + this.node.zindex).toString();
     if (!this.style.left && !this.style.top) {
       this.style.transform = `translate(${this.node.position[0]}px, ${this.node.position[1]}px)`;
     } else {

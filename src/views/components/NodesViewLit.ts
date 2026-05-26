@@ -17,7 +17,7 @@ export class NodesViewLit extends LitElement {
   render() {
     const objects = Object.values(this.map.value.objects);
     return html`<div
-          class="relative background-grid z-10 mt-4 ml-4"
+          class="relative background-grid mt-4 ml-4"
           style="width: ${this.size.width}px; height: ${this.size.height}px"
         >
           ${objects.map(object => html`<node-on-modal-lit .node="${object}"></node-on-modal-lit>`)}
