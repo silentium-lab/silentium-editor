@@ -1,16 +1,19 @@
 import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('ruller-x-lit')
 export class RullerXLit extends LitElement {
+  @property({type: Object})
+  dragPosition = {x: 0, y: 0}
+
   createRenderRoot() {
     return this;
   }
 
   render() {
     return html`<div
-          class="absolute flex top-0 left-0 w-[3000px] ml-4 z-90 h-4 border-b bg-base text-right text-border text-sm px-2"
-          style="transform: translate(0px, 0px);"
+          class="absolute flex top-0 left-0 w-[3000px] ml-4 z-20 h-4 border-b bg-base text-right text-border text-sm px-2"
+          style="transform: translate(${this.dragPosition.x*-1}px, 0px);"
         >
           <span class="flex-1 text-body-dark">300px</span>
           <span class="flex-1 text-body-dark">600px</span>

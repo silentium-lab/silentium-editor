@@ -2,6 +2,7 @@ import { NodeBottomName } from "@/app/NodeBottomName";
 import { NodeMove } from "@/app/NodeMove";
 import { NodeTemplate } from "@/app/NodeTemplate";
 import { NodeTopName } from "@/app/NodeTopName";
+import { NodeTypeForNode } from "@/app/NodeTypeForNode";
 import { Draggable } from "@/io/Draggable";
 import { Line } from "@/io/Line";
 import { $mapStore, mapDispatch } from "@/store";
@@ -54,7 +55,7 @@ export class NodeOnMapLit extends LitElement {
       const line$ = Line(Of(this.node)).then(Void());
       this.lineDc.add(line$);
     });
-    const type = this.map.value.types[this.node.type];
+    const type = NodeTypeForNode(this.node, this.map.value);
     this.style.zIndex = (20 + this.node.zindex).toString();
     if (!this.style.left && !this.style.top) {
       this.style.transform = `translate(${this.node.position[0]}px, ${this.node.position[1]}px)`;

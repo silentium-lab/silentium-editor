@@ -104,8 +104,8 @@ export class EditPageLit extends LitElement {
         </div>
         <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div class="absolute z-30 top-0 left-0 h-[18px] w-[22px] bg-white"></div>
-          <ruller-x-lit></ruller-x-lit>
-          <ruller-y-lit></ruller-y-lit>
+          <ruller-x-lit .dragPosition="${this.dragPosition.value}"></ruller-x-lit>
+          <ruller-y-lit .dragPosition="${this.dragPosition.value}"></ruller-y-lit>
         </div>
       </div>
       <node-modal-lit></node-modal-lit>
