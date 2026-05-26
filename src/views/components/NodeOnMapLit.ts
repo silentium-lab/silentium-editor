@@ -19,7 +19,6 @@ import '@/views/components/NodeModalLit';
 import { Tr } from "@/io/Translation";
 import { NodeSave } from "@/app/NodeSave";
 import { NodeDelete } from "@/app/NodeDelete";
-import { TheNodeType } from "@/types/NodeType";
 import { ClickWithoutDrag } from "@/io/ClickWithoutDrag";
 import { portal } from "@/views/directives/PortalDirective";
 
@@ -36,6 +35,8 @@ export class NodeOnMapLit extends LitElement {
     objectType: Observe(this, Tr('Object type')),
     save: Observe(this, Tr('Save')),
     delete: Observe(this, Tr('Delete')),
+    creation: Observe(this, Tr('Creation date')),
+    updation: Observe(this, Tr('Update date'))
   } as const;
 
   createRenderRoot() {
@@ -111,7 +112,23 @@ export class NodeOnMapLit extends LitElement {
             .title="${'#' + this.node.id}"
             .openEvent="${this.modalOpenEvent}"
             .closeEvent="${this.modalCloseEvent}"
-            .content="${'form'}"
+            .content="${html`<div>
+              <div class="mb-2">
+                <b>
+                  ${this.labels.creation.value}:
+                  ${this.node.createTimestamp}
+                </b>
+              </div>
+              <div class="mb-2">
+                <b>
+                  ${this.labels.updation.value}:
+                  ${this.node.changeTimestamp}
+                </b>
+              </div>
+              <div class="mb-2">
+                form
+              </div>
+            </div>`}"
             .actions="${html`<button class="btn" @click="${this.onSave}">
                 ${this.labels.save.value}
                 </button>
