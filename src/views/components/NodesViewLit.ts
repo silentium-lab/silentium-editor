@@ -20,7 +20,7 @@ export class NodesViewLit extends LitElement {
           class="relative background-grid mt-4 ml-4"
           style="width: ${this.size.width}px; height: ${this.size.height}px"
         >
-          ${objects.map(object => html`<node-on-modal-lit .node="${object}"></node-on-modal-lit>`)}
+          ${objects.map(object => html`<node-on-map-lit .node="${object}"></node-on-map-lit>`)}
         </div>`;
   }
 }

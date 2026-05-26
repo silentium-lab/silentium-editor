@@ -14,9 +14,3 @@ export class NodeModalLit extends LitElement {
     return html`<div class="node-modal-lit">NodeModalLit</div>`;
   }
 }
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'node-modal-lit': NodeModalLit;
-  }
-}

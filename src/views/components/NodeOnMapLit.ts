@@ -10,17 +10,33 @@ import { TheNode } from "@/types/Node";
 import { Observe } from "@/views/controllers/Observe";
 import { Store } from "@/views/controllers/Store";
 import { html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { DestroyContainer, Of, Void } from "silentium";
+import { DestroyContainer, Late, Of, Void } from "silentium";
 import { ClassName, Id } from "silentium-ui";
 import { Element } from "silentium-web-api";
+import '@/views/components/NodeModalLit';
+import { Tr } from "@/io/Translation";
+import { NodeSave } from "@/app/NodeSave";
+import { NodeDelete } from "@/app/NodeDelete";
+import { TheNodeType } from "@/types/NodeType";
+import { ClickWithoutDrag } from "@/io/ClickWithoutDrag";
+import { portal } from "@/views/directives/PortalDirective";
 
-@customElement('node-on-modal-lit')
+@customElement('node-on-map-lit')
 export class NodeOnMapLit extends LitElement {
   dc = DestroyContainer();
   lineDc = DestroyContainer();
   elementId = Observe(this, Id());
+
+  private modalOpenEvent = Late();
+  private modalCloseEvent = Late();
+
+  private labels = {
+    objectType: Observe(this, Tr('Object type')),
+    save: Observe(this, Tr('Save')),
+    delete: Observe(this, Tr('Delete')),
+  } as const;
 
   createRenderRoot() {
     return this;
@@ -28,6 +44,9 @@ export class NodeOnMapLit extends LitElement {
 
   @property({ type: Object })
   node!: TheNode;
+
+  @state()
+  private editNode!: TheNode;
 
   private map = new Store(this, $mapStore);
 
@@ -42,11 +61,31 @@ export class NodeOnMapLit extends LitElement {
     draggable$.then((position) => {
       mapDispatch(NodeMove(this.node, position));
     });
+    queueMicrotask(() => {
+      const nodeContent = this.querySelector('.node-content') as HTMLElement;
+      const clicked$ = ClickWithoutDrag(Of(nodeContent));
+      this.dc.add(clicked$.then(e => {
+        console.log('open')
+      this.modalOpenEvent.use({});
+    }))
+    })
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.dc.destroy();
+  }
+
+  onSave = () => {
+    mapDispatch(NodeSave(this.editNode)).then(() => {
+      this.modalCloseEvent.use({});
+    });
+  }
+
+  onDelete = () => {
+    mapDispatch(NodeDelete(this.node)).then(() => {
+      this.modalCloseEvent.use({});
+    });
   }
 
   render() {
@@ -64,10 +103,24 @@ export class NodeOnMapLit extends LitElement {
     }
     return html`<div>
           <span> ${NodeTopName(this.node)} </span>
-          <div class="node-id-${this.node.id}">
+          <div class="node-id-${this.node.id} node-content">
             ${unsafeHTML(NodeTemplate(this.node, type))}
           </div>
           <span> ${NodeBottomName(this.node)} </span>
+          ${portal(html`<modal-lit
+            .title="${'#' + this.node.id}"
+            .openEvent="${this.modalOpenEvent}"
+            .closeEvent="${this.modalCloseEvent}"
+            .content="${'form'}"
+            .actions="${html`<button class="btn" @click="${this.onSave}">
+                ${this.labels.save.value}
+                </button>
+                <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
+                ${this.labels.delete.value}
+                </button>
+                `}"
+            >
+          </modal-lit>`)}
         </div>`;
   }
 }
