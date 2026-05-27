@@ -18,6 +18,7 @@ import { BranchLazy, Getter, Part, Path, Polling, Template } from 'silentium-com
 import { Checkbox, html, Input, Select } from 'silentium-ui';
 import { NodeRelations } from './NodeRelations';
 import { NodeVariables } from './NodeVariables';
+import '@/'
 
 export function NodeForm(map: MapStream, saved$: MessageType<boolean>, done$: SourceType<object>) {
   const url = Primitive(map.url());
