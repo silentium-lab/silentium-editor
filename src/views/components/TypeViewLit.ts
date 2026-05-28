@@ -108,7 +108,7 @@ export class TypeViewLit extends LitElement {
       .title="${this.labels.objectType.value + ' #' + this.type?.id}"
       .openEvent="${this.modalOpenEvent}"
       .closeEvent="${this.modalCloseEvent}"
-      .content="${this.editType && html`<type-form-lit .type="${this.editType}" @custom-change="${this.typeSetter}"></type-form-lit>`}"
+      .content="${this.editType && html`<type-form-lit .type="${this.editType}" @custom-change="${this.typeSetter}" @model-updated="${this.typeSetter}"></type-form-lit>`}"
       .actions="${html`<button class="btn" @click="${this.onSave}">
           ${this.labels.save.value}
         </button>

@@ -61,7 +61,7 @@ export class TypeNewLit extends LitElement {
       .title="${this.labels.objectType.value}"
       .openEvent="${this.modalOpenEvent}"
       .closeEvent="${this.modalCloseEvent}"
-      .content="${html`<type-form-lit .type="${this.type}" @custom-change="${this.typeSetter}"></type-form-lit>`}"
+      .content="${html`<type-form-lit .type="${this.type}" @custom-change="${this.typeSetter}" @model-updated="${this.typeSetter}" ></type-form-lit>`}"
       .actions="${html`<button class="btn" @click="${this.onSave}">
           ${this.labels.save.value}
         </button>`}"

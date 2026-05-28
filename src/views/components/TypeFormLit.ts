@@ -6,6 +6,7 @@ import { customElement, property } from 'lit/decorators.js';
 import '@/views/components/InputLit';
 import '@/views/components/TextareaLit';
 import invariant from 'ts-invariant';
+import { Rethrow } from '@/views/controllers/Rethrow';
 
 @customElement('type-form-lit')
 export class TypeFormLit extends LitElement {
@@ -35,13 +36,16 @@ export class TypeFormLit extends LitElement {
     );
   };
 
+  rethrow = Rethrow(this);
+
   public render() {
     return html`<div>
       <div class="mb-2">
         <label>
           <b> ${this.labels.name.value} </b>
           <div class="block">
-            <input-lit .val="${this.type.name}" field="name" @pair-updated="${this.handle}"></input-lit>
+            <input-lit
+            .object="${this.type}" field="name" @model-updated="${this.rethrow}"></input-lit>
           </div>
         </label>
       </div>
@@ -57,7 +61,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.width.value} </b>
           <div>
-            <input-lit .val="${this.type.width}" field="width" @pair-updated="${this.handle}"></input-lit>
+            <input-lit .object="${this.type}" field="width" @model-updated="${this.rethrow}"></input-lit>
           </div>
         </label>
       </div>
@@ -65,7 +69,7 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${this.labels.height.value} </b>
           <div>
-            <input-lit .val="${this.type.height}" field="height" @pair-updated="${this.handle}"></input-lit>
+            <input-lit .object="${this.type}" field="height" @model-updated="${this.rethrow}"></input-lit>
           </div>
         </label>
       </div>
