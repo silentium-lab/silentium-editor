@@ -95,6 +95,7 @@ export class ModalLit extends LitElement {
         >
           <svg class="w-5 h-5 close-target" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
+              class="close-target"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"

@@ -30,9 +30,9 @@ export class SelectLit extends LitElement {
       class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full"
       name="${this.field}"
       .value="${this.object[this.field]}"
-      @input="${this.emit}"
+      @change="${this.emit}"
     >
-      ${this.list.forEach(
+      ${this.list.map(
         item => html`<option value="${item[this.itemValueKey]}">${item[this.itemLabelKey]}</option>`
       )}
     </select>`;

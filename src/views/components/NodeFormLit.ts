@@ -7,6 +7,10 @@ import '@/views/components/NodeVariablesLit';
 import { Rethrow } from '@/views/controllers/Rethrow';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { $mapStore } from '@/store';
+import { Store } from '@/views/controllers/Store';
+import { NodeTypes } from '@/app/NodeTypes';
+import { NodeTypesList } from '@/app/NodeTypesList';
 
 @customElement('node-form-lit')
 export class NodeFormLit extends LitElement {
@@ -17,11 +21,12 @@ export class NodeFormLit extends LitElement {
   @property({ type: Object })
   node!: TheNode;
 
+  private map = new Store(this, $mapStore);
+
   rethrow = Rethrow(this);
 
-  typesList = [];
-
   render() {
+    const list = NodeTypesList(NodeTypes(this.map.value));
     return html`<div>
       <div class="mb-2">
         <label>
@@ -136,9 +141,9 @@ export class NodeFormLit extends LitElement {
           <b> ${tr('Object type')} </b>
           <span class="block">
             <select-lit
-              .list="${this.typesList}"
+              .list="${list}"
               .object="${this.node}"
-              field="typeId"
+              field="type"
               @model-updated="${this.rethrow}"
             ></select-lit>
           </span>
