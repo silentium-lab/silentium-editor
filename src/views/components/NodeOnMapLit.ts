@@ -13,6 +13,7 @@ import { Tr } from '@/io/Translation';
 import { $mapStore, mapDispatch } from '@/store';
 import { TheNode } from '@/types/Node';
 import '@/views/components/NodeModalLit';
+import '@/views/components/NodeFormLit';
 import { Observe } from '@/views/controllers/Observe';
 import { Store } from '@/views/controllers/Store';
 import { portal } from '@/views/directives/PortalDirective';
@@ -22,6 +23,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { DestroyContainer, Late, Of, Void } from 'silentium';
 import { ClassName, Id } from 'silentium-ui';
 import { Element } from 'silentium-web-api';
+import { EventSetter } from '@/app/EventSetter';
 
 @customElement('node-on-map-lit')
 export class NodeOnMapLit extends LitElement {
@@ -95,6 +97,8 @@ export class NodeOnMapLit extends LitElement {
     });
   };
 
+  typeSetter = EventSetter(v => (this.editNode = v));
+
   render() {
     this.lineDc.destroy();
     queueMicrotask(() => {
@@ -126,7 +130,9 @@ export class NodeOnMapLit extends LitElement {
             <div class="mb-2">
               <b> ${this.labels.updation.value}: ${DateTimeVisual(this.node.changeTimestamp)} </b>
             </div>
-            <div class="mb-2">form</div>
+            <div class="mb-2">
+              <node-form-lit .node="${this.node}" @model-updated=""></node-form-lit>
+            </div>
           </div>`}"
           .actions="${html`<button class="btn" @click="${this.onSave}">
               ${this.labels.save.value}
