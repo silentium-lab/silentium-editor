@@ -1,3 +1,4 @@
+import { Emit } from '@/views/controllers/Emit';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -7,26 +8,20 @@ export class TextareaLit extends LitElement {
     return this;
   }
 
-  @property({ type: String })
-  private val!: string;
+  @property({ type: Object })
+  object!: any;
 
   @property({ type: String })
-  private field!: string;
+  field!: string;
 
-  private use = (value: InputEvent) => {
-    this.dispatchEvent(
-      new CustomEvent('pair-updated', {
-        detail: [this.field, value.target?.value],
-      })
-    );
-  };
+  emit = Emit(this, (e: Event) => (e.target as HTMLInputElement).value)
 
   public render() {
     return html`<textarea
               class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full h-24"
       name="${this.field}"
-      @input="${this.use}"
-      .value="${this.val}"
+      @input="${this.emit}"
+      .value="${this.object[this.field]}"
             ></textarea>`;
   }
 }
