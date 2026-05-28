@@ -1,5 +1,3 @@
-import { LitElement } from 'lit';
-
 export function Emit<T>(host: any, getValue: (e: Event) => unknown) {
   return (e: Event) => {
     const field = host.field;

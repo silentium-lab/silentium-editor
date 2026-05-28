@@ -42,6 +42,13 @@ export class NodeOnMapLit extends LitElement {
     updation: Observe(this, Tr('Update date')),
   } as const;
 
+  public constructor() {
+    super();
+    this.modalOpenEvent.then(() => {
+      this.editNode = { ...this.node };
+    });
+  }
+
   createRenderRoot() {
     return this;
   }
@@ -131,7 +138,10 @@ export class NodeOnMapLit extends LitElement {
               <b> ${this.labels.updation.value}: ${DateTimeVisual(this.node.changeTimestamp)} </b>
             </div>
             <div class="mb-2">
-              <node-form-lit .node="${this.node}" @model-updated=""></node-form-lit>
+              <node-form-lit
+                .node="${this.editNode}"
+                @model-updated="${this.typeSetter}"
+              ></node-form-lit>
             </div>
           </div>`}"
           .actions="${html`<button class="btn" @click="${this.onSave}">

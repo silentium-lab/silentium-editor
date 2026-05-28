@@ -1,5 +1,5 @@
 import { LitElement, TemplateResult, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { DestroyContainer, MessageType } from 'silentium';
 
 @customElement('modal-lit')
@@ -23,6 +23,7 @@ export class ModalLit extends LitElement {
     this.dc.add(
       this.openEvent.then(() => {
         this.opened = true;
+        this.focusModal();
       })
     );
     this.dc.add(
@@ -52,22 +53,47 @@ export class ModalLit extends LitElement {
     this.opened = false;
   }
 
+  onCloseByClick(e: MouseEvent) {
+    if (
+      e.target === e.currentTarget ||
+      (e.target as HTMLElement)?.classList.contains('close-target')
+    ) {
+      this.close();
+    }
+  }
+
+  onEscape(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      this.close();
+    }
+  }
+
+  @query('.modal-wrapper') modalElement!: HTMLElement;
+
+  async focusModal() {
+    await this.updateComplete;
+
+    if (this.modalElement) {
+      this.modalElement.focus();
+    }
+  }
+
   public render() {
     return html`<div
       class="bg-black/50 inset-0 ${this.opened
         ? 'flex'
         : 'hidden'} fixed top-0 left-0 right-0 bottom-0 items-center justify-center p-4 z-100"
-      @click="${this.close}"
+      @mousedown="${this.onCloseByClick}"
     >
       <div
-        @click="${this.preventClick}"
-        class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col relative"
+        class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col relative modal-wrapper"
+        @keypress="${this.onEscape}"
       >
         <button
-          @click="${this.close}"
+          @click="${this.onCloseByClick}"
           class="top-2 right-2 absolute cursor-pointer text-gray-400 hover:text-gray-600"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 close-target" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
