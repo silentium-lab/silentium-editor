@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { MapEntity } from '@/models/MapEntity';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('mini-map-lit')
 export class MiniMapLit extends LitElement {

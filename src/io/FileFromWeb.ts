@@ -5,7 +5,7 @@ import { Applied, Connected, Late, MessageType, Value } from 'silentium';
  * An abstraction of a file from the web file system
  */
 export function FileFromWeb(changedContent$: MessageType<string>): MessageType<string> {
-  let fileHandler$ = Late<FileSystemFileHandle>();
+  const fileHandler$ = Late<FileSystemFileHandle>();
   const fileHandler = Value(fileHandler$);
   // @ts-ignore
   window.showOpenFilePicker().then(([fileHandle]) => {

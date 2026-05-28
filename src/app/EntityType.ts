@@ -1,15 +1,15 @@
 export interface EntityType {
-    state: 'new' | 'persisted'
+  state: 'new' | 'persisted';
 }
 
 export function NewEntity(): EntityType {
-    return {
-        state: 'new'
-    }
+  return {
+    state: 'new',
+  };
 }
 
 export function PersistedEntity(): EntityType {
-    return {
-        state: 'persisted'
-    }
+  return {
+    state: 'persisted',
+  };
 }

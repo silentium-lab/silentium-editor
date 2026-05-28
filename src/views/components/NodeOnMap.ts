@@ -37,7 +37,7 @@ export function NodeOnMap(
   const node = Primitive(node$);
   const clicked$ = ClickWithoutDrag(clickContainer$);
   const activeNodeId$ = Context('active-node-id');
-  clicked$.then(e => {
+  clicked$.then(() => {
     activeNodeId$.use({ id: node.primitiveWithException().id });
   });
   return Connected<string>(

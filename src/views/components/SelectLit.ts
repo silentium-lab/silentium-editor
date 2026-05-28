@@ -4,35 +4,37 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('select-lit')
 export class SelectLit extends LitElement {
-    public createRenderRoot() {
-        return this;
-    }
+  public createRenderRoot() {
+    return this;
+  }
 
-    @property({ type: Object })
-    object!: any;
+  @property({ type: Object })
+  object!: any;
 
-    @property({ type: String })
-    field!: string;
+  @property({ type: String })
+  field!: string;
 
-    emit = Emit(this, (e: Event) => (e.target as HTMLInputElement).value)
+  emit = Emit(this, (e: Event) => (e.target as HTMLInputElement).value);
 
-    @property({ type: Object })
-    list!: any[]
+  @property({ type: Object })
+  list!: any[];
 
-    @property({ type: String })
-    itemValueKey: string = 'id';
+  @property({ type: String })
+  itemValueKey: string = 'id';
 
-    @property({ type: String })
-    itemLabelKey: string = 'label';
+  @property({ type: String })
+  itemLabelKey: string = 'label';
 
-    public render() {
-        return html`<select
+  public render() {
+    return html`<select
       class="border-1 border-gray-300 bg-white p-2 rounded-sm w-full"
       name="${this.field}"
       .value="${this.object[this.field]}"
       @input="${this.emit}"
     >
-        ${this.list.forEach(item => html`<option value="${item[this.itemValueKey]}">${item[this.itemLabelKey]}</option>`)}
+      ${this.list.forEach(
+        item => html`<option value="${item[this.itemValueKey]}">${item[this.itemLabelKey]}</option>`
+      )}
     </select>`;
-    }
+  }
 }

@@ -13,5 +13,5 @@ export function Tr(key: string): MessageType<string> {
  * Sync translation
  */
 export function tr(key: string): string {
-    return Primitive(Tr(key)).primitiveWithException();
+  return Primitive(Tr(key)).primitiveWithException();
 }

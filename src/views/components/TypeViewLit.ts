@@ -68,7 +68,7 @@ export class TypeViewLit extends LitElement {
     clicked$.then(() => {
       this.editType = { ...this.type };
       this.modalOpenEvent.use({});
-    })
+    });
     this.dc.add(clicked$);
   }
 
@@ -83,15 +83,15 @@ export class TypeViewLit extends LitElement {
     mapDispatch(NodeTypeSave(this.editType)).then(() => {
       this.modalCloseEvent.use({});
     });
-  }
+  };
 
   onDelete = () => {
     mapDispatch(NodeTypeDelete(this.type)).then(() => {
       this.modalCloseEvent.use({});
     });
-  }
+  };
 
-  typeSetter = EventSetter((v) => this.editType = v);
+  typeSetter = EventSetter(v => (this.editType = v));
 
   render() {
     this.theId.use('type-view-' + v4());
@@ -105,19 +105,23 @@ export class TypeViewLit extends LitElement {
         <div class="absolute top-0 left-0 z-1 w-full select-none">${unsafeHTML(template)}</div>
       </div>
       <modal-lit
-      .title="${this.labels.objectType.value + ' #' + this.type?.id}"
-      .openEvent="${this.modalOpenEvent}"
-      .closeEvent="${this.modalCloseEvent}"
-      .content="${this.editType && html`<type-form-lit .type="${this.editType}" @custom-change="${this.typeSetter}" @model-updated="${this.typeSetter}"></type-form-lit>`}"
-      .actions="${html`<button class="btn" @click="${this.onSave}">
-          ${this.labels.save.value}
-        </button>
-        <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
-          ${this.labels.delete.value}
-        </button>
-        `}"
-    >
-    </modal-lit>
+        .title="${this.labels.objectType.value + ' #' + this.type?.id}"
+        .openEvent="${this.modalOpenEvent}"
+        .closeEvent="${this.modalCloseEvent}"
+        .content="${this.editType &&
+        html`<type-form-lit
+          .type="${this.editType}"
+          @custom-change="${this.typeSetter}"
+          @model-updated="${this.typeSetter}"
+        ></type-form-lit>`}"
+        .actions="${html`<button class="btn" @click="${this.onSave}">
+            ${this.labels.save.value}
+          </button>
+          <button class="btn bg-danger text-base" @click="${this.onDelete.bind(this)}">
+            ${this.labels.delete.value}
+          </button> `}"
+      >
+      </modal-lit>
     </article>`;
   }
 }

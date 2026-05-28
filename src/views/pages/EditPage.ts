@@ -97,7 +97,9 @@ export function EditPage(): MessageType<string> {
             ${t.raw(Mount(MiniMap(mapModel)))}
           </div>
           <div
-            class="${t.escaped(canvasId$)} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
+            class="${t.escaped(
+              canvasId$
+            )} nodes-view overflow-hidden bg-base-inverse relative min-w-0 min-h-0"
           >
             ${t.raw(Mount(NodesView(mapModel)))}
             <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">

@@ -43,26 +43,32 @@ export class TypeNewLit extends LitElement {
 
   open = () => {
     this.type = NodeTypeNew();
-    this.modalOpenEvent.use({})
-  }
+    this.modalOpenEvent.use({});
+  };
 
   onSave = () => {
     mapDispatch(NodeTypeSave(this.type)).then(() => {
       this.modalCloseEvent.use({});
     });
-  }
+  };
 
-  typeSetter = EventSetter((v) => this.type = v);
+  typeSetter = EventSetter(v => (this.type = v));
 
   render() {
     return html`<div class="w-full">
-      <button class="btn w-full flex cursor-pointer justify-center" @click="${this.open}">${unsafeHTML(icon)}</button>
+      <button class="btn w-full flex cursor-pointer justify-center" @click="${this.open}">
+        ${unsafeHTML(icon)}
+      </button>
       <modal-lit
-      .title="${this.labels.objectType.value}"
-      .openEvent="${this.modalOpenEvent}"
-      .closeEvent="${this.modalCloseEvent}"
-      .content="${html`<type-form-lit .type="${this.type}" @custom-change="${this.typeSetter}" @model-updated="${this.typeSetter}" ></type-form-lit>`}"
-      .actions="${html`<button class="btn" @click="${this.onSave}">
+        .title="${this.labels.objectType.value}"
+        .openEvent="${this.modalOpenEvent}"
+        .closeEvent="${this.modalCloseEvent}"
+        .content="${html`<type-form-lit
+          .type="${this.type}"
+          @custom-change="${this.typeSetter}"
+          @model-updated="${this.typeSetter}"
+        ></type-form-lit>`}"
+        .actions="${html`<button class="btn" @click="${this.onSave}">
           ${this.labels.save.value}
         </button>`}"
       >

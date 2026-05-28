@@ -16,19 +16,24 @@ export class TypesPanelLit extends LitElement {
   }
 
   private onNewNode = (e: any) => {
-    mapDispatch(NodeCreate(e.detail.type, [
-      e.detail.position[0] + this.app.value.position[0] - 200,
-      e.detail.position[1] + this.app.value.position[1] + 40,
-    ]));
+    mapDispatch(
+      NodeCreate(e.detail.type, [
+        e.detail.position[0] + this.app.value.position[0] - 200,
+        e.detail.position[1] + this.app.value.position[1] + 40,
+      ])
+    );
   };
 
   public render() {
     const types = Object.values(this.map.value.types);
     return html` <div class="types-panel flex flex-col gap-4 relative px-2">
       ${types.map(
-      type =>
-        html`<type-view-lit .type="${NodeTypeNormalized(type)}" @new-node="${this.onNewNode}"></type-view-lit>`
-    )}
+        type =>
+          html`<type-view-lit
+            .type="${NodeTypeNormalized(type)}"
+            @new-node="${this.onNewNode}"
+          ></type-view-lit>`
+      )}
     </div>`;
   }
 }

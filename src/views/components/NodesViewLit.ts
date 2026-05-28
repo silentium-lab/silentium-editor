@@ -17,10 +17,10 @@ export class NodesViewLit extends LitElement {
   render() {
     const objects = Object.values(this.map.value.objects);
     return html`<div
-          class="relative background-grid mt-4 ml-4"
-          style="width: ${this.size.width}px; height: ${this.size.height}px"
-        >
-          ${objects.map(object => html`<node-on-map-lit .node="${object}"></node-on-map-lit>`)}
-        </div>`;
+      class="relative background-grid mt-4 ml-4"
+      style="width: ${this.size.width}px; height: ${this.size.height}px"
+    >
+      ${objects.map(object => html`<node-on-map-lit .node="${object}"></node-on-map-lit>`)}
+    </div>`;
   }
 }

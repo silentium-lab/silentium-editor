@@ -20,12 +20,16 @@ export class ModalLit extends LitElement {
 
   public connectedCallback() {
     super.connectedCallback();
-    this.dc.add(this.openEvent.then(() => {
-      this.opened = true;
-    }));
-    this.dc.add(this.closeEvent.then(() => {
-      this.opened = false;
-    }));
+    this.dc.add(
+      this.openEvent.then(() => {
+        this.opened = true;
+      })
+    );
+    this.dc.add(
+      this.closeEvent.then(() => {
+        this.opened = false;
+      })
+    );
   }
 
   public disconnectedCallback() {

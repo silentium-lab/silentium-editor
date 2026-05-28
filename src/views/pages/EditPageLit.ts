@@ -47,7 +47,7 @@ export class EditPageLit extends LitElement {
     ContextOf('active-map-name').then(ContextChain(mapName$));
     const mapPart = Part<TheMap>(files$, mapName$);
     mapPart.then(map => {
-      mapDispatch(state => {
+      mapDispatch(() => {
         return map;
       });
     });

@@ -24,7 +24,10 @@ export class TypeFormLit extends LitElement {
           <b> ${tr('Name')} </b>
           <div class="block">
             <input-lit
-            .object="${this.type}" field="name" @model-updated="${this.rethrow}"></input-lit>
+              .object="${this.type}"
+              field="name"
+              @model-updated="${this.rethrow}"
+            ></input-lit>
           </div>
         </label>
       </div>
@@ -32,7 +35,11 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${tr('Code')} </b>
           <div>
-            <textarea-lit .object="${this.type}" field="markup" @model-updated="${this.rethrow}"></textarea-lit>
+            <textarea-lit
+              .object="${this.type}"
+              field="markup"
+              @model-updated="${this.rethrow}"
+            ></textarea-lit>
           </div>
         </label>
       </div>
@@ -40,7 +47,11 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${tr('Width')} </b>
           <div>
-            <input-lit .object="${this.type}" field="width" @model-updated="${this.rethrow}"></input-lit>
+            <input-lit
+              .object="${this.type}"
+              field="width"
+              @model-updated="${this.rethrow}"
+            ></input-lit>
           </div>
         </label>
       </div>
@@ -48,7 +59,11 @@ export class TypeFormLit extends LitElement {
         <label>
           <b> ${tr('Height')} </b>
           <div>
-            <input-lit .object="${this.type}" field="height" @model-updated="${this.rethrow}"></input-lit>
+            <input-lit
+              .object="${this.type}"
+              field="height"
+              @model-updated="${this.rethrow}"
+            ></input-lit>
           </div>
         </label>
       </div>

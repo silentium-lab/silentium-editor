@@ -25,9 +25,12 @@ export class SettingsLit extends LitElement {
 
   render() {
     return html`<div class="w-full">
-        <button class="btn w-full cursor-pointer flex justify-center" @click="${() => this.opened = true}">
-            ${unsafeHTML(icon)}
-        </button>
+      <button
+        class="btn w-full cursor-pointer flex justify-center"
+        @click="${() => (this.opened = true)}"
+      >
+        ${unsafeHTML(icon)}
+      </button>
     </div>`;
   }
 }

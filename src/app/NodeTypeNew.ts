@@ -1,11 +1,11 @@
-import { TheNodeType } from "@/types/NodeType";
+import { TheNodeType } from '@/types/NodeType';
 
 export function NodeTypeNew(): TheNodeType {
-    return {
-        id: Date.now().toString(),
-        name: '',
-        markup: '<div></div>',
-        width: 190,
-        height: 40,
-    }
+  return {
+    id: Date.now().toString(),
+    name: '',
+    markup: '<div></div>',
+    width: 190,
+    height: 40,
+  };
 }

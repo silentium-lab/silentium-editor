@@ -1,8 +1,8 @@
-import { All, Connected, Context, Of } from 'silentium';
-import { ClassName, html, Id } from 'silentium-ui';
 import { ThePoint } from '@/types/Point';
-import { Element } from 'silentium-web-api';
+import { All, Connected, Context } from 'silentium';
 import { Task, Template } from 'silentium-components';
+import { ClassName, html, Id } from 'silentium-ui';
+import { Element } from 'silentium-web-api';
 
 export function RulerX() {
   const canvasPosition$ = Context<ThePoint>('canvas-position');

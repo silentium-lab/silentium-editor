@@ -10,7 +10,7 @@ export class ModalController<T> {
   public constructor(
     private host: LitElement,
     private setter: (v: any) => void
-  ) {  }
+  ) {}
 
   private onClose() {
     this.opened = false;
